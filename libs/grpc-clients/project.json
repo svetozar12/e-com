@@ -1,0 +1,26 @@
+{
+  "name": "grpc-clients",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/grpc-clients/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/grpc-clients",
+        "main": "libs/grpc-clients/src/index.ts",
+        "tsConfig": "libs/grpc-clients/tsconfig.lib.json",
+        "assets": ["libs/grpc-clients/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/grpc-clients/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

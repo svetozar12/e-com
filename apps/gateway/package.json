@@ -1,0 +1,11 @@
+{
+  "name": "graphql-mesh-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "mesh dev",
+    "build": "mesh build",
+    "generate:schema": "yarn graphql-mesh dump-schema --output ./schema.graphql;yarn graphql-mesh dump-schema --output ./schema.json;"
+  }
+}

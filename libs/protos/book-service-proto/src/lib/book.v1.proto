@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package book.v1;
+
+service BookService {
+  rpc FindOne (BookById) returns (Book) {}
+}
+
+message BookById {
+  int32 id = 1;
+}
+
+message Book {
+  int32 id = 1;
+  string name = 2;
+}

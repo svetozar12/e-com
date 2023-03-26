@@ -1,0 +1,9 @@
+sources:
+  - name: BookService
+    handler:
+      grpc:
+        endpoint: 0.0.0.0:1000
+        source: ../../libs/protos/book-service-proto/src/lib/book.v1.proto
+    transforms:
+      - namingConvention:
+          fieldNames: camelCase

@@ -1,0 +1,23 @@
+{
+  "name": "protos-book-service-proto",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/protos/book-service-proto/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/protos/book-service-proto/src",
+        "command": "npx proto-loader-gen-types --grpcLib=@grpc/grpc-js --outDir=lib/codegen ./lib/book.v1.proto"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/protos/book-service-proto/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}
