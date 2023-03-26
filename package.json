@@ -29,6 +29,7 @@
     "@protobuf-ts/plugin": "^2.8.3",
     "apollo-server-express": "^3.12.0",
     "axios": "^1.0.0",
+    "envalid": "^7.3.1",
     "express": "^4.18.1",
     "google-protobuf": "3.21.2",
     "graphql": "16.6.0",

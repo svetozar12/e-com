@@ -4,7 +4,10 @@ import { AppModule } from './app/app.module';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { resolve } from 'path';
 import { connectMongo } from '@ms-learning/mongo-models';
+import { envVars } from '@ms-learning/envs';
 async function bootstrap() {
+  console.log(envVars.EMAIL_CONFIG_JSON);
+
   await connectMongo('mongodb://localhost:27017');
   const url = '0.0.0.0:1000';
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(

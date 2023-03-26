@@ -18,6 +18,7 @@
       "@ms-learning/book-service-proto": [
         "libs/protos/book-service-proto/src/index.ts"
       ],
+      "@ms-learning/envs": ["libs/envs/src/index.ts"],
       "@ms-learning/grpc-clients": ["libs/grpc-clients/src/index.ts"],
       "@ms-learning/mongo-models": ["libs/mongo-models/src/index.ts"]
     }
