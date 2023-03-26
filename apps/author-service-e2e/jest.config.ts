@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'gateway-e2e',
+  displayName: 'author-service-e2e',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -15,5 +15,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/gateway-e2e',
+  coverageDirectory: '../../coverage/author-service-e2e',
 };

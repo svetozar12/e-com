@@ -7,10 +7,10 @@ service BookService {
 }
 
 message BookById {
-  int32 id = 1;
+  string _id = 1;
 }
 
 message Book {
-  int32 id = 1;
+  string _id = 1;
   string name = 2;
 }

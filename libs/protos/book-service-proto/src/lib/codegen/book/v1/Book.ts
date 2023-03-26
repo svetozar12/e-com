@@ -2,11 +2,11 @@
 
 
 export interface Book {
-  'id'?: (number);
+  '_id'?: (string);
   'name'?: (string);
 }
 
 export interface Book__Output {
-  'id'?: (number);
+  '_id'?: (string);
   'name'?: (string);
 }

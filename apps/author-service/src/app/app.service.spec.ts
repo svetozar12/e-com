@@ -14,9 +14,9 @@ describe('AppService', () => {
   });
 
   describe('getData', () => {
-    it('should return "Welcome to book-service!"', () => {
-      expect(service.getData({ id: 1 })).toEqual({
-        message: 'Welcome to book-service!',
+    it('should return "Welcome to author-service!"', () => {
+      expect(service.getData()).toEqual({
+        message: 'Welcome to author-service!',
       });
     });
   });

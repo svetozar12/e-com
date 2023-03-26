@@ -2,9 +2,9 @@
 
 
 export interface BookById {
-  'id'?: (number);
+  '_id'?: (string);
 }
 
 export interface BookById__Output {
-  'id'?: (number);
+  '_id'?: (string);
 }
