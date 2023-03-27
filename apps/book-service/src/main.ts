@@ -4,12 +4,11 @@ import { AppModule } from './app/app.module';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { resolve } from 'path';
 import { connectMongo } from '@ms-learning/mongo-models';
-import { envVars } from '@ms-learning/envs';
+import { bookEnvs } from '@ms-learning/envs';
 async function bootstrap() {
-  console.log(envVars.EMAIL_CONFIG_JSON);
-
-  await connectMongo('mongodb://localhost:27017');
-  const url = '0.0.0.0:1000';
+  const { BOOK_SERVICE_MONGO_URL, BOOK_SERVICE_HOST, BOOK_SERVICE_PORT } =
+    bookEnvs;
+  await connectMongo(BOOK_SERVICE_MONGO_URL);
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
@@ -19,12 +18,14 @@ async function bootstrap() {
         protoPath: resolve(
           'libs/protos/book-service-proto/src/lib/book.v1.proto'
         ),
-        url,
+        url: `${BOOK_SERVICE_HOST}:${BOOK_SERVICE_PORT}`,
       },
     }
   );
   await app.listen();
-  Logger.log(`🚀 Application is running on: ${url}`);
+  Logger.log(
+    `🚀 Application is running on: ${BOOK_SERVICE_HOST}:${BOOK_SERVICE_PORT}`
+  );
 }
 
 bootstrap();

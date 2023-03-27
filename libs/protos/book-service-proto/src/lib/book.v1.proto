@@ -1,12 +1,50 @@
 syntax = "proto3";
+import "google/protobuf/empty.proto";
 
 package book.v1;
 
 service BookService {
-  rpc FindOne (BookById) returns (Book) {}
+  rpc GetById (GetByIdResponse) returns (GetByIdResponse) {}
+  rpc GetList (google.protobuf.Empty) returns (GetListResponse) {}
+  rpc CreateBook (CreateBookRequest) returns (CreateBookResponse) {}
+  rpc UpdateBook (UpdateBookRequest) returns (UpdateBookResponse) {}
+  rpc DeleteBook (DeleteBookRequest) returns (google.protobuf.Empty) {}
+}
+// GetById
+message GetByIdResponse {
+  Book book = 1;
 }
 
-message BookById {
+message GetByIdRequest {
+  string _id = 1;
+}
+
+// GetList
+message GetListResponse {
+  repeated Book books = 1;
+}
+
+// CreateBook
+message CreateBookRequest {
+  Book book = 1;
+}
+
+message CreateBookResponse {
+  Book book = 1;
+}
+
+// UpdateBook
+message UpdateBookRequest {
+  string _id = 1;
+  Book book = 2;
+}
+
+message UpdateBookResponse {
+  Book book = 1;
+}
+
+// DeleteBook 
+message DeleteBookRequest {
   string _id = 1;
 }
 

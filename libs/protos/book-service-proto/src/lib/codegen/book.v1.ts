@@ -11,8 +11,20 @@ export interface ProtoGrpcType {
   book: {
     v1: {
       Book: MessageTypeDefinition
-      BookById: MessageTypeDefinition
       BookService: SubtypeConstructor<typeof grpc.Client, _book_v1_BookServiceClient> & { service: _book_v1_BookServiceDefinition }
+      CreateBookRequest: MessageTypeDefinition
+      CreateBookResponse: MessageTypeDefinition
+      DeleteBookRequest: MessageTypeDefinition
+      GetByIdRequest: MessageTypeDefinition
+      GetByIdResponse: MessageTypeDefinition
+      GetListResponse: MessageTypeDefinition
+      UpdateBookRequest: MessageTypeDefinition
+      UpdateBookResponse: MessageTypeDefinition
+    }
+  }
+  google: {
+    protobuf: {
+      Empty: MessageTypeDefinition
     }
   }
 }
