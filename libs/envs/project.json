@@ -4,16 +4,6 @@
   "sourceRoot": "libs/envs/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/envs",
-        "main": "libs/envs/src/index.ts",
-        "tsConfig": "libs/envs/tsconfig.lib.json",
-        "assets": ["libs/envs/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
