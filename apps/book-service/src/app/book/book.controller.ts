@@ -10,7 +10,6 @@ import {
 @Controller()
 export class BookController {
   constructor(private readonly bookService: BookService) {}
-
   @GrpcMethod('BookService', 'FindOne')
   GetById(args: BookById) {
     return this.bookService.getById(args);

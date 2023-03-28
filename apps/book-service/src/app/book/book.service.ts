@@ -7,7 +7,6 @@ import {
   UpdateBookResponse,
   CreateBookRequest,
   GetByIdResponse,
-  GetListResponse,
   CreateBookResponse,
   DeleteBookRequest,
   Empty,
@@ -18,19 +17,17 @@ export class BookService {
     const book = await Books.findById(_id).exec();
     return { book };
   }
-  async getList(): Promise<GetListResponse[]> {
+  async getList(): Promise<{ books: Book[] }> {
     const books = await Books.find().exec();
     return { books };
   }
-  async createBook({
-    book: { _id, name },
-  }: CreateBookRequest): Promise<CreateBookResponse> {
-    const book = await Books.create({ _id, name });
+  async createBook({ name }: CreateBookRequest): Promise<CreateBookResponse> {
+    const book = await Books.create({ name });
     book.save();
     return { book };
   }
   async updateBook({ book }: UpdateBookRequest): Promise<UpdateBookResponse> {
-    const newBook = await Books.updateOne(book).exec();
+    const newBook = await Books.findOneAndUpdate(book).exec();
     return { book: newBook };
   }
   async deleteBook({ _id }: DeleteBookRequest): Promise<Empty> {
