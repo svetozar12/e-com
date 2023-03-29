@@ -7,7 +7,7 @@ import { connectMongo } from '@ms-learning/mongo-models';
 import { bookEnvs } from '@ms-learning/envs';
 async function bootstrap() {
   const { BOOK_SERVICE_MONGO_URL, BOOK_SERVICE_HOST, BOOK_SERVICE_PORT } =
-    bookEnvs;
+    bookEnvs();
   await connectMongo(BOOK_SERVICE_MONGO_URL);
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
@@ -24,7 +24,7 @@ async function bootstrap() {
   );
   await app.listen();
   Logger.log(
-    `🚀 Application is running on: ${BOOK_SERVICE_HOST}:${BOOK_SERVICE_PORT}`
+    `🚀 Book Service is running on: ${BOOK_SERVICE_HOST}:${BOOK_SERVICE_PORT}`
   );
 }
 

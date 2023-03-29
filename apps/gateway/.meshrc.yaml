@@ -4,6 +4,11 @@ sources:
       grpc:
         endpoint: 0.0.0.0:1000
         source: ../../libs/protos/book-service-proto/src/lib/book.v1.proto
+  - name: AuthorService
+    handler:
+      grpc:
+        endpoint: 0.0.0.0:1001
+        source: ../../libs/protos/author-service-proto/src/lib/author.v1.proto
     transforms:
       - namingConvention:
           fieldNames: camelCase

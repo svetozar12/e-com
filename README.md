@@ -36,9 +36,6 @@ nx run-many --target=test
 nx graph
 ```
 
-<!-- TODO -->
-<!--
-* CLI OR SMTH SIMMILAR TO GENERATE NEW SERVICES
-* START WORKING ON ACTUAL APP (E-COM MICROSERVICE BACKEND)
-* RESEARCH HOW TO AGGREGATE DATA IN API-GATEWAY
- -->
+<!-- TODO
+* Research what service mesh is
+* Create a little demo with some frontend -->

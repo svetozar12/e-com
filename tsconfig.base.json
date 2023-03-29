@@ -20,7 +20,10 @@
       ],
       "@ms-learning/envs": ["libs/envs/src/index.ts"],
       "@ms-learning/grpc-clients": ["libs/grpc-clients/src/index.ts"],
-      "@ms-learning/mongo-models": ["libs/mongo-models/src/index.ts"]
+      "@ms-learning/mongo-models": ["libs/mongo-models/src/index.ts"],
+      "@ms-learning/author-service-proto": [
+        "libs/protos/author-service-proto/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
