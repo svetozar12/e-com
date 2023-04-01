@@ -4,7 +4,7 @@ import "google/protobuf/empty.proto";
 package author.v1;
 
 service AuthorService {
-  rpc GetById (GetByIdResponse) returns (GetByIdResponse) {}
+  rpc GetById (GetByIdRequest) returns (GetByIdResponse) {}
   rpc GetList (google.protobuf.Empty) returns (GetListResponse) {}
   rpc CreateAuthor (CreateAuthorRequest) returns (CreateAuthorResponse) {}
   rpc UpdateAuthor (UpdateAuthorRequest) returns (UpdateAuthorResponse) {}
@@ -27,6 +27,7 @@ message GetListResponse {
 // CreateAuthor
 message CreateAuthorRequest {
   string name = 1;
+  int32 age = 2;
 }
 
 message CreateAuthorResponse {

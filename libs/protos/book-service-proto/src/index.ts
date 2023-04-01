@@ -7,6 +7,7 @@ export * from './lib/codegen/book/v1/DeleteBookRequest';
 export * from './lib/codegen/book/v1/GetByIdRequest';
 export * from './lib/codegen/book/v1/GetByIdResponse';
 export * from './lib/codegen/book/v1/GetListResponse';
+export * from './lib/codegen/book/v1/GetListRequest';
 export * from './lib/codegen/book/v1/UpdateBookRequest';
 export * from './lib/codegen/book/v1/UpdateBookResponse';
 export * from './lib/codegen/google/protobuf/Empty';

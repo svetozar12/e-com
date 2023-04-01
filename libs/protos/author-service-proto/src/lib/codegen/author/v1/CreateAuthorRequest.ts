@@ -3,8 +3,10 @@
 
 export interface CreateAuthorRequest {
   'name'?: (string);
+  'age'?: (number);
 }
 
 export interface CreateAuthorRequest__Output {
   'name'?: (string);
+  'age'?: (number);
 }

@@ -4,7 +4,7 @@ import { AppModule } from './app/app.module';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { resolve } from 'path';
 import { connectMongo } from '@ms-learning/mongo-models';
-import { bookEnvs } from '@ms-learning/envs';
+import { bookEnvs } from '@ms-learning/book-service-env';
 async function bootstrap() {
   const { BOOK_SERVICE_MONGO_URL, BOOK_SERVICE_HOST, BOOK_SERVICE_PORT } =
     bookEnvs();

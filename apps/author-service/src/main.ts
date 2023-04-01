@@ -1,7 +1,7 @@
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { resolve } from 'path';
 import { connectMongo } from '@ms-learning/mongo-models';
-import { authorEnvs } from '@ms-learning/envs';
+import { authorEnvs } from '@ms-learning/author-service-env';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';

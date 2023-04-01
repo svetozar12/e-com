@@ -5,6 +5,7 @@ import {
   BookById,
   CreateBookRequest,
   DeleteBookRequest,
+  GetListRequest,
   UpdateBookRequest,
 } from '@ms-learning/book-service-proto';
 @Controller()
@@ -15,8 +16,8 @@ export class BookController {
     return this.bookService.getById(args);
   }
   @GrpcMethod('BookService', 'GetList')
-  GetList() {
-    return this.bookService.getList();
+  GetList(args: GetListRequest) {
+    return this.bookService.getList(args);
   }
   @GrpcMethod('BookService', 'CreateBook')
   CreateBook(args: CreateBookRequest) {

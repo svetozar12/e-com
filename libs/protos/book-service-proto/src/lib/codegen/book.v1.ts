@@ -17,6 +17,7 @@ export interface ProtoGrpcType {
       DeleteBookRequest: MessageTypeDefinition
       GetByIdRequest: MessageTypeDefinition
       GetByIdResponse: MessageTypeDefinition
+      GetListRequest: MessageTypeDefinition
       GetListResponse: MessageTypeDefinition
       UpdateBookRequest: MessageTypeDefinition
       UpdateBookResponse: MessageTypeDefinition

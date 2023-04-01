@@ -4,9 +4,11 @@
 export interface Book {
   '_id'?: (string);
   'name'?: (string);
+  'authorId'?: (string);
 }
 
 export interface Book__Output {
   '_id'?: (string);
   'name'?: (string);
+  'authorId'?: (string);
 }

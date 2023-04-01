@@ -1,7 +1,10 @@
 import { resolve } from 'path';
 import * as protoLoader from '@grpc/proto-loader';
 import * as grpc from '@grpc/grpc-js';
-import { ProtoGrpcType } from '@ms-learning/book-service-proto';
+import {
+  ProtoGrpcType,
+  BookServiceClient,
+} from '@ms-learning/book-service-proto';
 const packageDefinition = protoLoader.loadSync(
   resolve('libs/protos/book-service-proto/src/lib/book.v1.proto')
 );

@@ -9,6 +9,8 @@ import {
   GetByIdResponse,
   CreateBookResponse,
   DeleteBookRequest,
+  GetListRequest,
+  GetListResponse,
   Empty,
 } from '@ms-learning/book-service-proto';
 @Injectable()
@@ -17,12 +19,12 @@ export class BookService {
     const book = await Books.findById(_id).exec();
     return { book };
   }
-  async getList(): Promise<{ books: Book[] }> {
-    const books = await Books.find().exec();
+  async getList({ authorId }: GetListRequest): Promise<GetListResponse> {
+    const books = await Books.find({ authorId }).exec();
     return { books };
   }
-  async createBook({ name }: CreateBookRequest): Promise<CreateBookResponse> {
-    const book = await Books.create({ name });
+  async createBook(args: CreateBookRequest): Promise<CreateBookResponse> {
+    const book = await Books.create(args);
     book.save();
     return { book };
   }

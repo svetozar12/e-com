@@ -7,6 +7,7 @@ import type { CreateBookResponse as _book_v1_CreateBookResponse, CreateBookRespo
 import type { DeleteBookRequest as _book_v1_DeleteBookRequest, DeleteBookRequest__Output as _book_v1_DeleteBookRequest__Output } from '../../book/v1/DeleteBookRequest';
 import type { Empty as _google_protobuf_Empty, Empty__Output as _google_protobuf_Empty__Output } from '../../google/protobuf/Empty';
 import type { GetByIdResponse as _book_v1_GetByIdResponse, GetByIdResponse__Output as _book_v1_GetByIdResponse__Output } from '../../book/v1/GetByIdResponse';
+import type { GetListRequest as _book_v1_GetListRequest, GetListRequest__Output as _book_v1_GetListRequest__Output } from '../../book/v1/GetListRequest';
 import type { GetListResponse as _book_v1_GetListResponse, GetListResponse__Output as _book_v1_GetListResponse__Output } from '../../book/v1/GetListResponse';
 import type { UpdateBookRequest as _book_v1_UpdateBookRequest, UpdateBookRequest__Output as _book_v1_UpdateBookRequest__Output } from '../../book/v1/UpdateBookRequest';
 import type { UpdateBookResponse as _book_v1_UpdateBookResponse, UpdateBookResponse__Output as _book_v1_UpdateBookResponse__Output } from '../../book/v1/UpdateBookResponse';
@@ -39,14 +40,14 @@ export interface BookServiceClient extends grpc.Client {
   getById(argument: _book_v1_GetByIdResponse, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
   getById(argument: _book_v1_GetByIdResponse, callback: grpc.requestCallback<_book_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
   
-  GetList(argument: _google_protobuf_Empty, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
-  GetList(argument: _google_protobuf_Empty, metadata: grpc.Metadata, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
-  GetList(argument: _google_protobuf_Empty, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
-  GetList(argument: _google_protobuf_Empty, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
-  getList(argument: _google_protobuf_Empty, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
-  getList(argument: _google_protobuf_Empty, metadata: grpc.Metadata, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
-  getList(argument: _google_protobuf_Empty, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
-  getList(argument: _google_protobuf_Empty, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
+  GetList(argument: _book_v1_GetListRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
+  GetList(argument: _book_v1_GetListRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
+  GetList(argument: _book_v1_GetListRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
+  GetList(argument: _book_v1_GetListRequest, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
+  getList(argument: _book_v1_GetListRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
+  getList(argument: _book_v1_GetListRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
+  getList(argument: _book_v1_GetListRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
+  getList(argument: _book_v1_GetListRequest, callback: grpc.requestCallback<_book_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
   
   UpdateBook(argument: _book_v1_UpdateBookRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_book_v1_UpdateBookResponse__Output>): grpc.ClientUnaryCall;
   UpdateBook(argument: _book_v1_UpdateBookRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_book_v1_UpdateBookResponse__Output>): grpc.ClientUnaryCall;
@@ -66,7 +67,7 @@ export interface BookServiceHandlers extends grpc.UntypedServiceImplementation {
   
   GetById: grpc.handleUnaryCall<_book_v1_GetByIdResponse__Output, _book_v1_GetByIdResponse>;
   
-  GetList: grpc.handleUnaryCall<_google_protobuf_Empty__Output, _book_v1_GetListResponse>;
+  GetList: grpc.handleUnaryCall<_book_v1_GetListRequest__Output, _book_v1_GetListResponse>;
   
   UpdateBook: grpc.handleUnaryCall<_book_v1_UpdateBookRequest__Output, _book_v1_UpdateBookResponse>;
   
@@ -76,6 +77,6 @@ export interface BookServiceDefinition extends grpc.ServiceDefinition {
   CreateBook: MethodDefinition<_book_v1_CreateBookRequest, _book_v1_CreateBookResponse, _book_v1_CreateBookRequest__Output, _book_v1_CreateBookResponse__Output>
   DeleteBook: MethodDefinition<_book_v1_DeleteBookRequest, _google_protobuf_Empty, _book_v1_DeleteBookRequest__Output, _google_protobuf_Empty__Output>
   GetById: MethodDefinition<_book_v1_GetByIdResponse, _book_v1_GetByIdResponse, _book_v1_GetByIdResponse__Output, _book_v1_GetByIdResponse__Output>
-  GetList: MethodDefinition<_google_protobuf_Empty, _book_v1_GetListResponse, _google_protobuf_Empty__Output, _book_v1_GetListResponse__Output>
+  GetList: MethodDefinition<_book_v1_GetListRequest, _book_v1_GetListResponse, _book_v1_GetListRequest__Output, _book_v1_GetListResponse__Output>
   UpdateBook: MethodDefinition<_book_v1_UpdateBookRequest, _book_v1_UpdateBookResponse, _book_v1_UpdateBookRequest__Output, _book_v1_UpdateBookResponse__Output>
 }

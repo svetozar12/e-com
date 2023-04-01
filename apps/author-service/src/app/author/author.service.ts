@@ -1,37 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { Books } from '@ms-learning/mongo-models';
+import { Authors } from '@ms-learning/mongo-models';
 import {
-  Book,
-  BookById,
-  UpdateBookRequest,
-  UpdateBookResponse,
-  CreateBookRequest,
-  GetByIdResponse,
-  CreateBookResponse,
-  DeleteBookRequest,
+  Author,
+  CreateAuthorRequest,
+  CreateAuthorResponse,
+  DeleteAuthorRequest,
   Empty,
-} from '@ms-learning/book-service-proto';
+  GetByIdResponse,
+  UpdateAuthorRequest,
+  UpdateAuthorResponse,
+} from '@ms-learning/author-service-proto';
 @Injectable()
 export class AuthorService {
-  async getById({ _id }: BookById): Promise<GetByIdResponse> {
-    const book = await Books.findById(_id).exec();
-    return { book };
+  async getById({ _id }: Author): Promise<GetByIdResponse> {
+    console.log(_id);
+
+    const author = await Authors.findById(_id).exec();
+    return { author };
   }
-  async getList(): Promise<{ books: Book[] }> {
-    const books = await Books.find().exec();
-    return { books };
+  async getList(): Promise<{ authors: Author[] }> {
+    const authors = await Authors.find().exec();
+    return { authors };
   }
-  async createBook({ name }: CreateBookRequest): Promise<CreateBookResponse> {
-    const book = await Books.create({ name });
-    book.save();
-    return { book };
+  async createAuthor(args: CreateAuthorRequest): Promise<CreateAuthorResponse> {
+    const author = await Authors.create(args);
+    author.save();
+    return { author };
   }
-  async updateBook({ book }: UpdateBookRequest): Promise<UpdateBookResponse> {
-    const newBook = await Books.findOneAndUpdate(book).exec();
-    return { book: newBook };
+  async updateAuthor({
+    author,
+  }: UpdateAuthorRequest): Promise<UpdateAuthorResponse> {
+    const newAuthor = await Authors.findOneAndUpdate(author).exec();
+    return { author: newAuthor };
   }
-  async deleteBook({ _id }: DeleteBookRequest): Promise<Empty> {
-    await Books.deleteOne({ _id }).exec();
+  async deleteBook({ _id }: DeleteAuthorRequest): Promise<Empty> {
+    await Authors.deleteOne({ _id }).exec();
     return {};
   }
 }

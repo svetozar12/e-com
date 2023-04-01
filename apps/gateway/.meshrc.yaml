@@ -12,3 +12,24 @@ sources:
     transforms:
       - namingConvention:
           fieldNames: camelCase
+
+additionalTypeDefs: |
+  extend type author_v1_Author {
+    books: [book_v1_Book]
+   }
+
+additionalResolvers:
+  - targetTypeName: author_v1_Author
+    targetFieldName: books
+    requiredSelectionSet: |
+      {
+         _id
+         name
+         authorId
+      }
+    sourceName: BookService
+    sourceTypeName: Query
+    sourceFieldName: book_v1_BookService_GetList
+    sourceArgs:
+      id: '64289cdeba325e988b4300d3'
+    result: books

@@ -6,6 +6,7 @@ import type { CreateAuthorRequest as _author_v1_CreateAuthorRequest, CreateAutho
 import type { CreateAuthorResponse as _author_v1_CreateAuthorResponse, CreateAuthorResponse__Output as _author_v1_CreateAuthorResponse__Output } from '../../author/v1/CreateAuthorResponse';
 import type { DeleteAuthorRequest as _author_v1_DeleteAuthorRequest, DeleteAuthorRequest__Output as _author_v1_DeleteAuthorRequest__Output } from '../../author/v1/DeleteAuthorRequest';
 import type { Empty as _google_protobuf_Empty, Empty__Output as _google_protobuf_Empty__Output } from '../../google/protobuf/Empty';
+import type { GetByIdRequest as _author_v1_GetByIdRequest, GetByIdRequest__Output as _author_v1_GetByIdRequest__Output } from '../../author/v1/GetByIdRequest';
 import type { GetByIdResponse as _author_v1_GetByIdResponse, GetByIdResponse__Output as _author_v1_GetByIdResponse__Output } from '../../author/v1/GetByIdResponse';
 import type { GetListResponse as _author_v1_GetListResponse, GetListResponse__Output as _author_v1_GetListResponse__Output } from '../../author/v1/GetListResponse';
 import type { UpdateAuthorRequest as _author_v1_UpdateAuthorRequest, UpdateAuthorRequest__Output as _author_v1_UpdateAuthorRequest__Output } from '../../author/v1/UpdateAuthorRequest';
@@ -30,14 +31,14 @@ export interface AuthorServiceClient extends grpc.Client {
   deleteAuthor(argument: _author_v1_DeleteAuthorRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_google_protobuf_Empty__Output>): grpc.ClientUnaryCall;
   deleteAuthor(argument: _author_v1_DeleteAuthorRequest, callback: grpc.requestCallback<_google_protobuf_Empty__Output>): grpc.ClientUnaryCall;
   
-  GetById(argument: _author_v1_GetByIdResponse, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
-  GetById(argument: _author_v1_GetByIdResponse, metadata: grpc.Metadata, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
-  GetById(argument: _author_v1_GetByIdResponse, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
-  GetById(argument: _author_v1_GetByIdResponse, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
-  getById(argument: _author_v1_GetByIdResponse, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
-  getById(argument: _author_v1_GetByIdResponse, metadata: grpc.Metadata, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
-  getById(argument: _author_v1_GetByIdResponse, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
-  getById(argument: _author_v1_GetByIdResponse, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
+  GetById(argument: _author_v1_GetByIdRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
+  GetById(argument: _author_v1_GetByIdRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
+  GetById(argument: _author_v1_GetByIdRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
+  GetById(argument: _author_v1_GetByIdRequest, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
+  getById(argument: _author_v1_GetByIdRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
+  getById(argument: _author_v1_GetByIdRequest, metadata: grpc.Metadata, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
+  getById(argument: _author_v1_GetByIdRequest, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
+  getById(argument: _author_v1_GetByIdRequest, callback: grpc.requestCallback<_author_v1_GetByIdResponse__Output>): grpc.ClientUnaryCall;
   
   GetList(argument: _google_protobuf_Empty, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_author_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
   GetList(argument: _google_protobuf_Empty, metadata: grpc.Metadata, callback: grpc.requestCallback<_author_v1_GetListResponse__Output>): grpc.ClientUnaryCall;
@@ -64,7 +65,7 @@ export interface AuthorServiceHandlers extends grpc.UntypedServiceImplementation
   
   DeleteAuthor: grpc.handleUnaryCall<_author_v1_DeleteAuthorRequest__Output, _google_protobuf_Empty>;
   
-  GetById: grpc.handleUnaryCall<_author_v1_GetByIdResponse__Output, _author_v1_GetByIdResponse>;
+  GetById: grpc.handleUnaryCall<_author_v1_GetByIdRequest__Output, _author_v1_GetByIdResponse>;
   
   GetList: grpc.handleUnaryCall<_google_protobuf_Empty__Output, _author_v1_GetListResponse>;
   
@@ -75,7 +76,7 @@ export interface AuthorServiceHandlers extends grpc.UntypedServiceImplementation
 export interface AuthorServiceDefinition extends grpc.ServiceDefinition {
   CreateAuthor: MethodDefinition<_author_v1_CreateAuthorRequest, _author_v1_CreateAuthorResponse, _author_v1_CreateAuthorRequest__Output, _author_v1_CreateAuthorResponse__Output>
   DeleteAuthor: MethodDefinition<_author_v1_DeleteAuthorRequest, _google_protobuf_Empty, _author_v1_DeleteAuthorRequest__Output, _google_protobuf_Empty__Output>
-  GetById: MethodDefinition<_author_v1_GetByIdResponse, _author_v1_GetByIdResponse, _author_v1_GetByIdResponse__Output, _author_v1_GetByIdResponse__Output>
+  GetById: MethodDefinition<_author_v1_GetByIdRequest, _author_v1_GetByIdResponse, _author_v1_GetByIdRequest__Output, _author_v1_GetByIdResponse__Output>
   GetList: MethodDefinition<_google_protobuf_Empty, _author_v1_GetListResponse, _google_protobuf_Empty__Output, _author_v1_GetListResponse__Output>
   UpdateAuthor: MethodDefinition<_author_v1_UpdateAuthorRequest, _author_v1_UpdateAuthorResponse, _author_v1_UpdateAuthorRequest__Output, _author_v1_UpdateAuthorResponse__Output>
 }
