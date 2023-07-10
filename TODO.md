@@ -1,3 +1,5 @@
+<!-- Please divide ur work into branches with small tasks -->
+
 - Think of a good structure for microservices(preferably domain driven design)
 - Think of a way to get env variables and validate them
 - Think how each microservice will communicate with each other(if it will be even needed)
