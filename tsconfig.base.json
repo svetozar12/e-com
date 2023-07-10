@@ -10,26 +10,11 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {
-      "@ms-learning/author-service-proto": [
-        "libs/protos/author-service-proto/src/index.ts"
-      ],
-      "@ms-learning/book-service-proto": [
-        "libs/protos/book-service-proto/src/index.ts"
-      ],
-      "@ms-learning/author-service-env": [
-        "libs/envs/author-service-env/src/index.ts"
-      ],
-      "@ms-learning/book-service-env": [
-        "libs/envs/book-service-env/src/index.ts"
-      ],
-      "@ms-learning/grpc-clients": ["libs/grpc-clients/src/index.ts"],
-      "@ms-learning/mongo-models": ["libs/mongo-models/src/index.ts"]
-    }
+    "paths": {}
   },
   "exclude": ["node_modules", "tmp"]
 }
