@@ -7,7 +7,7 @@
     "build": {
       "executor": "@nx-go/nx-go:build",
       "options": {
-        "outputPath": "dist/apps/services/user",
+        "outputPath": "dist/apps/services/user/user",
         "main": "apps/services/user/main.go"
       }
     },
@@ -23,6 +23,22 @@
     },
     "lint": {
       "executor": "@nx-go/nx-go:lint"
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cross-env-shell docker build --no-cache --force-rm -f apps/services/user/build/Dockerfile . -t {args.registry}/e-com-microservice/user-service:$npm_package_version"
+        ]
+      }
+    },
+    "SKIP_docker-push": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cross-env-shell docker push {args.registry}/e-com-microservice/user-service:$npm_package_version"
+        ]
+      }
     }
   },
   "tags": []
