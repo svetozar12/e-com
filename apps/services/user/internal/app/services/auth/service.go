@@ -5,6 +5,6 @@ import (
 	pb "svetozar12/e-com/v2/libs/api/v1/user/dist/proto"
 )
 
-func sayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	return &pb.HelloReply{Message: "Hello, " + in.GetName()}, nil
+func verifyToken(ctx context.Context, in *pb.VerifyTokenRequest) (*pb.VerifyTokenResponse, error) {
+	return &pb.VerifyTokenResponse{IsValid: true}, nil
 }

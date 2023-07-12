@@ -9,8 +9,6 @@ COPY ./apps/services/user ./apps/services/user
 COPY ./libs ./libs
 RUN CGO_ENABLED=0 GOOS=linux go build -o /user apps/services/user/main.go
 
-
-
 FROM scratch
 
 COPY --from=deps user .
