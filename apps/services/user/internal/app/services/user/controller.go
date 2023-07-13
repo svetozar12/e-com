@@ -2,7 +2,7 @@ package user
 
 import (
 	"context"
-	pb "svetozar12/e-com/v2/libs/api/v1/user/dist/proto"
+	pb "svetozar12/e-com/v2/api/v1/user/dist/proto"
 )
 
 type Server struct {

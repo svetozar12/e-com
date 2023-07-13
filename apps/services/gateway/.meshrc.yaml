@@ -1,6 +1,0 @@
-sources:
-  - name: BookService
-    handler:
-      grpc:
-        endpoint: 0.0.0.0:9000
-        source: ../../../libs/api/v1/user/user.proto

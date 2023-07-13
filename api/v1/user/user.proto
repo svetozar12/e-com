@@ -1,0 +1,90 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+
+option go_package = "./user-service";
+
+service UserService {
+    rpc Register (RegisterRequest) returns (RegisterResponse) {
+            option (google.api.http) = {
+                post: "/v1/user",
+                body: "*",
+            };
+    };
+    rpc GetUser (GetUserRequest) returns (User) {
+            option (google.api.http) = {
+                get: "/v1/user/{id}"
+            };
+        };
+    rpc UpdateUser (UpdateUserRequest) returns (User) {
+            option (google.api.http) = {
+                put: "/v1/user/{id}",
+                body: "*"
+            };
+    };
+    rpc DeleteUser (DeleteUserRequest) returns (User) {
+            option (google.api.http) = {
+                delete: "/v1/user/{id}",
+            };
+    };
+}
+
+service AuthenticationService {
+    rpc Login (LoginRequest) returns (LoginResponse) {
+            option (google.api.http) = {
+                post: "/v1/auth",
+                body: "*",
+            };
+    };
+    rpc VerifyToken (VerifyTokenRequest) returns (VerifyTokenResponse) {
+            option (google.api.http) = {
+                post: "/v1/auth/verify",
+                body: "*",
+            };
+    };
+}
+
+// User Service
+message GetUserRequest {
+    string id = 1;
+}
+
+message DeleteUserRequest {
+    string id = 1;
+}
+
+message UpdateUserRequest {
+    string id = 1;
+    string email = 2;
+}
+
+message User {
+    string email = 1;
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message RegisterResponse {
+    string token = 1;
+}
+
+// Authentication Service
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string token = 1;
+}
+
+message VerifyTokenRequest {
+    string token = 1;
+}
+
+message VerifyTokenResponse {
+    bool isValid = 1;
+}
+
