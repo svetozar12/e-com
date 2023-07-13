@@ -1,8 +1,5 @@
-<!-- Please divide ur work into branches with small tasks -->
-
-<!-- architecture/think-of-good-structure-for-services -->
-
-- Think of a good structure for microservices(preferably domain driven design)
+- Implement User Service
+- Implement aggregator service(currently only empty project) and add user service to it
 - Think of a way to get env variables and validate them
 - Think how each microservice will communicate with each other(if it will be even needed)
 - Think of a solution for api gateway
