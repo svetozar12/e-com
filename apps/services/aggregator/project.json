@@ -1,20 +1,21 @@
 {
-  "name": "services-user",
+  "name": "services-aggregator",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/services/user",
+  "sourceRoot": "apps/services/aggregator",
   "targets": {
     "build": {
       "executor": "@nx-go/nx-go:build",
       "options": {
-        "outputPath": "dist/apps/services/user/user",
-        "main": "apps/services/user/main.go"
+        "outputPath": "dist/apps/services/aggregator/aggregator",
+        "main": "apps/services/aggregator/main.go"
       }
     },
     "serve": {
-      "executor": "@nx-go/nx-go:serve",
+      "executor": "nx:run-commands",
       "options": {
-        "main": "apps/services/user/main.go"
+        "cwd": "apps/services/aggregator",
+        "command": "air -c .air.toml"
       }
     },
     "test": {
@@ -27,7 +28,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "cross-env-shell docker build --no-cache --force-rm -f apps/services/user/build/Dockerfile . -t {args.registry}/e-com-microservice/user-service:$npm_package_version"
+          "cross-env-shell docker build --no-cache --force-rm -f apps/services/aggregator/build/Dockerfile . -t {args.registry}/e-com-microservice/aggregator-service:$npm_package_version"
         ]
       }
     },
@@ -35,11 +36,10 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "cross-env-shell docker push {args.registry}/e-com-microservice/user-service:$npm_package_version"
+          "cross-env-shell docker push {args.registry}/e-com-microservice/aggregator-service:$npm_package_version"
         ]
       }
     }
   },
-  "implicitDependencies": ["protos-user"],
   "tags": []
 }
