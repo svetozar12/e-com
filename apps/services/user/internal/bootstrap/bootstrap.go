@@ -6,14 +6,15 @@ import (
 	"svetozar12/e-com/v2/apps/services/user/internal/app/databases/postgres"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/services/auth"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/services/user"
+	"svetozar12/e-com/v2/apps/services/user/internal/pkg/env"
 
 	"google.golang.org/grpc"
 )
 
 func Bootstrap() {
-	println("gRPC server tutorial in Go")
-
-	listener, err := net.Listen("tcp", ":9000")
+	env.InitConfig()
+	grpcAddr := ":" + env.Envs.Port
+	listener, err := net.Listen("tcp", grpcAddr)
 	if err != nil {
 		panic(err)
 	}
@@ -21,6 +22,7 @@ func Bootstrap() {
 	s := grpc.NewServer()
 	auth.InitAuthServer(s)
 	user.InitUserService(s)
+	println("gRPC server started on", grpcAddr)
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
