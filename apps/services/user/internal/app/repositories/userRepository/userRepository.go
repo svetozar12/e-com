@@ -28,8 +28,6 @@ func UpdateUser(userId string, user *entities.UserEntity) *entities.UserEntity {
 	return user
 }
 
-func DeleteUser(userId string) *entities.UserEntity {
-	user := new(entities.UserEntity)
-	postgres.DB.Where("id = ?", userId).Delete(user)
-	return user
+func DeleteUser(user *entities.UserEntity) {
+	postgres.DB.Delete(&user)
 }

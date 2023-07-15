@@ -3,7 +3,6 @@ package jwtUtils
 import (
 	"fmt"
 	"log"
-	"svetozar12/e-com/v2/apps/services/user/internal/pkg/env"
 
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
@@ -40,7 +39,7 @@ func ComparePassword(hashedPwd string, plainPwd []byte) bool {
 	return true
 }
 
-func ParseToken(tokenString string) (jwt.Claims, error) {
+func ParseToken(tokenString string, secret string) (jwt.Claims, error) {
 	// Parse takes the token string and a function for looking up the key. The latter is especially
 	// useful if you use multiple keys for your application.  The standard is to use 'kid' in the
 	// head of the token to identify which key to use, but the parsed token (head and claims) is provided
@@ -51,7 +50,7 @@ func ParseToken(tokenString string) (jwt.Claims, error) {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return []byte(env.Envs.JWT_SECRET), nil
+		return []byte(secret), nil
 	})
 
 	return token.Claims, err

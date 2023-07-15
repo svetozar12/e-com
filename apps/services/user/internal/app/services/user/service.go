@@ -7,6 +7,7 @@ import (
 	"svetozar12/e-com/v2/apps/services/user/internal/app/repositories/userRepository"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/env"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/jwtUtils"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 	"google.golang.org/grpc/codes"
@@ -20,11 +21,33 @@ func register(ctx context.Context, in *pb.RegisterRequest) (*pb.RegisterResponse
 	}
 	pwd := jwtUtils.HashAndSalt([]byte(in.Password))
 	user := userRepository.CreateUser(&entities.UserEntity{Email: in.Email, Password: pwd})
-	token, err := jwtUtils.SignToken(jwt.MapClaims{"Email": user.Email}, env.Envs.JWT_SECRET)
+	accessToken, err := jwtUtils.SignToken(jwt.MapClaims{"email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
 
 	if err != nil {
 		return nil, status.Error(codes.Unauthenticated, "Error while signing token")
 	}
 
-	return &pb.RegisterResponse{Token: token}, nil
+	return &pb.RegisterResponse{AccessToken: accessToken}, nil
+}
+
+func getUser(ctx context.Context, in *pb.GetUserRequest) (*pb.User, error) {
+	err := in.ValidateAll()
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	user, err := userRepository.GetUser("id = ?", in.Id)
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "User not found")
+	}
+	return &pb.User{Id: int32(user.ID), Email: user.Email}, nil
+}
+
+func deleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error) {
+	err := in.ValidateAll()
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	user, err := userRepository.GetUser("id = ?", in.Id)
+	userRepository.DeleteUser(user)
+	return &pb.User{}, nil
 }
