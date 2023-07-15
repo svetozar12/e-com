@@ -13,6 +13,9 @@ import (
 )
 
 func verifyToken(ctx context.Context, in *pb.VerifyTokenRequest) (*pb.VerifyTokenResponse, error) {
+	if _, err := jwtUtils.ParseToken(in.Token); err != nil {
+		return &pb.VerifyTokenResponse{IsValid: false}, nil
+	}
 	return &pb.VerifyTokenResponse{IsValid: true}, nil
 }
 
@@ -22,7 +25,7 @@ func login(ctx context.Context, in *pb.LoginRequest) (*pb.LoginResponse, error) 
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 	user, err := userRepository.GetUser("email = ?", in.Email)
-	if err != nil {
+	if err != nil || !jwtUtils.ComparePassword(user.Password, []byte(in.Password)) {
 		return nil, status.Error(codes.Unauthenticated, "Wrong credentials")
 	}
 	token, err := jwtUtils.SignToken(jwt.MapClaims{"Email": user.Email}, env.Envs.JWT_SECRET)

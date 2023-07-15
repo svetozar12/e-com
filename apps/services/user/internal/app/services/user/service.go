@@ -14,6 +14,10 @@ import (
 )
 
 func register(ctx context.Context, in *pb.RegisterRequest) (*pb.RegisterResponse, error) {
+	err := in.ValidateAll()
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
 	pwd := jwtUtils.HashAndSalt([]byte(in.Password))
 	user := userRepository.CreateUser(&entities.UserEntity{Email: in.Email, Password: pwd})
 	token, err := jwtUtils.SignToken(jwt.MapClaims{"Email": user.Email}, env.Envs.JWT_SECRET)

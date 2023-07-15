@@ -54,15 +54,15 @@ message DeleteUserRequest {
 
 message UpdateUserRequest {
     string id = 1;
-    string email = 2;
+    User user = 2 [(validate.rules).message.required = true];
 }
 
 message User {
-    string email = 1;
+    string email = 1 [(validate.rules).string.email = true];
 }
 
 message RegisterRequest {
-    string email = 1;
+    string email = 1 [(validate.rules).string.email = true];
     string password = 2;
 }
 
