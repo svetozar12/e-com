@@ -15,3 +15,7 @@ plugins:
       - generate_unbound_methods=true
   - plugin: openapiv2
     out: ./openapi
+  - plugin: buf.build/bufbuild/validate-go
+    out: ./proto
+    opt:
+      - paths=source_relative

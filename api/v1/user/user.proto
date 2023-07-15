@@ -1,6 +1,6 @@
 syntax = "proto3";
 import "google/api/annotations.proto";
-
+import "validate/validate.proto";
 option go_package = "./user-service";
 
 service UserService {
@@ -72,7 +72,7 @@ message RegisterResponse {
 
 // Authentication Service
 message LoginRequest {
-    string email = 1;
+    string email = 1 [(validate.rules).string.email = true];
     string password = 2;
 }
 

@@ -30,14 +30,6 @@
           "cross-env-shell docker build --no-cache --force-rm -f apps/services/user/build/Dockerfile . -t {args.registry}/e-com-microservice/user-service:$npm_package_version"
         ]
       }
-    },
-    "SKIP_docker-push": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "cross-env-shell docker push {args.registry}/e-com-microservice/user-service:$npm_package_version"
-        ]
-      }
     }
   },
   "implicitDependencies": ["protos-user"],

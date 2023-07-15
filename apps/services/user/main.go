@@ -1,10 +1,9 @@
 package main
 
 import (
-	"svetozar12/e-com/v2/apps/services/user/internal/bootstrap"
+	"svetozar12/e-com/v2/apps/services/user/internal/app/bootstrap"
 )
 
 func main() {
-
 	bootstrap.Bootstrap()
 }

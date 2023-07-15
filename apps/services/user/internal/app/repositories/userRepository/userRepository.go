@@ -5,10 +5,11 @@ import (
 	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 )
 
-func GetUser(userId string) *entities.UserEntity {
+func GetUser(query interface{}, args ...interface{}) (*entities.UserEntity, error) {
 	user := new(entities.UserEntity)
-	postgres.DB.Where("id = ?", userId).First(user)
-	return user
+	err := postgres.DB.Where(query, args).First(user).Error
+
+	return user, err
 }
 
 func getUserList(userIds []string) []entities.UserEntity {
