@@ -45,26 +45,28 @@ service AuthenticationService {
 
 // User Service
 message GetUserRequest {
-    int32 id = 1;
+    int32 id = 1 [(validate.rules).int32.gte = 1];
 }
 
 message DeleteUserRequest {
-    int32 id = 1;
+    int32 id = 1 [(validate.rules).int32.gte = 1];
 }
 
 message UpdateUserRequest {
-    int32 id = 1;
+    int32 id = 1 [(validate.rules).int32.gte = 1];
     User user = 2 [(validate.rules).message.required = true];
 }
 
 message User {
-    int32 id = 1;
+    int32 id = 1 [(validate.rules).int32.gte = 1];
     string email = 2 [(validate.rules).string.email = true];
+    string fname = 3;
+    string lname = 4;
 }
 
 message RegisterRequest {
     string email = 1 [(validate.rules).string.email = true];
-    string password = 2;
+    string password = 2 [(validate.rules).string.min_len = 6];
 }
 
 message RegisterResponse {
@@ -74,7 +76,7 @@ message RegisterResponse {
 // Authentication Service
 message LoginRequest {
     string email = 1 [(validate.rules).string.email = true];
-    string password = 2;
+    string password = 2 [(validate.rules).string.min_len = 6];
 }
 
 message LoginResponse {
@@ -83,7 +85,7 @@ message LoginResponse {
 }
 
 message VerifyTokenRequest {
-    string token = 1;
+    string token = 1 [(validate.rules).string.min_len = 1];
 }
 
 message VerifyTokenResponse {

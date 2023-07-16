@@ -19,10 +19,17 @@ func register(ctx context.Context, in *pb.RegisterRequest) (*pb.RegisterResponse
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	pwd := jwtUtils.HashAndSalt([]byte(in.Password))
-	user := userRepository.CreateUser(&entities.UserEntity{Email: in.Email, Password: pwd})
-	accessToken, err := jwtUtils.SignToken(jwt.MapClaims{"email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
+	if user, _ := userRepository.GetUser("email = ?", in.Email); user.Email != "" {
+		return nil, status.Error(codes.AlreadyExists, "User already exists")
+	}
 
+	hashedPassword := jwtUtils.HashAndSalt([]byte(in.Password))
+	user, err := userRepository.CreateUser(&entities.UserEntity{Email: in.Email, Password: hashedPassword})
+	if err != nil {
+		return nil, status.Error(codes.AlreadyExists, err.Error())
+	}
+
+	accessToken, err := jwtUtils.SignToken(jwt.MapClaims{"email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
 	if err != nil {
 		return nil, status.Error(codes.Unauthenticated, "Error while signing token")
 	}
@@ -42,12 +49,30 @@ func getUser(ctx context.Context, in *pb.GetUserRequest) (*pb.User, error) {
 	return &pb.User{Id: int32(user.ID), Email: user.Email}, nil
 }
 
+func UpdateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error) {
+	err := in.ValidateAll()
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	user, err := userRepository.GetUser("id = ?", in.Id)
+	if err != nil {
+		return nil, status.Error(codes.AlreadyExists, "User already exists")
+	}
+
+	updatedUser, err := userRepository.UpdateUser(user.ID, &entities.UserEntity{Email: in.User.Email})
+
+	return &pb.User{Id: int32(updatedUser.ID), Email: updatedUser.Email}, nil
+}
+
 func deleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 	user, err := userRepository.GetUser("id = ?", in.Id)
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "User not found")
+	}
 	userRepository.DeleteUser(user)
 	return &pb.User{}, nil
 }

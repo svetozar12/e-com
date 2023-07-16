@@ -12,22 +12,23 @@ func GetUser(query interface{}, args ...interface{}) (*entities.UserEntity, erro
 	return user, err
 }
 
-func getUserList(userIds []string) []entities.UserEntity {
+func getUserList(userIds []string, args ...interface{}) ([]entities.UserEntity, error) {
 	users := []entities.UserEntity{}
-	postgres.DB.Where("id in (?)", userIds).Find(&users)
-	return users
+	err := postgres.DB.Where("id in (?)", userIds, args).Find(&users).Error
+	return users, err
 }
 
-func CreateUser(user *entities.UserEntity) *entities.UserEntity {
-	postgres.DB.Create(user)
-	return user
+func CreateUser(user *entities.UserEntity) (*entities.UserEntity, error) {
+	err := postgres.DB.Create(user).Error
+	return user, err
 }
 
-func UpdateUser(userId string, user *entities.UserEntity) *entities.UserEntity {
-	postgres.DB.Save(user)
-	return user
+func UpdateUser(userId uint, user *entities.UserEntity) (*entities.UserEntity, error) {
+	err := postgres.DB.Save(user).Error
+	return user, err
 }
 
-func DeleteUser(user *entities.UserEntity) {
-	postgres.DB.Delete(&user)
+func DeleteUser(user *entities.UserEntity) (*entities.UserEntity, error) {
+	err := postgres.DB.Delete(&user).Error
+	return user, err
 }
