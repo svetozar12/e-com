@@ -8,17 +8,13 @@ import (
 	pb "svetozar12/e-com/v2/api/v1/user/dist/proto"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/repositories/userRepository"
+	"svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/jwtUtils"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
-var testEmail = "test@mail.de"
-var testPassword = "123456"
-
-func TestLogin(t *testing.T) {
+func TestVerifyToken(t *testing.T) {
 	ctx := context.Background()
 	conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
 	if err != nil {
@@ -27,7 +23,7 @@ func TestLogin(t *testing.T) {
 	defer conn.Close()
 	client := pb.NewAuthenticationServiceClient(conn)
 	user, _ := userRepository.CreateUser(&entities.UserEntity{Email: testEmail, Password: jwtUtils.HashAndSalt([]byte(testPassword))})
-	t.Run("rpc Login(expected behavior)", func(t *testing.T) {
+	t.Run("rpc VerifyToken(expected behavior)", func(t *testing.T) {
 		resp, err := client.Login(ctx, &pb.LoginRequest{Email: testEmail, Password: testPassword})
 		if err != nil {
 			t.Fatalf("Login failed: %v", err)
@@ -41,27 +37,26 @@ func TestLogin(t *testing.T) {
 			t.Fatalf("VerifyToken failed: %v", err)
 		}
 		if !verifyAccessToken.IsValid || !verifyRefreshToken.IsValid {
-			panic("JWT Token isn't valid")
+			panic(constants.InvalidTokenMessage)
 		}
 	})
-	t.Run("rpc Login(invalid input)", func(t *testing.T) {
-		_, err := client.Login(ctx, &pb.LoginRequest{Email: "bad email 12", Password: "1"})
-
-		if !strings.Contains(err.Error(), "value must be a valid email address") {
-			t.Errorf("email field shouldn't pass validation")
+	t.Run("rpc VerifyToken(invalid token)", func(t *testing.T) {
+		res, err := client.VerifyToken(ctx, &pb.VerifyTokenRequest{Token: "invalid token"})
+		if err != nil {
+			t.Fatalf("VerifyToken failed: %v", err)
 		}
-		if !strings.Contains(err.Error(), "value length must be at least 6 runes") {
-			t.Errorf("password field shouldn't pass validation")
+		if res.IsValid {
+			t.Errorf(constants.InvalidFieldMessage("token"))
 		}
 	})
-	t.Run("rpc Login(wrong credentials)", func(t *testing.T) {
-		_, err := client.Login(ctx, &pb.LoginRequest{Email: "test123@mail.de", Password: "12345678"})
+	t.Run("rpc VerifyToken(invalid input)", func(t *testing.T) {
+		_, err := client.VerifyToken(ctx, &pb.VerifyTokenRequest{Token: ""})
 
-		if err.Error() != status.Error(codes.Unauthenticated, "Wrong credentials").Error() {
-			t.Errorf("should return error Wrong credentials")
+		if !strings.Contains(err.Error(), constants.MinLenMessage("1")) {
+			t.Errorf(constants.InvalidFieldMessage("token"))
 		}
-
 	})
+
 	t.Cleanup(func() {
 		userRepository.HardDeleteUser(user)
 	})
