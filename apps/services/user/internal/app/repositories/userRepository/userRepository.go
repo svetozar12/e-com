@@ -12,7 +12,7 @@ func GetUser(query interface{}, args ...interface{}) (*entities.UserEntity, erro
 	return user, err
 }
 
-func getUserList(userIds []string, args ...interface{}) ([]entities.UserEntity, error) {
+func GetUserList(userIds []string, args ...interface{}) ([]entities.UserEntity, error) {
 	users := []entities.UserEntity{}
 	err := postgres.DB.Where("id in (?)", userIds, args).Find(&users).Error
 	return users, err
