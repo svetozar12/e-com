@@ -47,7 +47,7 @@ func getUser(ctx context.Context, in *pb.GetUserRequest) (*pb.User, error) {
 	if err != nil {
 		return nil, status.Error(codes.NotFound, constants.UserNotFoundMessage)
 	}
-	return &pb.User{Id: int32(user.ID), Email: user.Email}, nil
+	return UserModel(user), nil
 }
 
 func updateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error) {
@@ -57,7 +57,7 @@ func updateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error)
 	}
 	user, err := userRepository.GetUser("id = ?", in.Id)
 	if err != nil {
-		return nil, status.Error(codes.AlreadyExists, constants.UserNotFoundMessage)
+		return nil, status.Error(codes.NotFound, constants.UserNotFoundMessage)
 	}
 
 	if in.Email != "" {
@@ -73,7 +73,7 @@ func updateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error)
 	if err != nil {
 		return nil, status.Error(codes.Internal, constants.UserNotUpdateMessage)
 	}
-	return &pb.User{Id: int32(updatedUser.ID), Email: updatedUser.Email, Fname: updatedUser.Fname, Lname: updatedUser.Lname}, nil
+	return UserModel(updatedUser), nil
 }
 
 func deleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error) {
@@ -89,5 +89,5 @@ func deleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error)
 	if err != nil {
 		return nil, status.Error(codes.Internal, constants.UserNotDeletedMessage)
 	}
-	return &pb.User{}, nil
+	return UserModel(user), nil
 }

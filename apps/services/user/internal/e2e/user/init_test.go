@@ -16,6 +16,11 @@ import (
 
 const bufSize = 1024 * 1024
 
+var testEmail = "test@mail.de"
+var testPassword = "123456"
+var testFname = "test"
+var testLname = "testings"
+var usersToDelete [2]string
 var lis *bufconn.Listener
 
 func init() {

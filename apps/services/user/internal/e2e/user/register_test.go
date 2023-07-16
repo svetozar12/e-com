@@ -12,11 +12,9 @@ import (
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/jwtUtils"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
-
-var testEmail = "test@mail.de"
-var testPassword = "123456"
-var usersToDelete [2]string
 
 func TestRegister(t *testing.T) {
 	ctx := context.Background()
@@ -41,6 +39,13 @@ func TestRegister(t *testing.T) {
 		}
 		if !verifyAccessToken.IsValid {
 			panic(constants.InvalidTokenMessage)
+		}
+	})
+
+	t.Run("rpc Register(already exist)", func(t *testing.T) {
+		_, err := userClient.Register(ctx, &pb.RegisterRequest{Email: "test1@mail.de", Password: testPassword})
+		if err.Error() != status.Error(codes.AlreadyExists, constants.UserAlreadyExistMessage).Error() {
+			t.Errorf(err.Error())
 		}
 	})
 
