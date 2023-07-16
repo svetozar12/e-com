@@ -32,3 +32,8 @@ func DeleteUser(user *entities.UserEntity) (*entities.UserEntity, error) {
 	err := postgres.DB.Delete(&user).Error
 	return user, err
 }
+
+func HardDeleteUser(user *entities.UserEntity, query interface{}, args ...interface{}) (*entities.UserEntity, error) {
+	err := postgres.DB.Unscoped().Where(query, args).Delete(&user).Error
+	return user, err
+}

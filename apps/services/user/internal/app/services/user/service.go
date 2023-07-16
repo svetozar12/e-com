@@ -5,6 +5,7 @@ import (
 	pb "svetozar12/e-com/v2/api/v1/user/dist/proto"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/repositories/userRepository"
+	"svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/env"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/jwtUtils"
 	"time"
@@ -20,7 +21,7 @@ func register(ctx context.Context, in *pb.RegisterRequest) (*pb.RegisterResponse
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 	if user, _ := userRepository.GetUser("email = ?", in.Email); user.Email != "" {
-		return nil, status.Error(codes.AlreadyExists, "User already exists")
+		return nil, status.Error(codes.AlreadyExists, constants.UserAlreadyExistMessage)
 	}
 
 	hashedPassword := jwtUtils.HashAndSalt([]byte(in.Password))
@@ -29,9 +30,9 @@ func register(ctx context.Context, in *pb.RegisterRequest) (*pb.RegisterResponse
 		return nil, status.Error(codes.AlreadyExists, err.Error())
 	}
 
-	accessToken, err := jwtUtils.SignToken(jwt.MapClaims{"email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
+	accessToken, err := jwtUtils.SignToken(jwt.MapClaims{"uid": user.ID, "email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
 	if err != nil {
-		return nil, status.Error(codes.Unauthenticated, "Error while signing token")
+		return nil, status.Error(codes.Unauthenticated, constants.UnableToSignJWTMessage)
 	}
 
 	return &pb.RegisterResponse{AccessToken: accessToken}, nil
@@ -44,9 +45,9 @@ func getUser(ctx context.Context, in *pb.GetUserRequest) (*pb.User, error) {
 	}
 	user, err := userRepository.GetUser("id = ?", in.Id)
 	if err != nil {
-		return nil, status.Error(codes.NotFound, "User not found")
+		return nil, status.Error(codes.NotFound, constants.UserNotFoundMessage)
 	}
-	return &pb.User{Id: int32(user.ID), Email: user.Email}, nil
+	return UserModel(user), nil
 }
 
 func updateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error) {
@@ -56,7 +57,7 @@ func updateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error)
 	}
 	user, err := userRepository.GetUser("id = ?", in.Id)
 	if err != nil {
-		return nil, status.Error(codes.AlreadyExists, "User not found")
+		return nil, status.Error(codes.NotFound, constants.UserNotFoundMessage)
 	}
 
 	if in.Email != "" {
@@ -70,9 +71,9 @@ func updateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error)
 	}
 	updatedUser, err := userRepository.UpdateUser(user)
 	if err != nil {
-		return nil, status.Error(codes.Internal, "Error while updating the user")
+		return nil, status.Error(codes.Internal, constants.UserNotUpdateMessage)
 	}
-	return &pb.User{Id: int32(updatedUser.ID), Email: updatedUser.Email, Fname: updatedUser.Fname, Lname: updatedUser.Lname}, nil
+	return UserModel(updatedUser), nil
 }
 
 func deleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error) {
@@ -82,11 +83,11 @@ func deleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error)
 	}
 	user, err := userRepository.GetUser("id = ?", in.Id)
 	if err != nil {
-		return nil, status.Error(codes.NotFound, "User not found")
+		return nil, status.Error(codes.NotFound, constants.UserNotFoundMessage)
 	}
 	_, err = userRepository.DeleteUser(user)
 	if err != nil {
-		return nil, status.Error(codes.Internal, "Error while deleting the user")
+		return nil, status.Error(codes.Internal, constants.UserNotDeletedMessage)
 	}
-	return &pb.User{}, nil
+	return UserModel(user), nil
 }
