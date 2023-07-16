@@ -58,6 +58,6 @@ func TestVerifyToken(t *testing.T) {
 	})
 
 	t.Cleanup(func() {
-		userRepository.HardDeleteUser(user)
+		userRepository.HardDeleteUser(user, nil)
 	})
 }

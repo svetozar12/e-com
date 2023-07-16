@@ -35,8 +35,8 @@ func login(ctx context.Context, in *pb.LoginRequest) (*pb.LoginResponse, error) 
 	if err != nil || !jwtUtils.ComparePassword(user.Password, []byte(in.Password)) {
 		return nil, status.Error(codes.Unauthenticated, constants.WrongCredentialsMessage)
 	}
-	accessToken, errAccessToken := jwtUtils.SignToken(jwt.MapClaims{"email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
-	refreshToken, errRefreshToken := jwtUtils.SignToken(jwt.MapClaims{"email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 48).Unix()}, env.Envs.JWT_SECRET)
+	accessToken, errAccessToken := jwtUtils.SignToken(jwt.MapClaims{"uid": user.ID, "email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
+	refreshToken, errRefreshToken := jwtUtils.SignToken(jwt.MapClaims{"uid": user.ID, "email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 48).Unix()}, env.Envs.JWT_SECRET)
 	if errAccessToken != nil || errRefreshToken != nil {
 		return nil, status.Error(codes.Unauthenticated, constants.UnableToSignJWTMessage)
 	}

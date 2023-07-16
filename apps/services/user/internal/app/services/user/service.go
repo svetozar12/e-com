@@ -30,7 +30,7 @@ func register(ctx context.Context, in *pb.RegisterRequest) (*pb.RegisterResponse
 		return nil, status.Error(codes.AlreadyExists, err.Error())
 	}
 
-	accessToken, err := jwtUtils.SignToken(jwt.MapClaims{"email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
+	accessToken, err := jwtUtils.SignToken(jwt.MapClaims{"uid": user.ID, "email": user.Email, "iat": time.Now().Unix(), "exp": time.Now().Add(time.Hour * 24).Unix()}, env.Envs.JWT_SECRET)
 	if err != nil {
 		return nil, status.Error(codes.Unauthenticated, constants.UnableToSignJWTMessage)
 	}
