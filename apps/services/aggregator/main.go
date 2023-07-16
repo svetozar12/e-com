@@ -1,10 +1,10 @@
 package main
 
-import (
-	"svetozar12/e-com/v2/apps/services/user/internal/bootstrap"
-)
+// import (
+// 	"svetozar12/e-com/v2/apps/services/user/internal/bootstrap"
+// )
 
-func main() {
+// func main() {
 
-	bootstrap.Bootstrap()
-}
+// 	bootstrap.Bootstrap()
+// }
