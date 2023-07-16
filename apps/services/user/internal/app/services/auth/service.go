@@ -26,6 +26,7 @@ func login(ctx context.Context, in *pb.LoginRequest) (*pb.LoginResponse, error) 
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 	user, err := userRepository.GetUser("email = ?", in.Email)
+
 	if err != nil || !jwtUtils.ComparePassword(user.Password, []byte(in.Password)) {
 		return nil, status.Error(codes.Unauthenticated, "Wrong credentials")
 	}
