@@ -54,7 +54,9 @@ message DeleteUserRequest {
 
 message UpdateUserRequest {
     int32 id = 1 [(validate.rules).int32.gte = 1];
-    User user = 2 [(validate.rules).message.required = true];
+    string email = 2 [(validate.rules).string.email = true ,(validate.rules).string.ignore_empty = true];
+    string fname = 3;
+    string lname = 4;
 }
 
 message User {

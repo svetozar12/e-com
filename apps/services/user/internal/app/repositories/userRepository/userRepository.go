@@ -23,7 +23,7 @@ func CreateUser(user *entities.UserEntity) (*entities.UserEntity, error) {
 	return user, err
 }
 
-func UpdateUser(userId uint, user *entities.UserEntity) (*entities.UserEntity, error) {
+func UpdateUser(user *entities.UserEntity) (*entities.UserEntity, error) {
 	err := postgres.DB.Save(user).Error
 	return user, err
 }

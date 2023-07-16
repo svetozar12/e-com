@@ -49,19 +49,30 @@ func getUser(ctx context.Context, in *pb.GetUserRequest) (*pb.User, error) {
 	return &pb.User{Id: int32(user.ID), Email: user.Email}, nil
 }
 
-func UpdateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error) {
+func updateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 	user, err := userRepository.GetUser("id = ?", in.Id)
 	if err != nil {
-		return nil, status.Error(codes.AlreadyExists, "User already exists")
+		return nil, status.Error(codes.AlreadyExists, "User not found")
 	}
 
-	updatedUser, err := userRepository.UpdateUser(user.ID, &entities.UserEntity{Email: in.User.Email})
-
-	return &pb.User{Id: int32(updatedUser.ID), Email: updatedUser.Email}, nil
+	if in.Email != "" {
+		user.Email = in.Email
+	}
+	if in.Fname != "" {
+		user.Fname = in.Fname
+	}
+	if in.Lname != "" {
+		user.Lname = in.Lname
+	}
+	updatedUser, err := userRepository.UpdateUser(user)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "Error while updating the user")
+	}
+	return &pb.User{Id: int32(updatedUser.ID), Email: updatedUser.Email, Fname: updatedUser.Fname, Lname: updatedUser.Lname}, nil
 }
 
 func deleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error) {
@@ -73,6 +84,9 @@ func deleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error)
 	if err != nil {
 		return nil, status.Error(codes.NotFound, "User not found")
 	}
-	userRepository.DeleteUser(user)
+	_, err = userRepository.DeleteUser(user)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "Error while deleting the user")
+	}
 	return &pb.User{}, nil
 }

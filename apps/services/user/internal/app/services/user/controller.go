@@ -17,6 +17,10 @@ func (s *Server) GetUser(ctx context.Context, in *pb.GetUserRequest) (*pb.User, 
 	return getUser(ctx, in)
 }
 
+func (s *Server) UpdateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.User, error) {
+	return updateUser(ctx, in)
+}
+
 func (s *Server) DeleteUser(ctx context.Context, in *pb.DeleteUserRequest) (*pb.User, error) {
 	return deleteUser(ctx, in)
 }

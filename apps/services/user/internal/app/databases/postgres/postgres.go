@@ -16,7 +16,7 @@ func InitPostgres() {
 	if err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(entities.UserEntity{})
+	DB.AutoMigrate(&entities.UserEntity{})
 	println("Connected to postgres!")
 
 }
