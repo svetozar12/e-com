@@ -5,30 +5,30 @@ import (
 	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 )
 
-func GetUser(userId string) *entities.UserEntity {
+func GetUser(query interface{}, args ...interface{}) (*entities.UserEntity, error) {
 	user := new(entities.UserEntity)
-	postgres.DB.Where("id = ?", userId).First(user)
-	return user
+	err := postgres.DB.Where(query, args).First(user).Error
+
+	return user, err
 }
 
-func getUserList(userIds []string) []entities.UserEntity {
+func GetUserList(userIds []string, args ...interface{}) ([]entities.UserEntity, error) {
 	users := []entities.UserEntity{}
-	postgres.DB.Where("id in (?)", userIds).Find(&users)
-	return users
+	err := postgres.DB.Where("id in (?)", userIds, args).Find(&users).Error
+	return users, err
 }
 
-func CreateUser(user *entities.UserEntity) *entities.UserEntity {
-	postgres.DB.Create(user)
-	return user
+func CreateUser(user *entities.UserEntity) (*entities.UserEntity, error) {
+	err := postgres.DB.Create(user).Error
+	return user, err
 }
 
-func UpdateUser(userId string, user *entities.UserEntity) *entities.UserEntity {
-	postgres.DB.Save(user)
-	return user
+func UpdateUser(user *entities.UserEntity) (*entities.UserEntity, error) {
+	err := postgres.DB.Save(user).Error
+	return user, err
 }
 
-func DeleteUser(userId string) *entities.UserEntity {
-	user := new(entities.UserEntity)
-	postgres.DB.Where("id = ?", userId).Delete(user)
-	return user
+func DeleteUser(user *entities.UserEntity) (*entities.UserEntity, error) {
+	err := postgres.DB.Delete(&user).Error
+	return user, err
 }

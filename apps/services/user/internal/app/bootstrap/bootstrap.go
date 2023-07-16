@@ -22,7 +22,7 @@ func Bootstrap() {
 	s := grpc.NewServer()
 	auth.InitAuthServer(s)
 	user.InitUserService(s)
-	println("gRPC server started on", grpcAddr)
+	println("User service started on port", grpcAddr)
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

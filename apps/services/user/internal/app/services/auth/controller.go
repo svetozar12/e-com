@@ -12,3 +12,7 @@ type Server struct {
 func (s *Server) VerifyToken(ctx context.Context, in *pb.VerifyTokenRequest) (*pb.VerifyTokenResponse, error) {
 	return verifyToken(ctx, in)
 }
+
+func (s *Server) Login(ctx context.Context, in *pb.LoginRequest) (*pb.LoginResponse, error) {
+	return login(ctx, in)
+}

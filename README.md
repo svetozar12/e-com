@@ -58,6 +58,8 @@ Nx comes with local caching already built-in (check your `nx.json`). On CI you m
 
 # Plan of action
 
+<!-- try to use OPA(open policy agent) -->
+
 Certainly! Here's an idea for a project that combines GraphQL, microservices, and Go:
 
 Project Idea: E-commerce Platform
