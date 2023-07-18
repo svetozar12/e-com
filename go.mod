@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/caarlos0/env v3.5.0+incompatible
+	github.com/envoyproxy/protoc-gen-validate v1.0.2
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.0
 	golang.org/x/crypto v0.11.0
@@ -15,21 +16,14 @@ require (
 )
 
 require (
-	github.com/envoyproxy/protoc-gen-validate v1.0.2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.4.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/lyft/protoc-gen-star/v2 v2.0.3 // indirect
-	github.com/spf13/afero v1.3.3 // indirect
 	github.com/stretchr/testify v1.8.2 // indirect
-	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
-	golang.org/x/mod v0.11.0 // indirect
 	golang.org/x/net v0.11.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect
-	golang.org/x/tools v0.10.0 // indirect
 )
