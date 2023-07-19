@@ -13,7 +13,10 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@svetozar12/shared/sdk": ["libs/shared/sdk/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

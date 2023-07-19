@@ -12,10 +12,9 @@
       }
     },
     "serve": {
-      "executor": "nx:run-commands",
+      "executor": "@nx-go/nx-go:serve",
       "options": {
-        "cwd": "apps/services/aggregator",
-        "command": "air -c .air.toml"
+        "main": "apps/services/aggregator/main.go"
       }
     },
     "test": {
