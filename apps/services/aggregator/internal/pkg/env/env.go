@@ -9,7 +9,7 @@ import (
 
 type Config struct {
 	Port              string `env:"PORT" envDefault:"3000"`
-	ServeHttp         bool   `env:"SERVE_HTTP" envDefault:"false"`
+	ServeHttp         bool   `env:"SERVE_HTTP" envDefault:"true"`
 	UserServiceAdress string `env:"USER_SERVICE_PORT" envDefault:"0.0.0.0:9000"`
 }
 
