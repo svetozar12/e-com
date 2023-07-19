@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "./product-catalog-service";
+
+service ProducCatalogService {
+    rpc GetProduct (GetProductRequest) returns (Product) {
+            option (google.api.http) = {
+                        get: "/v1/product-catalog",
+            };
+    };
+    rpc GetProductList (GetProductListRequest) returns (ProductList) {
+            option (google.api.http) = {
+                        get: "/v1/product-catalog"
+            };
+    };
+    rpc CreateProduct (CreateProductRequest) returns (Product) {
+            option (google.api.http) = {
+                        post: "/v1/product-catalog",
+                        body: "*",
+            };
+    };
+    rpc UpdateProduct (UpdateProductRequest) returns (Product) {
+            option (google.api.http) = {
+                        put: "/v1/product-catalog",
+                        body: "*"
+            };
+    };
+    rpc DeleteProduct (DeleteProductRequest) returns (Empty) {
+            option (google.api.htpp) = {
+                        delete: "/v1/product-catalog"
+                        body: "*"
+            };
+    } 
+};
+
+message Empty {}
