@@ -40,7 +40,7 @@ func Run() error {
 	if env.Envs.ServeHttp == true {
 		fmt.Println("Serving gRPC-Gateway and OpenAPI Documentation on port(http)", gatewayAddr)
 		err := gwServer.ListenAndServe()
-		fmt.Println("%v", err)
+		fmt.Println(err)
 		return err
 	}
 	gwServer.TLSConfig = &tls.Config{

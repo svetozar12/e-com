@@ -5,7 +5,6 @@
   "scripts": {
     "serve:all": "nx run-many --target=serve --parallel --maxParallel=100",
     "build:all": "nx run-many --target=build --parallel=3 --skip-nx-cache",
-    "lint:all": "nx run-many --target=lint --skip-nx-cache",
     "test:all": "cross-env NODE_ENV=test nx run-many --target=test --exclude=netfield-web-next --skip-nx-cache",
     "postinstall": "run-script-os",
     "postinstall:win32": "./tools/scripts/postinstall.sh",
@@ -13,6 +12,10 @@
   },
   "private": true,
   "dependencies": {
+    "@bufbuild/buf": "^1.24.0",
+    "@bufbuild/protobuf": "^1.3.0",
+    "@bufbuild/protoc-gen-es": "^1.3.0",
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "cross-env": "^7.0.3",
     "make-dir-cli": "^3.1.0",
     "mongoose": "^5.13.3",
