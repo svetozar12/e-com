@@ -1,3 +1,4 @@
+import { ProducCatalogServiceApi } from './api/v1/product-catalog';
 import {
   AuthenticationServiceApi,
   UserServiceApi,
@@ -15,4 +16,5 @@ export const initSdk = (sdkConfig: Configuration) => {
 export const sdk = {
   auth: new AuthenticationServiceApi(config),
   user: new UserServiceApi(config),
+  productCatalog: new ProducCatalogServiceApi(config),
 };
