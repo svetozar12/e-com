@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/user"
+	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/auth"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/cors"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/env"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/insecure"
@@ -24,15 +25,17 @@ func Run() error {
 		Addr: gatewayAddr,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			cors.EnableCors(w)
-			isValid := authenticate(w, r)
-			if !isValid {
-				http.Error(w, "401 Unauthorized", 401)
-				return
+			if strings.HasPrefix(r.URL.Path, "/v1/user") {
+				if isValid := auth.AuthenticationMiddleware(w, r); !isValid {
+					return
+				}
 			}
+
 			if strings.HasPrefix(r.URL.Path, "/v1") {
 				gwmux.ServeHTTP(w, r)
 				return
 			}
+
 			// oa.ServeHTTP(w, r)
 		}),
 	}
