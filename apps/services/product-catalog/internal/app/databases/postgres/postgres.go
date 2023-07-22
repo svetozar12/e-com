@@ -1,8 +1,8 @@
 package postgres
 
 import (
-	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
-	"svetozar12/e-com/v2/apps/services/user/internal/pkg/env"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/env"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -16,7 +16,7 @@ func InitPostgres() {
 	if err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(&entities.UserEntity{})
+	DB.AutoMigrate(&entities.ProductEntity{})
 	println("Connected to postgres!")
 
 }

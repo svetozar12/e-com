@@ -16,21 +16,21 @@ service ProducCatalogService {
                         get: "/v1/product-catalog"
             };
     };
-    rpc CreateProduct (stream CreateProductRequest) returns (Product) {
+    rpc CreateProduct (CreateProductRequest) returns (Product) {
             option (google.api.http) = {
                         post: "/v1/product-catalog",
                         body: "*",
             };
     };
-    rpc UpdateProduct (stream UpdateProductRequest) returns (Product) {
+    rpc UpdateProduct (UpdateProductRequest) returns (Product) {
             option (google.api.http) = {
-                        put: "/v1/product-catalog",
+                        put: "/v1/product-catalog/{id}",
                         body: "*"
             };
     };
     rpc DeleteProduct (DeleteProductRequest) returns (Empty) {
             option (google.api.http) = {
-                        delete: "/v1/product-catalog"
+                        delete: "/v1/product-catalog/{id}"
             };
     } 
 };

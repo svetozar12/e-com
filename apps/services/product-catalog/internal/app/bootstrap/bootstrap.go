@@ -3,10 +3,9 @@ package bootstrap
 import (
 	"log"
 	"net"
-	"svetozar12/e-com/v2/apps/services/user/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/user/internal/app/services/auth"
-	"svetozar12/e-com/v2/apps/services/user/internal/app/services/user"
-	"svetozar12/e-com/v2/apps/services/user/internal/pkg/env"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/databases/postgres"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/services/product"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/env"
 
 	"google.golang.org/grpc"
 )
@@ -20,8 +19,7 @@ func Bootstrap() {
 	}
 	postgres.InitPostgres()
 	s := grpc.NewServer()
-	auth.InitAuthServer(s)
-	user.InitUserService(s)
+	product.InitUserService(s)
 	println("User service started on port", grpcAddr)
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)

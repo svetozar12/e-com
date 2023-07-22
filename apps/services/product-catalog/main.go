@@ -1,7 +1,7 @@
 package main
 
 import (
-	"svetozar12/e-com/v2/apps/services/user/internal/app/bootstrap"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/bootstrap"
 )
 
 func main() {
