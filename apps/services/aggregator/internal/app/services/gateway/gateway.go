@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	productcatalog "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/product-catalog"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/user"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/auth"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/cors"
@@ -16,8 +17,9 @@ import (
 
 func Run() error {
 	gwmux := runtime.NewServeMux()
-
+	// services
 	user.ConnectToUserService(gwmux)
+	productcatalog.ConnectToProductCatalogService(gwmux)
 	// oa := getOpenAPIHandler()
 	port := env.Envs.Port
 	gatewayAddr := ":" + port
