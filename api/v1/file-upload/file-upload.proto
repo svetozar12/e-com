@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "./file-upload-service";
+
+service ImageUploadService {
+  rpc GetImage(GetImageRequest) returns (GetImageResponse) {
+    option (google.api.http) = {
+        get: "/v1/file-upload/{id}",
+    };
+  }
+  rpc UploadImage(ImageUploadRequest) returns (ImageUploadResponse) {
+    option (google.api.http) = {
+        post: "/v1/file-upload",
+        body: "*",
+    };
+  }
+}
+// Message to represent image metadata
+message ImageMetadata {
+  string filename = 1 [(validate.rules).string.min_len = 1];
+  string mime_type = 2 [(validate.rules).string.min_len = 1];
+}
+
+// Message to represent the actual image data
+message ImageData {
+  bytes data = 1 [(validate.rules).bytes.min_len = 1];
+}
+
+message GetImageRequest {
+  string id = 1 [(validate.rules).string.min_len = 1]; // This could be an image ID or filename
+}
+  
+message GetImageResponse {
+  bytes image_data = 1;
+  string image_url = 2;
+}
+
+// Request message for image upload
+message ImageUploadRequest {
+  ImageMetadata metadata = 1;
+  ImageData image_data = 2;
+}
+
+// Response message for image upload
+message ImageUploadResponse {
+  bool success = 1;
+  string message = 2;
+}
