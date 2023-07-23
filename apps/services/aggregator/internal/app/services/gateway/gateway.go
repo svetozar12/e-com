@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	customProductCatalogHandlers "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/gateway/customHandlers/product-catalog"
 	productcatalog "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/product-catalog"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/user"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/auth"
@@ -20,6 +21,8 @@ func Run() error {
 	// services
 	user.ConnectToUserService(gwmux)
 	productcatalog.ConnectToProductCatalogService(gwmux)
+	// custom handlers
+	customProductCatalogHandlers.InitProductCatalogHandlers(gwmux)
 	// oa := getOpenAPIHandler()
 	port := env.Envs.Port
 	gatewayAddr := ":" + port
@@ -32,6 +35,12 @@ func Run() error {
 					return
 				}
 			}
+
+			// if strings.HasPrefix(r.URL.Path, "/v1/product-catalog") {
+			// 	if isValid := auth.AuthenticationMiddleware(w, r); !isValid {
+			// 		return
+			// 	}
+			// }
 
 			if strings.HasPrefix(r.URL.Path, "/v1") {
 				gwmux.ServeHTTP(w, r)

@@ -2,6 +2,8 @@ package product
 
 import (
 	"context"
+	"fmt"
+	"io/ioutil"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
@@ -27,6 +29,16 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
+	// Create a temporary file within our temp-images directory that follows
+	// a particular naming pattern
+	tempFile, err := ioutil.TempFile("temp-images", "upload-*.png")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer tempFile.Close()
+
+	// write this byte array to our temporary file
+	tempFile.Write(in.Image)
 
 	product, err := productRepository.CreateProduct(&entities.ProductEntity{Name: in.Name, Price: in.Price, Description: in.Description, Available: in.Available, Weight: in.Weight, Currency: in.Currency})
 
