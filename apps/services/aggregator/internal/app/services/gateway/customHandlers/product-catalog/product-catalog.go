@@ -11,6 +11,7 @@ import (
 	"strconv"
 	productPb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/env"
+	formdata "svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/formData"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
@@ -27,23 +28,8 @@ func initProductCatalogClients() {
 	productCatalogClient = productPb.NewProducCatalogServiceClient(conn)
 }
 
-func parseFormData(w http.ResponseWriter, r *http.Request) (err error) {
-	errForm := r.ParseForm()
-	if err != nil {
-		http.Error(w, fmt.Sprintf("failed to parse form: %s", err.Error()), http.StatusBadRequest)
-		return errForm
-	}
-
-	errMPart := r.ParseMultipartForm(32 << 20)
-	if errMPart != nil {
-		http.Error(w, fmt.Sprintf("failed to parse multipart form: %s", err.Error()), http.StatusBadRequest)
-		return err
-	}
-	return
-}
-
 func handleBinaryFileUpload(w http.ResponseWriter, r *http.Request, params map[string]string) {
-	parseFormData(w, r)
+	formdata.ParseFormData(w, r)
 	file, _, err := r.FormFile("file")
 	if err != nil {
 		return
@@ -66,13 +52,13 @@ func handleBinaryFileUpload(w http.ResponseWriter, r *http.Request, params map[s
 	if err != nil {
 		http.Error(w, fmt.Sprintf("failed to upload file: %s", err.Error()), http.StatusInternalServerError)
 	}
-	b, err := json.Marshal(data)
+	jsonData, err := json.Marshal(data)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	w.Write([]byte(string(b)))
+	w.Write([]byte(string(jsonData)))
 }
 
 func InitProductCatalogHandlers(gwMux *runtime.ServeMux) {
