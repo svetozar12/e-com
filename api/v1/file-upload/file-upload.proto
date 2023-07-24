@@ -11,16 +11,11 @@ service ImageUploadService {
         get: "/v1/file-upload/{id}",
     };
   }
-  rpc UploadImage(ImageUploadRequest) returns (ImageUploadResponse) {
-    option (google.api.http) = {
-        post: "/v1/file-upload",
-        body: "*",
-    };
-  }
+  rpc UploadImage(ImageUploadRequest) returns (ImageUploadResponse) {}
 }
 // Message to represent image metadata
 message ImageMetadata {
-  string filename = 1 [(validate.rules).string.min_len = 1];
+  string file_id = 1 [(validate.rules).string.min_len = 1];
   string mime_type = 2 [(validate.rules).string.min_len = 1];
 }
 
@@ -47,5 +42,5 @@ message ImageUploadRequest {
 // Response message for image upload
 message ImageUploadResponse {
   bool success = 1;
-  string message = 2;
+  string file_id = 2;
 }
