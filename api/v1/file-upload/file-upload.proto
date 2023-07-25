@@ -12,11 +12,7 @@ service ImageUploadService {
     };
   }
   rpc UploadImage(ImageUploadRequest) returns (ImageUploadResponse) {}
-}
-// Message to represent image metadata
-message ImageMetadata {
-  string file_id = 1 [(validate.rules).string.min_len = 1];
-  string mime_type = 2 [(validate.rules).string.min_len = 1];
+  // add delete image method
 }
 
 // Message to represent the actual image data
@@ -30,13 +26,11 @@ message GetImageRequest {
   
 message GetImageResponse {
   bytes image_data = 1;
-  string image_url = 2;
 }
 
 // Request message for image upload
 message ImageUploadRequest {
-  ImageMetadata metadata = 1;
-  ImageData image_data = 2;
+  bytes image_data = 1;
 }
 
 // Response message for image upload

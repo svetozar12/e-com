@@ -12,3 +12,7 @@ type Server struct {
 func (s *Server) UploadImage(ctx context.Context, in *pb.ImageUploadRequest) (*pb.ImageUploadResponse, error) {
 	return uploadImage(ctx, in)
 }
+
+func (s *Server) GetImage(ctx context.Context, in *pb.GetImageRequest) (*pb.GetImageResponse, error) {
+	return getImage(ctx, in)
+}

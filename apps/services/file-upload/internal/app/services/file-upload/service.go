@@ -2,8 +2,9 @@ package fileupload
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
-	"log"
+	"os"
 	pb "svetozar12/e-com/v2/api/v1/file-upload/dist/proto"
 
 	"google.golang.org/grpc/codes"
@@ -15,6 +16,8 @@ func uploadImage(ctx context.Context, in *pb.ImageUploadRequest) (*pb.ImageUploa
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
+	dir, err := os.Getwd()
+	fmt.Println(dir, "request")
 	// Create a temporary file within our temp-images directory that follows
 	// a particular naming pattern
 	tempFile, err := ioutil.TempFile("temp-images", "upload-*.png")
@@ -24,7 +27,7 @@ func uploadImage(ctx context.Context, in *pb.ImageUploadRequest) (*pb.ImageUploa
 	defer tempFile.Close()
 
 	// write this byte array to our temporary file
-	_, err = tempFile.Write(in.ImageData.Data)
+	_, err = tempFile.Write(in.ImageData)
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
@@ -37,9 +40,9 @@ func getImage(ctx context.Context, in *pb.GetImageRequest) (*pb.GetImageResponse
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	body, err := ioutil.ReadFile("temp-images/" + in.Id)
+	body, err := ioutil.ReadFile(in.Id)
 	if err != nil {
-		log.Fatalf("unable to read file: %v", err)
+		return nil, status.Error(codes.NotFound, "Image not found")
 	}
-	return &pb.GetImageResponse{ImageData: body, ImageUrl: ""}, nil
+	return &pb.GetImageResponse{ImageData: body}, nil
 }
