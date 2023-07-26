@@ -8,8 +8,9 @@ import (
 	pb "svetozar12/e-com/v2/api/v1/user/dist/proto"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/repositories/userRepository"
-	"svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
+	userConstants "svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/jwtUtils"
+	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
 )
@@ -37,7 +38,7 @@ func TestVerifyToken(t *testing.T) {
 			t.Fatalf("VerifyToken failed: %v", err)
 		}
 		if !verifyAccessToken.IsValid || !verifyRefreshToken.IsValid {
-			panic(constants.InvalidTokenMessage)
+			panic(userConstants.InvalidTokenMessage)
 		}
 	})
 	t.Run("rpc VerifyToken(invalid token)", func(t *testing.T) {

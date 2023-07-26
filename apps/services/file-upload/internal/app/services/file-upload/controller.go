@@ -16,3 +16,7 @@ func (s *Server) UploadImage(ctx context.Context, in *pb.ImageUploadRequest) (*p
 func (s *Server) GetImage(ctx context.Context, in *pb.GetImageRequest) (*pb.GetImageResponse, error) {
 	return getImage(ctx, in)
 }
+
+func (s *Server) DeleteImage(ctx context.Context, in *pb.DeleteImageRequest) (*pb.DeleteImageResponse, error) {
+	return deleteImage(ctx, in)
+}

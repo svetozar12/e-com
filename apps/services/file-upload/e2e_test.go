@@ -8,4 +8,5 @@ import (
 func TestMain(t *testing.T) {
 	fileupload.FileUpload(t)
 	fileupload.GetFile(t)
+	fileupload.DeleteFile(t)
 }

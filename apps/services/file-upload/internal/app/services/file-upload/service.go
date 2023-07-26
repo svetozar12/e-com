@@ -46,3 +46,17 @@ func getImage(ctx context.Context, in *pb.GetImageRequest) (*pb.GetImageResponse
 	}
 	return &pb.GetImageResponse{ImageData: body}, nil
 }
+
+func deleteImage(ctx context.Context, in *pb.DeleteImageRequest) (*pb.DeleteImageResponse, error) {
+	err := in.ValidateAll()
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	e := os.Remove(in.Id)
+	if e != nil {
+		return nil, status.Error(codes.NotFound, "Image not found")
+	}
+
+	return &pb.DeleteImageResponse{Success: true}, nil
+
+}
