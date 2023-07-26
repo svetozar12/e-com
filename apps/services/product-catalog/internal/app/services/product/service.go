@@ -53,15 +53,42 @@ func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Produc
 		return nil, status.Error(codes.NotFound, "")
 	}
 	// adjust for product
-	// if in.Email != "" {
-	// 	product.Email = in.Email
-	// }
-	// if in.Fname != "" {
-	// 	product.Fname = in.Fname
-	// }
-	// if in.Lname != "" {
-	// 	product.Lname = in.Lname
-	// }
+	if *in.Name != product.Name {
+		product.Name = *in.Name
+	}
+	if *in.Price != product.Price {
+		product.Price = *in.Price
+	}
+	for _, v := range in.Image {
+		if v != 0 {
+			_, deleteImageErr := grpcclients.FileUploadClient.DeleteImage(ctx, &pbFileUpload.DeleteImageRequest{Id: product.Image})
+
+			if deleteImageErr != nil {
+				return nil, deleteImageErr
+			}
+			uploadImageRes, uploadImageErr := grpcclients.FileUploadClient.UploadImage(ctx, &pbFileUpload.ImageUploadRequest{ImageData: in.Image})
+
+			if uploadImageErr != nil {
+				return nil, uploadImageErr
+			}
+			product.Image = uploadImageRes.FileId
+			break
+		}
+	}
+
+	if *in.Description != product.Description {
+		product.Description = *in.Description
+	}
+	if *in.Available != product.Available {
+		product.Name = *in.Name
+	}
+	if *in.Weight != product.Weight {
+		product.Weight = *in.Weight
+	}
+	if *in.Currency != product.Currency {
+		product.Currency = *in.Currency
+	}
+
 	updatedUser, err := productRepository.UpdateProduct(product)
 	if err != nil {
 		return nil, status.Error(codes.Internal, "")
@@ -74,7 +101,17 @@ func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Empty,
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	productRepository.DeleteProduct(nil, "id = ?", in.Id)
+	product, err := productRepository.GetProduct("id = ?", in.Id)
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "")
+	}
 
+	// TODO: Perform transaction if DeleteImage fails don't delete product
+	_, err = productRepository.DeleteProduct(nil, "id = ?", in.Id)
+	_, deleteImageErr := grpcclients.FileUploadClient.DeleteImage(ctx, &pbFileUpload.DeleteImageRequest{Id: product.Image})
+
+	if deleteImageErr != nil {
+		return nil, deleteImageErr
+	}
 	return &pb.Empty{}, nil
 }
