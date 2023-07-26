@@ -3,10 +3,11 @@ package product
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	pbFileUpload "svetozar12/e-com/v2/api/v1/file-upload/dist/proto"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
+	grpcclients "svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/grpc-clients"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -29,19 +30,15 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	fmt.Println(in.Image)
-	// Create a temporary file within our temp-images directory that follows
-	// a particular naming pattern
-	tempFile, err := ioutil.TempFile("temp-images", "upload-*.png")
-	if err != nil {
-		fmt.Println(err)
+
+	uploadImageRes, uploadImageErr := grpcclients.FileUploadClient.UploadImage(ctx, &pbFileUpload.ImageUploadRequest{ImageData: in.Image})
+
+	if uploadImageErr != nil {
+		fmt.Println(uploadImageErr, "boza")
+		return nil, uploadImageErr
 	}
-	defer tempFile.Close()
 
-	// write this byte array to our temporary file
-	tempFile.Write(in.Image)
-
-	product, err := productRepository.CreateProduct(&entities.ProductEntity{Name: in.Name, Image: tempFile.Name(), Price: in.Price, Description: in.Description, Available: in.Available, Weight: in.Weight, Currency: in.Currency})
+	product, err := productRepository.CreateProduct(&entities.ProductEntity{Name: in.Name, Image: uploadImageRes.FileId, Price: in.Price, Description: in.Description, Available: in.Available, Weight: in.Weight, Currency: in.Currency})
 
 	return ProductModel(product), nil
 }

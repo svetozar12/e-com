@@ -10,6 +10,7 @@ import (
 type Config struct {
 	Port                       string `env:"PRODUCT_CATALOG_SERVICE_PORT" envDefault:"9001"`
 	POSTGRES_CONNECTION_STRING string `env:"PRODUCT_CATALOG_SERVICE_POSTGRES_CONNECTION_STRING" envDefault:"postgres://postgres:postgrespw@localhost:5432"`
+	FileUploadServiceAdress    string `env:"PRODUCT_CATALOG_FILE_UPLOAD_SERVICE_PORT" envDefault:"0.0.0.0:9002"`
 }
 
 var Envs Config
