@@ -8,8 +8,9 @@ import (
 	pb "svetozar12/e-com/v2/api/v1/user/dist/proto"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/repositories/userRepository"
-	"svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
+	userConstants "svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/jwtUtils"
+	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -38,13 +39,13 @@ func TestRegister(t *testing.T) {
 			t.Fatalf("VerifyToken failed: %v", err)
 		}
 		if !verifyAccessToken.IsValid {
-			panic(constants.InvalidTokenMessage)
+			panic(userConstants.InvalidTokenMessage)
 		}
 	})
 
 	t.Run("rpc Register(already exist)", func(t *testing.T) {
 		_, err := userClient.Register(ctx, &pb.RegisterRequest{Email: "test1@mail.de", Password: testPassword})
-		if err.Error() != status.Error(codes.AlreadyExists, constants.UserAlreadyExistMessage).Error() {
+		if err.Error() != status.Error(codes.AlreadyExists, userConstants.UserAlreadyExistMessage).Error() {
 			t.Errorf(err.Error())
 		}
 	})
