@@ -22,7 +22,7 @@ func Bootstrap() {
 	postgres.InitPostgres()
 	s := grpc.NewServer()
 	product.InitUserService(s)
-	println("User service started on port", grpcAddr)
+	println("Product Catalog service started on port", grpcAddr)
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

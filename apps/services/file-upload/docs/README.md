@@ -1,6 +1,6 @@
 # File upload service
 
-Performs crud operations on file-upload entity and is used for authentication. Currently the file-upload service in responsible for authentication and file-upload operations.
+Centralized place to handle images.
 
 ## Setup
 
@@ -29,12 +29,14 @@ file-upload/
 To use this service with go
 
 ```go
+import (pb "svetozar12/e-com/v2/api/v1/file-upload/dist/proto")
+
 ctx := context.Background()
 conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
 	if err != nil {
 		t.Fatalf("Failed to dial bufnet: %v", err)
 	}
-client := pb.NewAuthenticationServiceClient(conn)
-fileupload, _ := file-uploadRepository.Createfile-upload(&entities.file-uploadEntity{Email: testEmail, Password: jwtUtils.HashAndSalt([]byte(testPassword))})
+client := pb.NewImageUploadServiceClient(conn)
+fileupload, _ := file-client.GetImage(&pb.GetImageRequest{Id:"image_id"})
 
 ```

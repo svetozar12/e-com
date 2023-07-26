@@ -1,6 +1,6 @@
 # User service
 
-Performs crud operations on user entity and is used for authentication. Currently the user service in responsible for authentication and user operations.
+Performs crud operations on product-catalog entity and is used for managing products..
 
 ## Setup
 
@@ -8,7 +8,7 @@ Performs crud operations on user entity and is used for authentication. Currentl
 # should be ran in the root
 yarn
 yarn build
-yarn nx serve services-user
+yarn nx serve services-product-catalog
 ```
 
 ## Folder structure
@@ -29,12 +29,14 @@ user/
 To use this service with go
 
 ```go
+import (pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto")
+
 ctx := context.Background()
 conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
 	if err != nil {
 		t.Fatalf("Failed to dial bufnet: %v", err)
 	}
-client := pb.NewAuthenticationServiceClient(conn)
-user, _ := userRepository.CreateUser(&entities.UserEntity{Email: testEmail, Password: jwtUtils.HashAndSalt([]byte(testPassword))})
+client := pb.NewProductCatalogServiceClient(conn)
+product, _ := client.GetProduct(&pb.GetProductRequest{Id:productId})
 
 ```
