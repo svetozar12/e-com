@@ -8,8 +8,9 @@ import (
 	pb "svetozar12/e-com/v2/api/v1/user/dist/proto"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/repositories/userRepository"
-	"svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
+	userConstants "svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/jwtUtils"
+	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -55,7 +56,7 @@ func TestGetUser(t *testing.T) {
 	t.Run("rpc GetUser(not found)", func(t *testing.T) {
 		_, err := userClient.GetUser(ctx, &pb.GetUserRequest{Id: int32(999999)})
 
-		if err.Error() != status.Error(codes.NotFound, constants.UserNotFoundMessage).Error() {
+		if err.Error() != status.Error(codes.NotFound, userConstants.UserNotFoundMessage).Error() {
 			t.Errorf(err.Error())
 		}
 	})
