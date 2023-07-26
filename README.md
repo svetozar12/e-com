@@ -58,8 +58,6 @@ Microservices:
 
 Product Catalog Service: Manage product information, including details, pricing, and availability. It exposes GraphQL queries to retrieve product data based on various criteria.
 
-User Service: Handle user authentication, registration, and profile management. It provides GraphQL mutations for user registration, login, and profile updates.
-
 Cart Service: Manage user shopping carts and handle operations like adding items, removing items, and updating quantities. It exposes GraphQL mutations to interact with the cart.
 
 Order Service: Handle the order placement and management process. It manages the creation, modification, and retrieval of orders and exposes GraphQL queries and mutations related to order processing.
@@ -75,9 +73,7 @@ Notification Service: Send notifications to users about order updates, promotion
 Architecture and Integration:
 
 Each microservice should have its own data storage, such as a relational database or NoSQL solution, based on its specific requirements.
-Implement GraphQL as the communication layer between clients and microservices. The GraphQL server can be implemented as a gateway that routes requests to the appropriate microservices.
 Use asynchronous communication techniques like message queues or event-driven architectures to decouple microservices and ensure reliable communication.
-Employ JWT-based authentication to secure access to protected endpoints and authorize actions based on user roles and permissions.
 Additional Features:
 
 Implement search functionality to allow users to search for products based on keywords, categories, or other criteria.
