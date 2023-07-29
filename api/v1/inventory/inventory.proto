@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "./inventory-service";
+
+// Definition of the Inventory message
+message Inventory {
+  int32 id = 1;
+  int32 productId = 2;
+  int32 availableQuantity = 3;
+}
+
+// Inventory service API definition
+service InventoryService {
+  // Get the inventory information for a specific product by its ID
+  rpc GetInventory(GetInventoryRequest) returns (Inventory);
+
+  // Update the available quantity of a product in the inventory
+  rpc UpdateInventory(UpdateInventoryRequest) returns (Inventory);
+
+  // Add new inventory information for a product
+  rpc AddInventory(AddInventoryRequest) returns (Inventory);
+}
+
+// Request message to get inventory information
+message GetInventoryRequest {
+  int32 productId = 1 [(validate.rules).int32.gte = 1];
+}
+
+// Request message to update inventory information
+message UpdateInventoryRequest {
+  int32 productId = 1 [(validate.rules).int32.gte = 1];
+  int32 newQuantity = 2 [(validate.rules).int32.gte = 1];
+}
+
+// Request message to add inventory information
+message AddInventoryRequest {
+  int32 product_id = 1 [(validate.rules).int32.gte = 1];
+  int32 initialQuantity = 2 [(validate.rules).int32.gte = 1];
+}
+
+// Response message for successful operations
+message InventoryResponse {
+  Inventory inventory = 1;
+}
