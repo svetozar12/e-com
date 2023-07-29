@@ -12,10 +12,10 @@ func GetReview(query interface{}, args ...interface{}) (*entities.ReviewEntity, 
 	return review, err
 }
 
-func GetReviewList(reviewIds []string, args ...interface{}) ([]entities.ReviewEntity, error) {
-	inventories := []entities.ReviewEntity{}
-	err := postgres.DB.Where("id in (?)", reviewIds, args).Find(&inventories).Error
-	return inventories, err
+func GetReviewList(args ...interface{}) ([]entities.ReviewEntity, error) {
+	reviews := []entities.ReviewEntity{}
+	err := postgres.DB.Where(args).Find(&reviews).Error
+	return reviews, err
 }
 
 func CreateReview(review *entities.ReviewEntity) (*entities.ReviewEntity, error) {

@@ -13,7 +13,7 @@ func (s *Server) GetReview(ctx context.Context, in *pb.GetReviewRequest) (*pb.Re
 	return getReview(ctx, in)
 }
 
-func (s *Server) GetProductReviews(ctx context.Context, in *pb.GetProductReviewsRequest) (*pb.Review, error) {
+func (s *Server) GetProductReviews(ctx context.Context, in *pb.GetProductReviewsRequest) (*pb.GetProductReviewsResponse, error) {
 	return getProductReviews(ctx, in)
 }
 

@@ -23,17 +23,19 @@ func getReview(ctx context.Context, in *pb.GetReviewRequest) (*pb.Review, error)
 	return ReviewModel(review), nil
 }
 
-func getProductReviews(ctx context.Context, in *pb.GetProductReviewsRequest) (*pb.Review, error) {
+func getProductReviews(ctx context.Context, in *pb.GetProductReviewsRequest) (*pb.GetProductReviewsResponse, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	review, err := reviewrepository.GetReview("productId = ?", in.ProductId)
+	review, err := reviewrepository.GetReviewList("product_id = ?", in.ProductId)
 	if err != nil {
 		return nil, status.Error(codes.NotFound, constants.ReviewNotFound)
 	}
-
-	return ReviewModel(review), nil
+	// []*pb.Review.
+	// review.()
+	return &pb.GetProductReviewsResponse{Review: review}, nil
+	// return ReviewModel(review), nil
 }
 
 func addReview(ctx context.Context, in *pb.AddReviewRequest) (*pb.Review, error) {
@@ -43,7 +45,7 @@ func addReview(ctx context.Context, in *pb.AddReviewRequest) (*pb.Review, error)
 	}
 	exists, _ := reviewrepository.ReviewExists(&entities.ReviewEntity{UserId: uint(in.UserId), ProductId: uint(in.UserId)})
 	if exists {
-		return nil, status.Error(codes.NotFound, constants.ReviewAlreadyExists)
+		return nil, status.Error(codes.AlreadyExists, constants.ReviewAlreadyExists)
 	}
 	review, err := reviewrepository.CreateReview(&entities.ReviewEntity{ProductId: uint(in.ProductId), UserId: uint(in.UserId), Comment: in.Comment, Rating: in.Rating})
 	if err != nil {

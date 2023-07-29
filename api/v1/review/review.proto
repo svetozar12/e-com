@@ -3,7 +3,6 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
 import "google/api/annotations.proto";
-
 option go_package = "./review-service";
 
 // Definition of the Review message
@@ -11,18 +10,18 @@ message Review {
   int32 review_id = 1;
 
   // Product ID should be a positive integer
-  int32 product_id = 2 [(validate.rules).int32 = {gt: 0}];
+  int32 product_id = 2;
 
   int32 user_id = 3;
 
   // Comment should not be empty
-  string comment = 4 [(validate.rules).string.min_len = 1];
+  string comment = 4;
 
   // Rating should be between 1 and 5 (inclusive)
-  int32 rating = 5 [(validate.rules).int32 = {gte: 1, lte: 5}];
+  int32 rating = 5;
 
   // Timestamp should be set
-  google.protobuf.Timestamp timestamp = 6 [(validate.rules).timestamp.required = true];
+  google.protobuf.Timestamp timestamp = 6;
 
   // Add any other relevant fields here, such as review title, likes, etc.
 }
@@ -37,7 +36,7 @@ service ReviewService {
   }
 
   // Get all reviews for a specific product
-  rpc GetProductReviews(GetProductReviewsRequest) returns (Review) {
+  rpc GetProductReviews(GetProductReviewsRequest) returns (GetProductReviewsResponse) {
     option (google.api.http) = {
       get: "/v1/products/{product_id}/reviews"
     };
@@ -54,20 +53,24 @@ service ReviewService {
 
 // Request message to get a review by its ID
 message GetReviewRequest {
-  int32 review_id = 1;
+  int32 review_id = 1 [(validate.rules).int32.gte = 1];
 }
 
 // Request message to get all reviews for a product
 message GetProductReviewsRequest {
-  int32 product_id = 1;
+  int32 product_id = 1 [(validate.rules).int32.gte = 1];
+}
+
+message GetProductReviewsResponse {
+  repeated Review review = 1;
 }
 
 // Request message to add a new review
 message AddReviewRequest {
-  int32 product_id = 1;
-  int32 user_id = 2;
-  string comment = 3;
-  int32 rating = 4;
+  int32 product_id = 1 [(validate.rules).int32.gte = 1];
+  int32 user_id = 2 [(validate.rules).int32.gte = 1];
+  string comment = 3 [(validate.rules).string.min_len = 1];
+  int32 rating = 4 [(validate.rules).int32 = {gte: 1, lte: 5}];
   // Add any other relevant fields here
 }
 

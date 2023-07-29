@@ -1,5 +1,7 @@
 package constants
 
+import "fmt"
+
 func InvalidFieldMessage(field string) string {
 	return field + " field shouldn't pass validation"
 }
@@ -14,4 +16,8 @@ func MinLenMessage(length string) string {
 
 func GTEValueMessage(value string) string {
 	return "value must be greater than or equal to " + value
+}
+
+func RangeValueMessage(min string, max string) string {
+	return fmt.Sprintf("value must be inside range [%s, %s]", min, max)
 }

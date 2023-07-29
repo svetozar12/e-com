@@ -8,5 +8,5 @@ import (
 )
 
 func ReviewModel(review *entities.ReviewEntity) *pb.Review {
-	return &pb.Review{ReviewId: int32(review.ID), ProductId: int32(review.ID), UserId: int32(review.UserId), Comment: review.Comment, Rating: review.Rating, Timestamp: timestamppb.New(review.CreatedAt)}
+	return &pb.Review{ReviewId: int32(review.ID), ProductId: int32(review.ProductId), UserId: int32(review.UserId), Comment: review.Comment, Rating: review.Rating, Timestamp: timestamppb.New(review.CreatedAt)}
 }
