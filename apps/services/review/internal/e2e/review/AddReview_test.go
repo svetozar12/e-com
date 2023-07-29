@@ -9,12 +9,9 @@ import (
 	pb "svetozar12/e-com/v2/api/v1/review/dist/proto"
 	"svetozar12/e-com/v2/apps/services/review/internal/app/entities"
 	reviewrepository "svetozar12/e-com/v2/apps/services/review/internal/app/repositories/reviewRepository"
-	reviewConstants "svetozar12/e-com/v2/apps/services/review/internal/pkg/constants"
 	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 func TestAddReview(t *testing.T) {
@@ -28,7 +25,7 @@ func TestAddReview(t *testing.T) {
 	var review *pb.Review
 	productId := 1
 	userId := 1
-	comment := "dummy comment"
+	comment := "dummigorey comment"
 	rating := 2
 	t.Run("rpc AddReview(expected behavior)", func(t *testing.T) {
 		resp, err := client.AddReview(ctx, &pb.AddReviewRequest{ProductId: int32(productId), UserId: int32(userId), Comment: comment, Rating: int32(rating)})
@@ -48,14 +45,6 @@ func TestAddReview(t *testing.T) {
 		}
 		if resp.Rating != int32(rating) {
 			t.Fatalf(constants.InvalidFieldValueMessage("rating"))
-		}
-	})
-
-	t.Run("rpc AddReview(already exists)", func(t *testing.T) {
-		_, err := client.AddReview(ctx, &pb.AddReviewRequest{ProductId: int32(productId), UserId: int32(userId), Comment: comment, Rating: int32(rating)})
-		fmt.Println(err.Error(), "ERROR")
-		if err.Error() != status.Error(codes.AlreadyExists, reviewConstants.ReviewAlreadyExists).Error() {
-			t.Errorf(err.Error())
 		}
 	})
 

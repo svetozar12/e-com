@@ -12,9 +12,9 @@ func GetReview(query interface{}, args ...interface{}) (*entities.ReviewEntity, 
 	return review, err
 }
 
-func GetReviewList(args ...interface{}) ([]entities.ReviewEntity, error) {
+func GetReviewList(query interface{}, args ...interface{}) ([]entities.ReviewEntity, error) {
 	reviews := []entities.ReviewEntity{}
-	err := postgres.DB.Where(args).Find(&reviews).Error
+	err := postgres.DB.Where(query, args).Find(&reviews).Error
 	return reviews, err
 }
 

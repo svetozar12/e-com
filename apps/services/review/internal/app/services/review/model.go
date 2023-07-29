@@ -7,6 +7,24 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func ReviewModel(review *entities.ReviewEntity) *pb.Review {
-	return &pb.Review{ReviewId: int32(review.ID), ProductId: int32(review.ProductId), UserId: int32(review.UserId), Comment: review.Comment, Rating: review.Rating, Timestamp: timestamppb.New(review.CreatedAt)}
+func ConvertToPBReview(reviewEntity *entities.ReviewEntity) *pb.Review {
+	return &pb.Review{
+		Rating:    int32(reviewEntity.Rating),
+		ReviewId:  int32(reviewEntity.ID),
+		ProductId: int32(reviewEntity.ProductId),
+		UserId:    int32(reviewEntity.UserId),
+		Comment:   reviewEntity.Comment,
+		Timestamp: timestamppb.New(reviewEntity.CreatedAt),
+	}
+}
+
+func ConvertArrayToPBReviews(reviewEntities []entities.ReviewEntity) []*pb.Review {
+	var pbReviews []*pb.Review
+
+	for _, reviewEntity := range reviewEntities {
+		pbReview := ConvertToPBReview(&reviewEntity)
+		pbReviews = append(pbReviews, pbReview)
+	}
+
+	return pbReviews
 }
