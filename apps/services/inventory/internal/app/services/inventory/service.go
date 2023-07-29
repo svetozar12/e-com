@@ -16,11 +16,11 @@ func getInventory(ctx context.Context, in *pb.GetInventoryRequest) (*pb.Inventor
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	inventory, err := inventoryRepository.GetInventory("id = ?", in.ProductId)
+	inventory, err := inventoryRepository.GetInventory("product_id = ?", in.ProductId)
 	if err != nil {
 		return nil, status.Error(codes.NotFound, constants.InventoryNotFound)
 	}
-	return &pb.Inventory{Id: int32(inventory.ID), ProductId: int32(inventory.ID), AvailableQuantity: inventory.AvailableQuantity}, nil
+	return &pb.Inventory{Id: int32(inventory.ID), ProductId: int32(inventory.ProductId), AvailableQuantity: inventory.AvailableQuantity}, nil
 }
 
 func addInventory(ctx context.Context, in *pb.AddInventoryRequest) (*pb.Inventory, error) {
