@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 	getfile "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/gateway/customHandlers/getFIle"
+	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/review"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/user"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/auth"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/cors"
@@ -17,7 +18,7 @@ import (
 
 func Run() error {
 	gwmux := runtime.NewServeMux()
-
+	review.ConnectToReviewService(gwmux)
 	user.ConnectToUserService(gwmux)
 	getfile.InitProductCatalogHandlers(gwmux)
 	// oa := getOpenAPIHandler()
@@ -28,6 +29,12 @@ func Run() error {
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			cors.EnableCors(w)
 			if strings.HasPrefix(r.URL.Path, "/v1/user") {
+				if isValid := auth.AuthenticationMiddleware(w, r); !isValid {
+					return
+				}
+			}
+
+			if strings.HasPrefix(r.URL.Path, "/v1/reviews") {
 				if isValid := auth.AuthenticationMiddleware(w, r); !isValid {
 					return
 				}
