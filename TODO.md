@@ -1,3 +1,2 @@
 - Think how each microservice will communicate with each other(if it will be even needed)
-- Think of a solution for api gateway
-- Create nx generator when the microservice design is finished
+- Create a caching mechanism which can be reused in microservices

@@ -8,9 +8,9 @@ import (
 )
 
 type Config struct {
-	Port                       string `env:"PORT" envDefault:"9000"`
-	POSTGRES_CONNECTION_STRING string `env:"POSTGRES_CONNECTION_STRING" envDefault:"postgres://postgres:postgrespw@localhost:5432"`
-	JWT_SECRET                 string `env:"JWT_SECRET" envDefault:"secret"`
+	Port                       string `env:"USER_SERVICE_PORT" envDefault:"9000"`
+	POSTGRES_CONNECTION_STRING string `env:"USER_SERVICE_POSTGRES_CONNECTION_STRING" envDefault:"postgres://postgres:postgrespw@localhost:5432"`
+	JWT_SECRET                 string `env:"USER_SERVICE_JWT_SECRET" envDefault:"secret"`
 }
 
 var Envs Config

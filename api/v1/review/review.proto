@@ -38,7 +38,7 @@ service ReviewService {
   // Get all reviews for a specific product
   rpc GetProductReviews(GetProductReviewsRequest) returns (GetProductReviewsResponse) {
     option (google.api.http) = {
-      get: "/v1/products/{product_id}/reviews"
+      get: "/v1/product-catalog/{product_id}/reviews"
     };
   }
 

@@ -1,20 +1,20 @@
-# File upload service
+# User service
 
-The File Upload Service is a microservice that facilitates file uploading and management in a distributed system. It offers APIs for users to upload, retrieve, and delete files securely. This service plays a vital role in handling file storage and retrieval, enabling seamless sharing and access to uploaded content across the application.
+Performs crud operations on product-catalog entity and is used for managing products..
 
 ## Setup
 
 ```shell
 # should be ran in the root
 yarn
-yarn nx build services-file-upload
-yarn nx serve services-file-upload
+yarn build
+yarn nx serve services-product-catalog
 ```
 
 ## Folder structure
 
 ```
-file-upload/
+user/
 ├─build/    - Packaging and Continuous Integration(dockerfiles etc...).
 ├─docs/     - Documentation about the service
 ├─internal/ - Private application and library code.
@@ -29,14 +29,14 @@ file-upload/
 To use this service with go
 
 ```go
-import (pb "svetozar12/e-com/v2/api/v1/file-upload/dist/proto")
+import (pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto")
 
 ctx := context.Background()
 conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
 	if err != nil {
 		t.Fatalf("Failed to dial bufnet: %v", err)
 	}
-client := pb.NewFileUploadServiceClient(conn)
-fileupload, _ := client.UploadFile(&entities.file-uploadEntity{Email: testEmail, Password: jwtUtils.HashAndSalt([]byte(testPassword))})
+client := pb.NewProductCatalogServiceClient(conn)
+product, _ := client.GetProduct(&pb.GetProductRequest{Id:productId})
 
 ```

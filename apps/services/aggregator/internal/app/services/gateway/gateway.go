@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 	getfile "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/gateway/customHandlers/getFIle"
+	customProductCatalogHandlers "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/gateway/customHandlers/product-catalog"
+	productcatalog "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/product-catalog"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/review"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/user"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/pkg/auth"
@@ -18,8 +20,12 @@ import (
 
 func Run() error {
 	gwmux := runtime.NewServeMux()
+	// services
 	review.ConnectToReviewService(gwmux)
 	user.ConnectToUserService(gwmux)
+	productcatalog.ConnectToProductCatalogService(gwmux)
+	// custom handlers
+	customProductCatalogHandlers.InitProductCatalogHandlers(gwmux)
 	getfile.InitProductCatalogHandlers(gwmux)
 	// oa := getOpenAPIHandler()
 	port := env.Envs.Port
@@ -34,6 +40,11 @@ func Run() error {
 				}
 			}
 
+			// if strings.HasPrefix(r.URL.Path, "/v1/product-catalog") {
+			// 	if isValid := auth.AuthenticationMiddleware(w, r); !isValid {
+			// 		return
+			// 	}
+			// }
 			if strings.HasPrefix(r.URL.Path, "/v1/reviews") {
 				if isValid := auth.AuthenticationMiddleware(w, r); !isValid {
 					return

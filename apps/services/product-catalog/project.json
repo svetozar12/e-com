@@ -1,0 +1,37 @@
+{
+  "name": "services-product-catalog",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/services/product-catalog",
+  "targets": {
+    "build": {
+      "executor": "@nx-go/nx-go:build",
+      "options": {
+        "outputPath": "dist/apps/services/product-catalog/product-catalog",
+        "main": "apps/services/product-catalog/main.go"
+      }
+    },
+    "serve": {
+      "executor": "@nx-go/nx-go:serve",
+      "options": {
+        "main": "apps/services/product-catalog/main.go"
+      }
+    },
+    "test": {
+      "executor": "@nx-go/nx-go:test"
+    },
+    "lint": {
+      "executor": "@nx-go/nx-go:lint"
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cross-env-shell docker build --no-cache --force-rm -f apps/services/product-catalog/build/Dockerfile . -t {args.registry}/e-com-microservice/product-catalog-service:$npm_package_version"
+        ]
+      }
+    }
+  },
+  "implicitDependencies": ["protos-product-catalog"],
+  "tags": []
+}
