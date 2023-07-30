@@ -2,8 +2,8 @@ package product
 
 import (
 	"context"
-	"fmt"
 	pbFileUpload "svetozar12/e-com/v2/api/v1/file-upload/dist/proto"
+	inventory_service "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
@@ -34,11 +34,10 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 	uploadImageRes, uploadImageErr := grpcclients.FileUploadClient.UploadImage(ctx, &pbFileUpload.ImageUploadRequest{ImageData: in.Image})
 
 	if uploadImageErr != nil {
-		fmt.Println(uploadImageErr, "boza")
 		return nil, uploadImageErr
 	}
-
 	product, err := productRepository.CreateProduct(&entities.ProductEntity{Name: in.Name, Image: uploadImageRes.FileId, Price: in.Price, Description: in.Description, Available: in.Available, Weight: in.Weight, Currency: in.Currency})
+	grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
 
 	return ProductModel(product), nil
 }
