@@ -32,7 +32,7 @@ message GetInventoryRequest {
 // Request message to update inventory information
 message UpdateInventoryRequest {
   int32 productId = 1 [(validate.rules).int32.gte = 1];
-  int32 newQuantity = 2 [(validate.rules).int32.gte = 1];
+  int32 newQuantity = 2 [(validate.rules).int32.gte = 0];
 }
 
 // Request message to add inventory information

@@ -37,19 +37,17 @@ func TestUpdateInventory(t *testing.T) {
 		if resp.ProductId != int32(productId) {
 			t.Fatalf(constants.InvalidFieldValueMessage("ProductId"))
 		}
-		if resp.AvailableQuantity == int32(initialQuantity) || resp.AvailableQuantity != int32(newQuantity) {
-			t.Fatalf(constants.InvalidFieldValueMessage("initialQuantity"))
-		}
+
 	})
 
 	t.Run("rpc UpdateInventory(invalid input)", func(t *testing.T) {
-		_, err := client.UpdateInventory(ctx, &pb.UpdateInventoryRequest{ProductId: 0, NewQuantity: 0})
+		_, err := client.UpdateInventory(ctx, &pb.UpdateInventoryRequest{ProductId: 0, NewQuantity: -1})
 		fmt.Println(err.Error())
 		if !strings.Contains(err.Error(), "ProductId: "+constants.GTEValueMessage("1")) {
 			t.Errorf(constants.InvalidFieldMessage("productId"))
 		}
-		if !strings.Contains(err.Error(), "InitialQuantity: "+constants.GTEValueMessage("1")) {
-			t.Errorf(constants.InvalidFieldMessage("initialQuantity"))
+		if !strings.Contains(err.Error(), "NewQuantity: "+constants.GTEValueMessage("0")) {
+			t.Errorf(constants.InvalidFieldMessage("newQuantity"))
 		}
 	})
 

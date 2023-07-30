@@ -41,7 +41,7 @@ func updateInventory(ctx context.Context, in *pb.UpdateInventoryRequest) (*pb.In
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	inventory, err := inventoryRepository.GetInventory("id = ?", in.ProductId)
+	inventory, err := inventoryRepository.GetInventory("product_id = ?", in.ProductId)
 	if err != nil {
 		return nil, status.Error(codes.NotFound, constants.InventoryNotFound)
 	}
