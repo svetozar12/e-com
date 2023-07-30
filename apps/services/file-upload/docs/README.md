@@ -1,13 +1,13 @@
 # File upload service
 
-Centralized place to handle images.
+The File Upload Service is a microservice that facilitates file uploading and management in a distributed system. It offers APIs for users to upload, retrieve, and delete files securely. This service plays a vital role in handling file storage and retrieval, enabling seamless sharing and access to uploaded content across the application.
 
 ## Setup
 
 ```shell
 # should be ran in the root
 yarn
-yarn build
+yarn nx build services-file-upload
 yarn nx serve services-file-upload
 ```
 
@@ -36,7 +36,7 @@ conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), 
 	if err != nil {
 		t.Fatalf("Failed to dial bufnet: %v", err)
 	}
-client := pb.NewImageUploadServiceClient(conn)
-fileupload, _ := file-client.GetImage(&pb.GetImageRequest{Id:"image_id"})
+client := pb.NewFileUploadServiceClient(conn)
+fileupload, _ := client.UploadFile(&entities.file-uploadEntity{Email: testEmail, Password: jwtUtils.HashAndSalt([]byte(testPassword))})
 
 ```

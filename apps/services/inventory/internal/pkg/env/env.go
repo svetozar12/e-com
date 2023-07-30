@@ -8,11 +8,8 @@ import (
 )
 
 type Config struct {
-	Port                    string `env:"PORT" envDefault:"3000"`
-	ServeHttp               bool   `env:"SERVE_HTTP" envDefault:"true"`
-	UserServiceAdress       string `env:"USER_SERVICE_ADDRESS" envDefault:"0.0.0.0:9000"`
-	FileUploadServiceAdress string `env:"FILE_UPLOAD_SERVICE_ADDRESS" envDefault:"0.0.0.0:9002"`
-	ReviewServiceAdress     string `env:"REVIEW_SERVICE_ADDRESS" envDefault:"0.0.0.0:9004"`
+	Port                       string `env:"INVENTORY_SERVICE_PORT" envDefault:"9003"`
+	POSTGRES_CONNECTION_STRING string `env:"POSTGRES_CONNECTION_STRING" envDefault:"postgres://postgres:postgrespw@localhost:5432"`
 }
 
 var Envs Config
