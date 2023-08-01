@@ -6,6 +6,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-func InitUserService(s *grpc.Server) {
+func InitProductService(s *grpc.Server) {
 	pb.RegisterProducCatalogServiceServer(s, &Server{})
 }
