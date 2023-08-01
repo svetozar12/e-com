@@ -7,6 +7,7 @@ import (
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/constants"
 	grpcclients "svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/grpc-clients"
 
 	"google.golang.org/grpc/codes"
@@ -18,11 +19,11 @@ func getProduct(ctx context.Context, in *pb.GetProductRequest) (*pb.Product, err
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	user, err := productRepository.GetProduct("id = ?", in.Id)
+	product, err := productRepository.GetProduct("id = ?", in.Id)
 	if err != nil {
 		return nil, status.Error(codes.NotFound, "")
 	}
-	return ProductModel(user), nil
+	return ProductModel(product), nil
 }
 
 func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Product, error) {
@@ -37,8 +38,14 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 		return nil, uploadImageErr
 	}
 	product, err := productRepository.CreateProduct(&entities.ProductEntity{Name: in.Name, Image: uploadImageRes.FileId, Price: in.Price, Description: in.Description, Available: in.Available, Weight: in.Weight, Currency: in.Currency})
-	grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
-
+	if err != nil {
+		return nil, status.Error(codes.Aborted, constants.ProductNotCreated)
+	}
+	res, _ := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
+	_, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: entities.Model{ID: uint(res.Id)}}})
+	if err != nil {
+		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
+	}
 	return ProductModel(product), nil
 }
 
@@ -49,7 +56,7 @@ func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Produc
 	}
 	product, err := productRepository.GetProduct("id = ?", in.Id)
 	if err != nil {
-		return nil, status.Error(codes.NotFound, "")
+		return nil, status.Error(codes.NotFound, constants.ProductNotFound)
 	}
 	// adjust for product
 	if *in.Name != product.Name {
@@ -88,11 +95,11 @@ func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Produc
 		product.Currency = *in.Currency
 	}
 
-	updatedUser, err := productRepository.UpdateProduct(product)
+	updatedproduct, err := productRepository.UpdateProduct(product)
 	if err != nil {
-		return nil, status.Error(codes.Internal, "")
+		return nil, status.Error(codes.Aborted, constants.ProductNotUpdated)
 	}
-	return ProductModel(updatedUser), nil
+	return ProductModel(updatedproduct), nil
 }
 
 func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Empty, error) {
@@ -102,11 +109,14 @@ func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Empty,
 	}
 	product, err := productRepository.GetProduct("id = ?", in.Id)
 	if err != nil {
-		return nil, status.Error(codes.NotFound, "")
+		return nil, status.Error(codes.NotFound, constants.ProductNotFound)
 	}
 
 	// TODO: Perform transaction if DeleteImage fails don't delete product
-	_, err = productRepository.DeleteProduct(nil, "id = ?", in.Id)
+	_, err = productRepository.DeleteProduct(&entities.ProductEntity{Model: entities.Model{ID: uint(in.Id)}})
+	if err != nil {
+		return nil, status.Error(codes.Aborted, constants.ProductNotDeleted)
+	}
 	_, deleteImageErr := grpcclients.FileUploadClient.DeleteImage(ctx, &pbFileUpload.DeleteImageRequest{Id: product.Image})
 
 	if deleteImageErr != nil {

@@ -28,12 +28,12 @@ func UpdateProduct(product *entities.ProductEntity) (*entities.ProductEntity, er
 	return product, err
 }
 
-func DeleteProduct(product *entities.ProductEntity, query interface{}, args ...interface{}) (*entities.ProductEntity, error) {
-	err := postgres.DB.Where(query, args).Delete(&product).Error
+func DeleteProduct(product *entities.ProductEntity) (*entities.ProductEntity, error) {
+	err := postgres.DB.Delete(&product).Error
 	return product, err
 }
 
-func HardDeleteProduct(product *entities.ProductEntity, query interface{}, args ...interface{}) (*entities.ProductEntity, error) {
-	err := postgres.DB.Unscoped().Where(query, args).Delete(&product).Error
+func HardDeleteProduct(product *entities.ProductEntity) (*entities.ProductEntity, error) {
+	err := postgres.DB.Unscoped().Delete(&product).Error
 	return product, err
 }
