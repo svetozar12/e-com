@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "./cart-service";
+
+package cart;
+// Message representing a single item in the shopping cart
+message CartItem {
+  string product_name = 1;
+  int32 quantity = 2;
+  float price_per_item = 3;
+  string currency = 4;
+  // You can add more fields as needed, such as product_id, image_url, etc.
+}
+
+// Message representing the user's shopping cart
+message ShoppingCart {
+  repeated CartItem items = 1;
+  float total_price = 2;
+  // You can add more fields as needed, such as user_id, created_at, etc.
+}
+
+// Message representing the request to add an item to the cart
+message AddToCartRequest {
+  string product_name = 1;
+  int32 quantity = 2;
+  float price_per_item = 3;
+  string currency = 4;
+  // You can add more fields as needed, such as user_id, session_id, etc.
+}
+
+// Message representing the response after adding an item to the cart
+message AddToCartResponse {
+  bool success = 1;
+  string message = 2;
+  ShoppingCart cart = 3;
+}
+
+// Message representing the request to update the quantity of an item in the cart
+message UpdateCartItemRequest {
+  string product_name = 1;
+  int32 quantity = 2;
+  // You can add more fields as needed, such as user_id, session_id, etc.
+}
+
+// Message representing the response after updating the quantity of an item in the cart
+message UpdateCartItemResponse {
+  bool success = 1;
+  string message = 2;
+  ShoppingCart cart = 3;
+}
+
+// Message representing the request to remove an item from the cart
+message RemoveCartItemRequest {
+  string product_name = 1;
+  // You can add more fields as needed, such as user_id, session_id, etc.
+}
+
+// Message representing the response after removing an item from the cart
+message RemoveCartItemResponse {
+  bool success = 1;
+  string message = 2;
+  ShoppingCart cart = 3;
+}
+
+// Message representing the request to get the user's shopping cart
+message GetShoppingCartRequest {
+  // Add any relevant fields for requesting user's cart, e.g., user_id, session_id, etc.
+}
+
+// Message representing the response with the user's shopping cart
+message GetShoppingCartResponse {
+  ShoppingCart cart = 1;
+}
+
+// Service definition for the shopping cart service
+service CartService {
+  // RPC method to add an item to the cart
+  rpc AddToCart(AddToCartRequest) returns (AddToCartResponse) {
+    option (google.api.http) = {
+      post: "/v1/cart/add"
+      body: "*"
+    };
+  }
+
+  // RPC method to update the quantity of an item in the cart
+  rpc UpdateCartItem(UpdateCartItemRequest) returns (UpdateCartItemResponse) {
+    option (google.api.http) = {
+      put: "/v1/cart/update"
+      body: "*"
+    };
+  }
+
+  // RPC method to remove an item from the cart
+  rpc RemoveCartItem(RemoveCartItemRequest) returns (RemoveCartItemResponse) {
+    option (google.api.http) = {
+      delete: "/v1/cart/remove/{product_name}"
+    };
+  }
+
+  // RPC method to get the user's shopping cart
+  rpc GetShoppingCart(GetShoppingCartRequest) returns (GetShoppingCartResponse) {
+    option (google.api.http) = {
+      get: "/v1/cart/get"
+    };
+  }
+}
