@@ -8,41 +8,37 @@ option go_package = "./cart-service";
 package cart;
 // Message representing a single item in the shopping cart
 message CartItem {
-  string product_name = 1;
+  int32 product_id = 1;
   int32 quantity = 2;
-  float price_per_item = 3;
+  int32 price_per_item = 3;
   string currency = 4;
-  // You can add more fields as needed, such as product_id, image_url, etc.
 }
 
 // Message representing the user's shopping cart
 message ShoppingCart {
   repeated CartItem items = 1;
-  float total_price = 2;
+  int32 total_price = 2;
   // You can add more fields as needed, such as user_id, created_at, etc.
 }
 
 // Message representing the request to add an item to the cart
 message AddToCartRequest {
-  string product_name = 1;
+  int32 product_id = 1;
   int32 quantity = 2;
-  float price_per_item = 3;
-  string currency = 4;
-  // You can add more fields as needed, such as user_id, session_id, etc.
+  string currency = 3;
+  int32 userId = 4;
 }
 
 // Message representing the response after adding an item to the cart
 message AddToCartResponse {
-  bool success = 1;
-  string message = 2;
-  ShoppingCart cart = 3;
+  ShoppingCart cart = 2;
 }
 
 // Message representing the request to update the quantity of an item in the cart
 message UpdateCartItemRequest {
-  string product_name = 1;
+  int32 product_id = 1;
   int32 quantity = 2;
-  // You can add more fields as needed, such as user_id, session_id, etc.
+  int32 userId = 3;
 }
 
 // Message representing the response after updating the quantity of an item in the cart
@@ -54,7 +50,7 @@ message UpdateCartItemResponse {
 
 // Message representing the request to remove an item from the cart
 message RemoveCartItemRequest {
-  string product_name = 1;
+  int32 product_id = 1;
   // You can add more fields as needed, such as user_id, session_id, etc.
 }
 
@@ -67,7 +63,7 @@ message RemoveCartItemResponse {
 
 // Message representing the request to get the user's shopping cart
 message GetShoppingCartRequest {
-  // Add any relevant fields for requesting user's cart, e.g., user_id, session_id, etc.
+  int32 userId = 1; 
 }
 
 // Message representing the response with the user's shopping cart
@@ -96,7 +92,7 @@ service CartService {
   // RPC method to remove an item from the cart
   rpc RemoveCartItem(RemoveCartItemRequest) returns (RemoveCartItemResponse) {
     option (google.api.http) = {
-      delete: "/v1/cart/remove/{product_name}"
+      delete: "/v1/cart/remove/{product_id}"
     };
   }
 
