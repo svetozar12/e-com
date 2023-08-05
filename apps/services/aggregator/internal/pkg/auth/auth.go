@@ -36,12 +36,21 @@ func authenticate(w http.ResponseWriter, r *http.Request) bool {
 	return true
 }
 
-func AuthenticationMiddleware(w http.ResponseWriter, r *http.Request) bool {
+func authenticationMiddleware(w http.ResponseWriter, r *http.Request) bool {
 	isValid := authenticate(w, r)
 
 	if !isValid {
 		http.Error(w, "401 Unauthorized", 401)
-		return isValid
 	}
 	return isValid
+}
+
+func MapProtectedEndpoints(w http.ResponseWriter, r *http.Request) bool {
+	authEndpoints := [...]string{"/v1/user", "/v1/product-catalog", "/v1/reviews", "/v1/cart"}
+	for _, endpoint := range authEndpoints {
+		if strings.HasPrefix(r.URL.Path, endpoint) {
+			return authenticationMiddleware(w, r)
+		}
+	}
+	return true
 }

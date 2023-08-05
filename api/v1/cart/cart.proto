@@ -29,11 +29,6 @@ message AddToCartRequest {
   int32 userId = 4;
 }
 
-// Message representing the response after adding an item to the cart
-message AddToCartResponse {
-  ShoppingCart cart = 2;
-}
-
 // Message representing the request to update the quantity of an item in the cart
 message UpdateCartItemRequest {
   int32 product_id = 1;
@@ -41,24 +36,10 @@ message UpdateCartItemRequest {
   int32 userId = 3;
 }
 
-// Message representing the response after updating the quantity of an item in the cart
-message UpdateCartItemResponse {
-  bool success = 1;
-  string message = 2;
-  ShoppingCart cart = 3;
-}
-
 // Message representing the request to remove an item from the cart
 message RemoveCartItemRequest {
   int32 product_id = 1;
-  // You can add more fields as needed, such as user_id, session_id, etc.
-}
-
-// Message representing the response after removing an item from the cart
-message RemoveCartItemResponse {
-  bool success = 1;
-  string message = 2;
-  ShoppingCart cart = 3;
+  int32 userId = 2;
 }
 
 // Message representing the request to get the user's shopping cart
@@ -66,15 +47,10 @@ message GetShoppingCartRequest {
   int32 userId = 1; 
 }
 
-// Message representing the response with the user's shopping cart
-message GetShoppingCartResponse {
-  ShoppingCart cart = 1;
-}
-
 // Service definition for the shopping cart service
 service CartService {
   // RPC method to add an item to the cart
-  rpc AddToCart(AddToCartRequest) returns (AddToCartResponse) {
+  rpc AddToCart(AddToCartRequest) returns (ShoppingCart) {
     option (google.api.http) = {
       post: "/v1/cart/add"
       body: "*"
@@ -82,7 +58,7 @@ service CartService {
   }
 
   // RPC method to update the quantity of an item in the cart
-  rpc UpdateCartItem(UpdateCartItemRequest) returns (UpdateCartItemResponse) {
+  rpc UpdateCartItem(UpdateCartItemRequest) returns (ShoppingCart) {
     option (google.api.http) = {
       put: "/v1/cart/update"
       body: "*"
@@ -90,14 +66,14 @@ service CartService {
   }
 
   // RPC method to remove an item from the cart
-  rpc RemoveCartItem(RemoveCartItemRequest) returns (RemoveCartItemResponse) {
+  rpc RemoveCartItem(RemoveCartItemRequest) returns (ShoppingCart) {
     option (google.api.http) = {
       delete: "/v1/cart/remove/{product_id}"
     };
   }
 
   // RPC method to get the user's shopping cart
-  rpc GetShoppingCart(GetShoppingCartRequest) returns (GetShoppingCartResponse) {
+  rpc GetShoppingCart(GetShoppingCartRequest) returns (ShoppingCart) {
     option (google.api.http) = {
       get: "/v1/cart/get"
     };

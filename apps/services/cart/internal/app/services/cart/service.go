@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func getShoppingCart(ctx context.Context, in *pb.GetShoppingCartRequest) (*pb.GetShoppingCartResponse, error) {
+func getShoppingCart(ctx context.Context, in *pb.GetShoppingCartRequest) (*pb.ShoppingCart, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
@@ -21,13 +21,13 @@ func getShoppingCart(ctx context.Context, in *pb.GetShoppingCartRequest) (*pb.Ge
 		return nil, err
 	}
 	if resp != nil {
-		return &pb.GetShoppingCartResponse{Cart: resp}, nil
+		return resp, nil
 	}
 
-	return &pb.GetShoppingCartResponse{Cart: &pb.ShoppingCart{Items: ConvertArrayToPBCarts(carts, ctx), TotalPrice: int32(totalPrice)}}, nil
+	return &pb.ShoppingCart{Items: ConvertArrayToPBCarts(carts, ctx), TotalPrice: int32(totalPrice)}, nil
 }
 
-func addToCart(ctx context.Context, in *pb.AddToCartRequest) (*pb.AddToCartResponse, error) {
+func addToCart(ctx context.Context, in *pb.AddToCartRequest) (*pb.ShoppingCart, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
@@ -44,15 +44,15 @@ func addToCart(ctx context.Context, in *pb.AddToCartRequest) (*pb.AddToCartRespo
 	carts, err := cartRepository.GetCartList(&entities.CartEntity{UserId: uint(in.UserId)})
 	resp, totalPrice, err := getCartTotalPrice(carts, ctx)
 	if resp != nil {
-		return &pb.AddToCartResponse{Cart: resp}, nil
+		return resp, nil
 	}
 	if err != nil {
 		return nil, err
 	}
-	return &pb.AddToCartResponse{Cart: &pb.ShoppingCart{Items: ConvertArrayToPBCarts(carts, ctx), TotalPrice: int32(totalPrice)}}, nil
+	return &pb.ShoppingCart{Items: ConvertArrayToPBCarts(carts, ctx), TotalPrice: int32(totalPrice)}, nil
 }
 
-func updateCartItem(ctx context.Context, in *pb.UpdateCartItemRequest) (*pb.UpdateCartItemResponse, error) {
+func updateCartItem(ctx context.Context, in *pb.UpdateCartItemRequest) (*pb.ShoppingCart, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
@@ -68,10 +68,34 @@ func updateCartItem(ctx context.Context, in *pb.UpdateCartItemRequest) (*pb.Upda
 	carts, err := cartRepository.GetCartList(&entities.CartEntity{UserId: uint(in.UserId)})
 	resp, totalPrice, err := getCartTotalPrice(carts, ctx)
 	if resp != nil {
-		return &pb.UpdateCartItemResponse{Cart: resp}, nil
+		return resp, nil
 	}
 	if err != nil {
 		return nil, err
 	}
-	return &pb.UpdateCartItemResponse{Cart: &pb.ShoppingCart{Items: ConvertArrayToPBCarts(carts, ctx), TotalPrice: int32(totalPrice)}}, nil
+	return &pb.ShoppingCart{Items: ConvertArrayToPBCarts(carts, ctx), TotalPrice: int32(totalPrice)}, nil
+}
+
+func removeCartItem(ctx context.Context, in *pb.RemoveCartItemRequest) (*pb.ShoppingCart, error) {
+	err := in.ValidateAll()
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	err = validateRemoveProduct(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	err = removeItem(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	carts, err := cartRepository.GetCartList(&entities.CartEntity{UserId: uint(in.UserId)})
+	resp, totalPrice, err := getCartTotalPrice(carts, ctx)
+	if resp != nil {
+		return resp, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &pb.ShoppingCart{Items: ConvertArrayToPBCarts(carts, ctx), TotalPrice: int32(totalPrice)}, nil
 }
