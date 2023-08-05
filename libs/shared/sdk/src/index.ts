@@ -1,3 +1,4 @@
+import { CartServiceApi } from './api/v1/cart';
 import { ProducCatalogServiceApi } from './api/v1/product-catalog';
 import {
   AuthenticationServiceApi,
@@ -17,4 +18,5 @@ export const sdk = {
   auth: new AuthenticationServiceApi(config),
   user: new UserServiceApi(config),
   productCatalog: new ProducCatalogServiceApi(config),
+  cart: new CartServiceApi(config),
 };

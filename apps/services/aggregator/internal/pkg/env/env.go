@@ -14,6 +14,7 @@ type Config struct {
 	ProductCatalogServiceAdress string `env:"PRODUCT_CATALOG_SERVICE_ADDRESS" envDefault:"0.0.0.0:9001"`
 	FileUploadServiceAdress     string `env:"FILE_UPLOAD_SERVICE_ADDRESS" envDefault:"0.0.0.0:9002"`
 	ReviewServiceAdress         string `env:"REVIEW_SERVICE_ADDRESS" envDefault:"0.0.0.0:9004"`
+	CartServiceAdress           string `env:"CART_SERVICE_ADDRESS" envDefault:"0.0.0.0:9005"`
 }
 
 var Envs Config

@@ -12,5 +12,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": ["services-aggregator"]
 }

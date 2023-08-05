@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"fmt"
 	pb "svetozar12/e-com/v2/api/v1/user/dist/proto"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/repositories/userRepository"
@@ -16,6 +17,7 @@ import (
 )
 
 func register(ctx context.Context, in *pb.RegisterRequest) (*pb.RegisterResponse, error) {
+	fmt.Println(in, "IVANE")
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())

@@ -42,5 +42,13 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": [
+    "services-cart",
+    "services-file-upload",
+    "services-inventory",
+    "services-product-catalog",
+    "services-review",
+    "services-user"
+  ]
 }
