@@ -3,7 +3,6 @@ package cart
 import (
 	"context"
 	pb "svetozar12/e-com/v2/api/v1/cart/dist/proto"
-	inventory_service "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
 	product_catalog_service "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/cart/internal/app/entities"
 	cartRepository "svetozar12/e-com/v2/apps/services/cart/internal/app/repositories/productRepository"
@@ -15,13 +14,7 @@ import (
 )
 
 func validateCreateProduct(ctx context.Context, in *pb.AddToCartRequest) error {
-	inventory, err := grpcclients.InventoryClient.GetInventory(ctx, &inventory_service.GetInventoryRequest{ProductId: in.ProductId})
-	if err != nil {
-		return err
-	}
-	if inventory.AvailableQuantity < in.Quantity {
-		return status.Error(codes.InvalidArgument, constants.ProductQuantityNotAvailable)
-	}
+
 	exists, _ := cartRepository.GetCart(&entities.CartEntity{ProductId: uint(in.ProductId), UserId: uint(in.UserId)})
 	if exists.ID != 0 {
 		return status.Error(codes.AlreadyExists, constants.CartAlreadyExits)
@@ -30,13 +23,6 @@ func validateCreateProduct(ctx context.Context, in *pb.AddToCartRequest) error {
 }
 
 func validateUpdateProduct(ctx context.Context, in *pb.UpdateCartItemRequest) error {
-	inventory, err := grpcclients.InventoryClient.GetInventory(ctx, &inventory_service.GetInventoryRequest{ProductId: in.ProductId})
-	if err != nil {
-		return err
-	}
-	if inventory.AvailableQuantity < in.Quantity {
-		return status.Error(codes.InvalidArgument, constants.ProductQuantityNotAvailable)
-	}
 
 	return nil
 }
