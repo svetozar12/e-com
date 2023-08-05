@@ -44,10 +44,10 @@ To run tests, run the following command
 
 ## Documentation
 
-[User Service](./apps/services/user/docs/README.md)
-[Product Catalog Service](./apps/services/product-catalog/docs/README.md)
-[Inventory Service](./apps/services/inventory/docs/README.md)
-[File Upload Service](./apps/services/file-upload/docs/README.md)
-[Inventory Service](./apps/services/inventory/docs/README.md)
-[Review Service](./apps/services/review/docs/README.md)
-[Aggregator Service](./apps/services/aggregator/docs/README.md)
+- [User Service](./apps/services/user/docs/README.md)
+- [Product Catalog Service](./apps/services/product-catalog/docs/README.md)
+- [Inventory Service](./apps/services/inventory/docs/README.md)
+- [File Upload Service](./apps/services/file-upload/docs/README.md)
+- [Inventory Service](./apps/services/inventory/docs/README.md)
+- [Review Service](./apps/services/review/docs/README.md)
+- [Aggregator Service](./apps/services/aggregator/docs/README.md)
