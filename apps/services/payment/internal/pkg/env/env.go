@@ -8,7 +8,8 @@ import (
 )
 
 type Config struct {
-	Port string `env:"PAYMENT_SERVICE_PORT" envDefault:"9006"`
+	Port      string `env:"PAYMENT_SERVICE_PORT" envDefault:"9006"`
+	StripeKey string `env:"STRIPE_KEY"`
 }
 
 var Envs Config
