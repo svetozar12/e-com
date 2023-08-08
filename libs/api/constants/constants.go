@@ -21,3 +21,5 @@ func GTEValueMessage(value string) string {
 func RangeValueMessage(min string, max string) string {
 	return fmt.Sprintf("value must be inside range [%s, %s]", min, max)
 }
+
+const InvalidEmailMessage = "value must be a valid email address"
