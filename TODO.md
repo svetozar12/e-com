@@ -66,3 +66,10 @@ TODO List for E-commerce Platform Project:
     - Showcase your project during job interviews or on your personal website to demonstrate your skills.
 
 Remember to continuously refactor and optimize your code as you progress. Keep learning and improving as you face challenges and work on this exciting project! Good luck!
+
+NOTES:
+
+- Decode jwt at aggregator level and pass it to context only to rpc methods which are protected
+- Add ci pipeline(later cd)
+- Find better solution for env variables
+- Implement asynchronous communication with RabbitMQ(message broker)

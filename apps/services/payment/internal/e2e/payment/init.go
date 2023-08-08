@@ -1,27 +1,35 @@
-package bootstrap
+package payment
 
 import (
+	"context"
 	"log"
 	"net"
+
 	"svetozar12/e-com/v2/apps/services/payment/internal/app/databases/postgres"
 	"svetozar12/e-com/v2/apps/services/payment/internal/app/services/payment"
 	"svetozar12/e-com/v2/apps/services/payment/internal/pkg/env"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/test/bufconn"
 )
 
-func Bootstrap() {
+const bufSize = 1024 * 1024
+
+var lis *bufconn.Listener
+
+func init() {
 	env.InitConfig()
 	postgres.InitPostgres()
-	grpcAddr := ":" + env.Envs.Port
-	listener, err := net.Listen("tcp", grpcAddr)
-	if err != nil {
-		panic(err)
-	}
+	lis = bufconn.Listen(bufSize)
 	s := grpc.NewServer()
 	payment.InitPaymentService(s)
-	println("Cart service started on port", grpcAddr)
-	if err := s.Serve(listener); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			log.Fatalf("Server exited with error: %v", err)
+		}
+	}()
+}
+
+func bufDialer(context.Context, string) (net.Conn, error) {
+	return lis.Dial()
 }

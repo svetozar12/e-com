@@ -19,7 +19,7 @@
         "main": "apps/services/product-catalog/main.go"
       }
     },
-    "test": {
+    "REQUIRES-DEPS-test": {
       "executor": "@nx-go/nx-go:test"
     },
     "lint": {
