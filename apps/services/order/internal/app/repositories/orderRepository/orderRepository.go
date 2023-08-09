@@ -5,10 +5,8 @@ import (
 	"svetozar12/e-com/v2/apps/services/order/internal/app/entities"
 )
 
-func GetOrder(query interface{}, args ...interface{}) (*entities.Order, error) {
-	order := new(entities.Order)
-	err := postgres.DB.Where(query, args).First(order).Error
-
+func GetOrder(order *entities.Order) (*entities.Order, error) {
+	err := postgres.DB.First(order).Error
 	return order, err
 }
 

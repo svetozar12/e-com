@@ -1,12 +1,16 @@
 package entities
 
-import "gorm.io/gorm"
+import (
+	pb "svetozar12/e-com/v2/api/v1/order/dist/proto"
+
+	"gorm.io/gorm"
+)
 
 type Order struct {
 	gorm.Model
 	UserID          int32  `gorm:"not null"`
 	ShippingAddress string `gorm:"not null"`
-	Status          string
+	Status          pb.OrderStatus
 	Items           []Item `gorm:"constraint:OnDelete:CASCADE;"`
 }
 

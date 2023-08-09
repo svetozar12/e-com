@@ -28,3 +28,35 @@ func ProtoItemToEntityItem(protoItem *pb.Item) *entities.Item {
 		Quantity:  protoItem.Quantity,
 	}
 }
+
+// EntityOrderToProtoGetOrderResponse maps an entity Order to a GetOrderResponse protobuf message
+func EntityOrderToProtoGetOrderResponse(entityOrder *entities.Order) *pb.GetOrderResponse {
+	if entityOrder == nil {
+		return nil
+	}
+
+	protoItems := make([]*pb.Item, 0)
+	for _, item := range entityOrder.Items {
+		protoItem := EntityItemToProtoItem(&item)
+		protoItems = append(protoItems, protoItem)
+	}
+
+	return &pb.GetOrderResponse{
+		OrderId:         int32(entityOrder.ID),
+		UserId:          entityOrder.UserID,
+		Items:           protoItems,
+		ShippingAddress: entityOrder.ShippingAddress,
+		Status:          pb.OrderStatus(entityOrder.Status), // Assuming Status is an enum in your entity
+	}
+}
+
+func EntityItemToProtoItem(entityItem *entities.Item) *pb.Item {
+	if entityItem == nil {
+		return nil
+	}
+
+	return &pb.Item{
+		ProductId: entityItem.ProductID,
+		Quantity:  entityItem.Quantity,
+	}
+}
