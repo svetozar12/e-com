@@ -13,7 +13,7 @@ import (
 func ConnectToProductCatalogService(gwmux *runtime.ServeMux) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	fmt.Println("REGISTERING PRODUCT CATALOG SERVICE")
-	err := productPb.RegisterProducCatalogServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.ProductCatalogServiceAdress, opts)
+	err := productPb.RegisterProducCatalogServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.PRODUCT_CATALOG_SERVICE_ADDRESS, opts)
 	if err != nil {
 		return err
 	}

@@ -13,7 +13,7 @@ import (
 func ConnectToReviewService(gwmux *runtime.ServeMux) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	fmt.Println("REGISTERING REVIEW SERVICE")
-	err := reviewPb.RegisterReviewServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.ReviewServiceAdress, opts)
+	err := reviewPb.RegisterReviewServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.REVIEW_SERVICE_ADDRESS, opts)
 	if err != nil {
 		return err
 	}

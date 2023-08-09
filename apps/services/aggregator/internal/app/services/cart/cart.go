@@ -13,7 +13,7 @@ import (
 func ConnectToCartService(gwmux *runtime.ServeMux) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	fmt.Println("REGISTERING CART SERVICE")
-	err := cartPb.RegisterCartServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.CartServiceAdress, opts)
+	err := cartPb.RegisterCartServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.CART_SERVICE_ADDRESS, opts)
 	if err != nil {
 		return err
 	}

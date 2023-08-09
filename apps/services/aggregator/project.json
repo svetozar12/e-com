@@ -49,6 +49,7 @@
     "services-inventory",
     "services-product-catalog",
     "services-review",
-    "services-user"
+    "services-user",
+    "services-order"
   ]
 }

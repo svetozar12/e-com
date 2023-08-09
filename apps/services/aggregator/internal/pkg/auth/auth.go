@@ -21,7 +21,7 @@ func authenticate(w http.ResponseWriter, r *http.Request) bool {
 	fmt.Println(splitToken, len(splitToken), "greg")
 	reqToken = splitToken[1]
 	ctx := context.Background()
-	conn, err := grpc.Dial(env.Envs.UserServiceAdress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(env.Envs.USER_SERVICE_ADDRESS, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return false
 	}

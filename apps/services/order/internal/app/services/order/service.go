@@ -42,7 +42,7 @@ func updateOrderStatus(ctx context.Context, in *pb.UpdateOrderStatusRequest) (*p
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	order, err := getOrderUtil(ctx, in.OrderID)
+	order, err := getOrderUtil(ctx, in.OrderId)
 	if err != nil {
 		return nil, err
 	}
