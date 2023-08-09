@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "./order-service";
+package order;
+
+service OrderService {
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+    rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
+    rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+}
+
+message Item {
+    int32 product_id = 1;
+    int32 quantity = 2;
+}
+
+enum OrderStatus {
+    PENDING = 0;
+    PROCESSING = 1;
+    COMPLETED = 2;
+    CANCELED = 3;
+}
+
+// Get Order
+
+message GetOrderRequest {
+    int32 order_id = 1;
+}
+
+message GetOrderResponse {
+    int32 order_id = 1;
+    int32 userId = 2;
+    repeated Item items = 3;
+    string shipping_address = 4;
+    OrderStatus status = 5;
+}
+
+
+// CreateOrder
+
+message CreateOrderRequest {
+    repeated Item items = 1;
+    int32 userId = 2;
+    string shipping_address = 3;
+    string stripeTOken = 4;
+}
+
+message CreateOrderResponse {
+    int32 order_id = 1;
+    string message = 2;
+}
+
+// UpdateOrderStatus
+
+message UpdateOrderStatusRequest {
+    int32 orderID = 1;
+    OrderStatus newStatus = 2;
+}
+
+message UpdateOrderStatusResponse {
+    int32 order_id = 1;
+    string message = 2;
+}

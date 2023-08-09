@@ -1,0 +1,39 @@
+{
+  "name": "services-order",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/services/order",
+  "targets": {
+    "build": {
+      "executor": "@nx-go/nx-go:build",
+      "options": {
+        "outputPath": "dist/apps/services/order/order",
+        "main": "apps/services/order/main.go"
+      }
+    },
+    "serve": {
+      "executor": "@nx-go/nx-go:serve",
+      "options": {
+        "cmd": "gow",
+        "cwd": ".",
+        "main": "apps/services/order/main.go"
+      }
+    },
+    "test": {
+      "executor": "@nx-go/nx-go:test"
+    },
+    "lint": {
+      "executor": "@nx-go/nx-go:lint"
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "cross-env-shell docker build --no-cache --force-rm -f apps/services/order/build/Dockerfile . -t {args.registry}/e-com-microservice/order-service:$npm_package_version"
+        ]
+      }
+    }
+  },
+  "implicitDependencies": ["protos-order"],
+  "tags": []
+}
