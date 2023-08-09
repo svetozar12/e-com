@@ -1,0 +1,30 @@
+{
+  "name": "protos-order",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "api",
+  "targets": {
+    "pre-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx buf generate -o ./dist --template ../buf.gen.yaml",
+        "cwd": "api/v1/order"
+      },
+      "outputs": ["{projectRoot}/dist"],
+      "inputs": ["{projectRoot}/*.proto"]
+    },
+    "build": {
+      "dependsOn": ["pre-build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx openapi-generator-cli generate -i api/v1/order/dist/openapi/order.swagger.json -o libs/shared/sdk/src/api/v1/order -g typescript-axios --additional-properties=supportsES6=true,typescriptThreePlus=true --skip-validate-spec"
+        ],
+        "parallel": false
+      },
+      "outputs": ["{projectRoot}/dist"],
+      "inputs": ["{projectRoot}/*.proto"]
+    }
+  },
+  "tags": []
+}

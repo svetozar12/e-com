@@ -31,7 +31,6 @@ func processPayment(ctx context.Context, in *pb.PaymentRequest) (*pb.PaymentResp
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	fmt.Println(in.Token)
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return nil, fmt.Errorf("Failed to retrieve metadata from context")

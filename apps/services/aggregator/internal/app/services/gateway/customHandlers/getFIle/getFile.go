@@ -16,7 +16,7 @@ import (
 var fileUploadClient fileuploadPb.ImageUploadServiceClient
 
 func initFileUploadClients() {
-	conn, err := grpc.Dial(env.Envs.FileUploadServiceAdress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(env.Envs.FILE_UPLOAD_SERVICE_ADDRESS, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

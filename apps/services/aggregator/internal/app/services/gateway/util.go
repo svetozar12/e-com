@@ -4,6 +4,7 @@ import (
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/cart"
 	getfile "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/gateway/customHandlers/getFIle"
 	customProductCatalogHandlers "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/gateway/customHandlers/product-catalog"
+	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/order"
 	productcatalog "svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/product-catalog"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/review"
 	"svetozar12/e-com/v2/apps/services/aggregator/internal/app/services/user"
@@ -17,6 +18,7 @@ func initServices(gwmux *runtime.ServeMux) {
 	review.ConnectToReviewService(gwmux)
 	productcatalog.ConnectToProductCatalogService(gwmux)
 	cart.ConnectToCartService(gwmux)
+	order.ConnectToOrderService(gwmux)
 	// custom handlers
 	customProductCatalogHandlers.InitProductCatalogHandlers(gwmux)
 	getfile.InitProductCatalogHandlers(gwmux)

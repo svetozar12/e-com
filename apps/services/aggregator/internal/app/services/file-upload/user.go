@@ -13,7 +13,7 @@ import (
 func ConnectToUserService(gwmux *runtime.ServeMux) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	fmt.Println("REGISTERING FILE-UPLOAD SERVICE")
-	err := fileuploadPb.RegisterImageUploadServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.FileUploadServiceAdress, opts)
+	err := fileuploadPb.RegisterImageUploadServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.FILE_UPLOAD_SERVICE_ADDRESS, opts)
 	if err != nil {
 		return err
 	}

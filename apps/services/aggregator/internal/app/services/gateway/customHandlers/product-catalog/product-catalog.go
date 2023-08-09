@@ -21,7 +21,7 @@ import (
 var productCatalogClient productPb.ProducCatalogServiceClient
 
 func initProductCatalogClients() {
-	conn, err := grpc.Dial(env.Envs.ProductCatalogServiceAdress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(env.Envs.PRODUCT_CATALOG_SERVICE_ADDRESS, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

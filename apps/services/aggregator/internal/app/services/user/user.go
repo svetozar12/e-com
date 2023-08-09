@@ -13,11 +13,11 @@ import (
 func ConnectToUserService(gwmux *runtime.ServeMux) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	fmt.Println("REGISTERING USER SERVICE")
-	err := userPb.RegisterAuthenticationServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.UserServiceAdress, opts)
+	err := userPb.RegisterAuthenticationServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.USER_SERVICE_ADDRESS, opts)
 	if err != nil {
 		return err
 	}
-	err = userPb.RegisterUserServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.UserServiceAdress, opts)
+	err = userPb.RegisterUserServiceHandlerFromEndpoint(context.Background(), gwmux, env.Envs.USER_SERVICE_ADDRESS, opts)
 	if err != nil {
 		return err
 	}
