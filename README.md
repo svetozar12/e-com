@@ -50,4 +50,5 @@ To run tests, run the following command
 - [File Upload Service](./apps/services/file-upload/docs/README.md)
 - [Inventory Service](./apps/services/inventory/docs/README.md)
 - [Review Service](./apps/services/review/docs/README.md)
+- [Order Service](./apps/services/order/docs/README.md)
 - [Aggregator Service](./apps/services/aggregator/docs/README.md)
