@@ -27,8 +27,8 @@ service OrderService {
 }
 
 message Item {
-    int32 product_id = 1;
-    int32 quantity = 2;
+    int32 product_id = 1 [(validate.rules).int32.gte = 1];
+    int32 quantity = 2 [(validate.rules).int32.gte = 1];
 }
 
 enum OrderStatus {
@@ -41,12 +41,12 @@ enum OrderStatus {
 // Get Order
 
 message GetOrderRequest {
-    int32 order_id = 1;
+    int32 order_id = 1 [(validate.rules).int32.gte = 1];
 }
 
 message GetOrderResponse {
-    int32 order_id = 1;
-    int32 userId = 2;
+    int32 order_id = 1 [(validate.rules).int32.gte = 1];
+    int32 userId = 2 [(validate.rules).int32.gte = 1];
     repeated Item items = 3;
     string shipping_address = 4;
     OrderStatus status = 5;
@@ -56,10 +56,10 @@ message GetOrderResponse {
 // CreateOrder
 
 message CreateOrderRequest {
-    repeated Item items = 1;
-    int32 userId = 2;
-    string shipping_address = 3;
-    string stripeTOken = 4;
+    repeated Item items = 1 [(validate.rules).repeated.min_items = 1];
+    int32 userId = 2 [(validate.rules).int32.gte = 1];
+    string shipping_address = 3 [(validate.rules).string.min_len = 1];
+    string stripeTOken = 4 [(validate.rules).string.min_len = 1];
 }
 
 message CreateOrderResponse {
@@ -70,7 +70,7 @@ message CreateOrderResponse {
 // UpdateOrderStatus
 
 message UpdateOrderStatusRequest {
-    int32 order_id = 1;
+    int32 order_id = 1 [(validate.rules).int32.gte = 1];
     OrderStatus newStatus = 2;
 }
 
