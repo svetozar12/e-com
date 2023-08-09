@@ -16,3 +16,7 @@ func (s *Server) GetOrder(ctx context.Context, in *pb.GetOrderRequest) (*pb.GetO
 func (s *Server) CreateOrder(ctx context.Context, in *pb.CreateOrderRequest) (*pb.CreateOrderResponse, error) {
 	return createOrder(ctx, in)
 }
+
+func (s *Server) UpdateOrder(ctx context.Context, in *pb.UpdateOrderStatusRequest) (*pb.UpdateOrderStatusResponse, error) {
+	return updateOrderStatus(ctx, in)
+}
