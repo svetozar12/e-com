@@ -16,11 +16,11 @@ func getInventory(ctx context.Context, in *pb.GetInventoryRequest) (*pb.Inventor
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	inventory, err := inventoryRepository.GetInventory("product_id = ?", in.ProductId)
+	inventory, err := getInventoryByProductId(in.ProductId)
 	if err != nil {
-		return nil, status.Error(codes.NotFound, constants.InventoryNotFound)
+		return nil, err
 	}
-	return &pb.Inventory{Id: int32(inventory.ID), ProductId: int32(inventory.ProductId), AvailableQuantity: inventory.AvailableQuantity}, nil
+	return ConvertToPBInventory(inventory), nil
 }
 
 func addInventory(ctx context.Context, in *pb.AddInventoryRequest) (*pb.Inventory, error) {
@@ -33,7 +33,7 @@ func addInventory(ctx context.Context, in *pb.AddInventoryRequest) (*pb.Inventor
 		return nil, status.Error(codes.NotFound, constants.InventoryNotFound)
 	}
 
-	return &pb.Inventory{Id: int32(inventory.ID), ProductId: int32(inventory.ProductId), AvailableQuantity: inventory.AvailableQuantity}, nil
+	return ConvertToPBInventory(inventory), nil
 }
 
 func updateInventory(ctx context.Context, in *pb.UpdateInventoryRequest) (*pb.Inventory, error) {
@@ -41,18 +41,11 @@ func updateInventory(ctx context.Context, in *pb.UpdateInventoryRequest) (*pb.In
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	inventory, err := inventoryRepository.GetInventory("product_id = ?", in.ProductId)
+
+	updatedInventory, err := updateInventoryUtil(in)
 	if err != nil {
-		return nil, status.Error(codes.NotFound, constants.InventoryNotFound)
+		return nil, err
 	}
 
-	if in.NewQuantity != inventory.AvailableQuantity {
-		inventory.AvailableQuantity = in.NewQuantity
-	}
-
-	updatedInventory, err := inventoryRepository.UpdateInventory(inventory)
-	if err != nil {
-		return nil, status.Error(codes.Internal, constants.InventoryNotUpdated)
-	}
-	return &pb.Inventory{Id: int32(updatedInventory.ID), ProductId: int32(updatedInventory.ProductId), AvailableQuantity: updatedInventory.AvailableQuantity}, nil
+	return ConvertToPBInventory(updatedInventory), nil
 }
