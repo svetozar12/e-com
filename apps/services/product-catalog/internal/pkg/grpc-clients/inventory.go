@@ -12,7 +12,7 @@ import (
 var InventoryClient pbInventory.InventoryServiceClient
 
 func initInventoryClient() {
-	conn, err := grpc.Dial(env.Envs.InventoryServiceAdress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(env.Envs.INVENTORY_SERVICE_ADDRESS, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Errorf("Failed to dial bufnet: %v", err)
 	}

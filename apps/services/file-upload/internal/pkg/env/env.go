@@ -2,9 +2,9 @@ package env
 
 import (
 	"fmt"
-	"log"
+	"os"
 
-	"github.com/caarlos0/env"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -17,11 +17,23 @@ var Envs Config
 InitConfig initializes the configuration by parsing environment variables and storing them in Config and ServicesConfig structs.
 */
 func InitConfig() {
-	cfg := Config{}
-
-	if err := env.Parse(&cfg); err != nil {
-		log.Fatal(err)
+	// Load environment variables from .env file
+	err := godotenv.Load("apps/services/file-upload/.env")
+	if err != nil {
+		// Handle error if the .env file can't be loaded
+		panic(err)
 	}
-	Envs = cfg
+
+	Envs = Config{
+		Port: getEnv("FILE_UPLOAD_PORT", "9002"),
+	}
+
 	fmt.Println("Envs were successfully loaded!")
+}
+func getEnv(key, defaultValue string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return defaultValue
+	}
+	return value
 }

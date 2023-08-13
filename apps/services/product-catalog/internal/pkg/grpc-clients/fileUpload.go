@@ -12,7 +12,7 @@ import (
 var FileUploadClient pbFileUpload.ImageUploadServiceClient
 
 func initFileUploadClient() {
-	conn, err := grpc.Dial(env.Envs.FileUploadServiceAdress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(env.Envs.FILE_UPLOAD_SERVICE_ADDRESS, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Errorf("Failed to dial bufnet: %v", err)
 	}
