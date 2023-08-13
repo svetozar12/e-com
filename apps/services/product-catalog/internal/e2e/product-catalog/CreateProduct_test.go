@@ -12,6 +12,7 @@ import (
 	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
+	"gorm.io/gorm"
 )
 
 func TestAddInventory(t *testing.T) {
@@ -42,6 +43,6 @@ func TestAddInventory(t *testing.T) {
 
 	t.Cleanup(func() {
 		// delete images created by file upload service
-		productRepository.HardDeleteProduct(&entities.ProductEntity{Model: entities.Model{ID: uint(productCatalog.Id)}})
+		productRepository.HardDeleteProduct(&entities.ProductEntity{Model: gorm.Model{ID: uint(productCatalog.Id)}})
 	})
 }

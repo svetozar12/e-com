@@ -9,7 +9,7 @@ import (
 	"svetozar12/e-com/v2/apps/services/notification/internal/pkg/env"
 )
 
-func sendNotificationUtil(in *pb.SendNotificationRequest) (*entities.Notification, error) {
+func sendNotificationUtil(in *pb.SendNotificationRequest) (*entities.NotificationEntity, error) {
 	isNotificationRead := false
 	err := sendSmtpEmail(in)
 	if err != nil {

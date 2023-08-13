@@ -5,8 +5,8 @@ import (
 	"svetozar12/e-com/v2/apps/services/order/internal/app/entities"
 )
 
-func ProtoItemsToEntityItems(protoItems []*pb.Item) []entities.Item {
-	var entityItems []entities.Item
+func ProtoItemsToEntityItems(protoItems []*pb.Item) []entities.ItemEntity {
+	var entityItems []entities.ItemEntity
 
 	for _, protoItem := range protoItems {
 		entityItem := ProtoItemToEntityItem(protoItem)
@@ -18,19 +18,19 @@ func ProtoItemsToEntityItems(protoItems []*pb.Item) []entities.Item {
 	return entityItems
 }
 
-func ProtoItemToEntityItem(protoItem *pb.Item) *entities.Item {
+func ProtoItemToEntityItem(protoItem *pb.Item) *entities.ItemEntity {
 	if protoItem == nil {
 		return nil
 	}
 
-	return &entities.Item{
+	return &entities.ItemEntity{
 		ProductID: protoItem.ProductId,
 		Quantity:  protoItem.Quantity,
 	}
 }
 
 // EntityOrderToProtoGetOrderResponse maps an entity Order to a GetOrderResponse protobuf message
-func EntityOrderToProtoGetOrderResponse(entityOrder *entities.Order) *pb.GetOrderResponse {
+func EntityOrderToProtoGetOrderResponse(entityOrder *entities.OrderEntity) *pb.GetOrderResponse {
 	if entityOrder == nil {
 		return nil
 	}
@@ -50,7 +50,7 @@ func EntityOrderToProtoGetOrderResponse(entityOrder *entities.Order) *pb.GetOrde
 	}
 }
 
-func EntityItemToProtoItem(entityItem *entities.Item) *pb.Item {
+func EntityItemToProtoItem(entityItem *entities.ItemEntity) *pb.Item {
 	if entityItem == nil {
 		return nil
 	}

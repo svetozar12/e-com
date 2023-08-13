@@ -12,6 +12,7 @@ import (
 	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
+	"gorm.io/gorm"
 )
 
 func TestAddInventory(t *testing.T) {
@@ -52,6 +53,6 @@ func TestAddInventory(t *testing.T) {
 	})
 
 	t.Cleanup(func() {
-		inventoryrepository.DeleteInventory(&entities.InventoryEntity{Model: entities.Model{ID: uint(inventory.Id)}})
+		inventoryrepository.DeleteInventory(&entities.InventoryEntity{Model: gorm.Model{ID: uint(inventory.Id)}})
 	})
 }

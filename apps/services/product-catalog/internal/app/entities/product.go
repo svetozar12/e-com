@@ -1,7 +1,9 @@
 package entities
 
+import "gorm.io/gorm"
+
 type ProductEntity struct {
-	Model
+	gorm.Model
 	Name        string `json:"name" binding:"required"`
 	Price       int32  `json:"price" binding:"required"`
 	Image       string `json:"image" binding:"required"`
@@ -11,4 +13,13 @@ type ProductEntity struct {
 	InventoryId uint
 	Inventory   InventoryEntity `json:"inventory" gorm:"foreignKey:InventoryId;references:ID"`
 	Currency    string          `json:"currency" binding:"required"`
+}
+
+type Tabler interface {
+	TableName() string
+}
+
+// TableName overrides the table name used by User to `profiles`
+func (ProductEntity) TableName() string {
+	return "Product"
 }

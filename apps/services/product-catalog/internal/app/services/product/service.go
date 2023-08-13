@@ -12,6 +12,7 @@ import (
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
 func getProduct(ctx context.Context, in *pb.GetProductRequest) (*pb.Product, error) {
@@ -42,7 +43,7 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 		return nil, status.Error(codes.Aborted, constants.ProductNotCreated)
 	}
 	res, _ := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
-	_, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: entities.Model{ID: uint(res.Id)}}})
+	_, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}})
 	if err != nil {
 		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
 	}
@@ -113,7 +114,7 @@ func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Empty,
 	}
 
 	// TODO: Perform transaction if DeleteImage fails don't delete product
-	_, err = productRepository.DeleteProduct(&entities.ProductEntity{Model: entities.Model{ID: uint(in.Id)}})
+	_, err = productRepository.DeleteProduct(&entities.ProductEntity{Model: gorm.Model{ID: uint(in.Id)}})
 	if err != nil {
 		return nil, status.Error(codes.Aborted, constants.ProductNotDeleted)
 	}

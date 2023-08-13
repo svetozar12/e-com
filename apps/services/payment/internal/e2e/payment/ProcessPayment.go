@@ -12,6 +12,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
+	"gorm.io/gorm"
 )
 
 func TestProcessPayment(t *testing.T) {
@@ -64,7 +65,7 @@ func TestProcessPayment(t *testing.T) {
 
 	t.Cleanup(func() {
 		for _, value := range transactionIds {
-			transactionRepository.HardDeleteTransaction(&entities.TransactionEntity{Model: entities.Model{ID: uint(value)}})
+			transactionRepository.HardDeleteTransaction(&entities.TransactionEntity{Model: gorm.Model{ID: uint(value)}})
 		}
 	})
 }
