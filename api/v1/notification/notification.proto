@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "google/api/annotations.proto";
+import "validate/validate.proto";
 
 option go_package = "./notification-service";
 
@@ -24,8 +25,8 @@ enum NotificationType {
 
 // Message representing the request to send a notification
 message SendNotificationRequest {
-  string title = 1;
-  string content = 2;
+  string title = 1 [(validate.rules).string.min_len = 1];
+  string content = 2 [(validate.rules).string.min_len = 1];
   NotificationType type = 3;
   string recipient = 4;
 }
