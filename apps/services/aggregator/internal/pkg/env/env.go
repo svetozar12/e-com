@@ -16,6 +16,7 @@ type Config struct {
 	REVIEW_SERVICE_ADDRESS          string `env:"REVIEW_SERVICE_ADDRESS" envDefault:"0.0.0.0:9004"`
 	CART_SERVICE_ADDRESS            string `env:"CART_SERVICE_ADDRESS" envDefault:"0.0.0.0:9005"`
 	ORDER_SERVICE_ADDRESS           string `env:"ORDER_SERVICE_ADDRESS" envDefault:"0.0.0.0:9007"`
+	NOTIFICATION_SERVICE_ADDRESS    string `env:"NOTIFICATION_SERVICE_ADDRESS" envDefault:"0.0.0.0:9008"`
 }
 
 var Envs Config

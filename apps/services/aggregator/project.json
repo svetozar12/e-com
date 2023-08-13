@@ -50,6 +50,7 @@
     "services-product-catalog",
     "services-review",
     "services-user",
-    "services-order"
+    "services-order",
+    "services-notification"
   ]
 }

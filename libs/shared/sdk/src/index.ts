@@ -1,4 +1,5 @@
 import { CartServiceApi } from './api/v1/cart';
+import { NotificationServiceApi } from './api/v1/notification';
 import { ProducCatalogServiceApi } from './api/v1/product-catalog';
 import {
   AuthenticationServiceApi,
@@ -19,4 +20,5 @@ export const sdk = {
   user: new UserServiceApi(config),
   productCatalog: new ProducCatalogServiceApi(config),
   cart: new CartServiceApi(config),
+  notification: new NotificationServiceApi(config),
 };
