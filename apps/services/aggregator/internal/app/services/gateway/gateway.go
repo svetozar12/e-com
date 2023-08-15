@@ -36,7 +36,7 @@ func Run() error {
 		}),
 	}
 	// Empty parameters mean use the TLS Config specified with the server.
-	if env.Envs.ServeHttp == true {
+	if env.Envs.ServeHttp == "true" {
 		fmt.Println("Serving gRPC-Gateway and OpenAPI Documentation on port(http)", gatewayAddr)
 		err := gwServer.ListenAndServe()
 		fmt.Println(err)

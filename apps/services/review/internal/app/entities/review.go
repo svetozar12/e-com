@@ -1,9 +1,20 @@
 package entities
 
+import "gorm.io/gorm"
+
 type ReviewEntity struct {
-	Model
+	gorm.Model
 	ProductId int32
 	UserId    int32
 	Comment   string `json:"comment,omitempty"`
 	Rating    int32  `json:"rating,omitempty"`
+}
+
+type Tabler interface {
+	TableName() string
+}
+
+// TableName overrides the table name used by User to `profiles`
+func (ReviewEntity) TableName() string {
+	return "Review"
 }

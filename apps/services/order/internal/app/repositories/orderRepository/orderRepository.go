@@ -5,33 +5,33 @@ import (
 	"svetozar12/e-com/v2/apps/services/order/internal/app/entities"
 )
 
-func GetOrder(order *entities.Order) (*entities.Order, error) {
+func GetOrder(order *entities.OrderEntity) (*entities.OrderEntity, error) {
 	err := postgres.DB.First(order).Error
 	return order, err
 }
 
-func GetOrderList(orderIds []string, args ...interface{}) ([]entities.Order, error) {
-	inventories := []entities.Order{}
+func GetOrderList(orderIds []string, args ...interface{}) ([]entities.OrderEntity, error) {
+	inventories := []entities.OrderEntity{}
 	err := postgres.DB.Where("id in (?)", orderIds, args).Find(&inventories).Error
 	return inventories, err
 }
 
-func CreateOrder(order *entities.Order) (*entities.Order, error) {
+func CreateOrder(order *entities.OrderEntity) (*entities.OrderEntity, error) {
 	err := postgres.DB.Create(order).Error
 	return order, err
 }
 
-func UpdateOrder(order *entities.Order) (*entities.Order, error) {
+func UpdateOrder(order *entities.OrderEntity) (*entities.OrderEntity, error) {
 	err := postgres.DB.Save(order).Error
 	return order, err
 }
 
-func DeleteOrder(order *entities.Order) (*entities.Order, error) {
+func DeleteOrder(order *entities.OrderEntity) (*entities.OrderEntity, error) {
 	err := postgres.DB.Delete(&order).Error
 	return order, err
 }
 
-func HardDeleteOrder(order *entities.Order, query interface{}, args ...interface{}) (*entities.Order, error) {
+func HardDeleteOrder(order *entities.OrderEntity, query interface{}, args ...interface{}) (*entities.OrderEntity, error) {
 	err := postgres.DB.Unscoped().Where(query, args).Delete(&order).Error
 	return order, err
 }

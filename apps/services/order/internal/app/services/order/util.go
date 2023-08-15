@@ -21,7 +21,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func getOrderUtil(ctx context.Context, orderId int32) (*entities.Order, error) {
+func getOrderUtil(ctx context.Context, orderId int32) (*entities.OrderEntity, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return nil, fmt.Errorf("Failed to retrieve metadata from context")
@@ -30,14 +30,14 @@ func getOrderUtil(ctx context.Context, orderId int32) (*entities.Order, error) {
 	if err != nil {
 		return nil, status.Error(codes.Canceled, "Failed to parse: "+metadataConstants.UserIdKey)
 	}
-	order, err := orderRepository.GetOrder(&entities.Order{UserID: int32(userId), Model: gorm.Model{ID: uint(orderId)}})
+	order, err := orderRepository.GetOrder(&entities.OrderEntity{UserID: int32(userId), Model: gorm.Model{ID: uint(orderId)}})
 	if err != nil {
 		return nil, status.Error(codes.NotFound, constants.OrderNotFound)
 	}
 	return order, nil
 }
 
-func createOrderUtil(ctx context.Context, in *pb.CreateOrderRequest) (*entities.Order, error) {
+func createOrderUtil(ctx context.Context, in *pb.CreateOrderRequest) (*entities.OrderEntity, error) {
 	isAvailable, err := isProductAvailable(ctx, in.Items)
 	if err != nil || !isAvailable {
 		return nil, err
@@ -59,7 +59,7 @@ func createOrderUtil(ctx context.Context, in *pb.CreateOrderRequest) (*entities.
 	if respPayment.Message == pbPayment.PaymentStatus_PaymentFailed {
 		return nil, status.Error(codes.Aborted, pbPayment.PaymentStatus_PaymentFailed.String())
 	}
-	order, err := orderRepository.CreateOrder(&entities.Order{UserID: in.UserId, ShippingAddress: in.ShippingAddress, Status: pb.OrderStatus_PENDING, Items: ProtoItemsToEntityItems(in.Items)})
+	order, err := orderRepository.CreateOrder(&entities.OrderEntity{UserID: in.UserId, ShippingAddress: in.ShippingAddress, Status: pb.OrderStatus_PENDING, Items: ProtoItemsToEntityItems(in.Items)})
 	if err != nil {
 		return nil, status.Error(codes.NotFound, constants.OrderNotFound)
 	}

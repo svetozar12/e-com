@@ -5,33 +5,33 @@ import (
 	"svetozar12/e-com/v2/apps/services/notification/internal/app/entities"
 )
 
-func GetNotification(notification *entities.Notification) (*entities.Notification, error) {
+func GetNotification(notification *entities.NotificationEntity) (*entities.NotificationEntity, error) {
 	err := postgres.DB.First(notification).Error
 	return notification, err
 }
 
-func GetNotificationList(notificationIds []string, args ...interface{}) ([]entities.Notification, error) {
-	inventories := []entities.Notification{}
+func GetNotificationList(notificationIds []string, args ...interface{}) ([]entities.NotificationEntity, error) {
+	inventories := []entities.NotificationEntity{}
 	err := postgres.DB.Where("id in (?)", notificationIds, args).Find(&inventories).Error
 	return inventories, err
 }
 
-func CreateNotification(notification *entities.Notification) (*entities.Notification, error) {
+func CreateNotification(notification *entities.NotificationEntity) (*entities.NotificationEntity, error) {
 	err := postgres.DB.Create(notification).Error
 	return notification, err
 }
 
-func UpdateNotification(notification *entities.Notification) (*entities.Notification, error) {
+func UpdateNotification(notification *entities.NotificationEntity) (*entities.NotificationEntity, error) {
 	err := postgres.DB.Save(notification).Error
 	return notification, err
 }
 
-func DeleteNotification(notification *entities.Notification) (*entities.Notification, error) {
+func DeleteNotification(notification *entities.NotificationEntity) (*entities.NotificationEntity, error) {
 	err := postgres.DB.Delete(&notification).Error
 	return notification, err
 }
 
-func HardDeleteNotification(notification *entities.Notification) (*entities.Notification, error) {
+func HardDeleteNotification(notification *entities.NotificationEntity) (*entities.NotificationEntity, error) {
 	err := postgres.DB.Unscoped().Delete(&notification).Error
 	return notification, err
 }

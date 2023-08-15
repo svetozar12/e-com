@@ -1,9 +1,20 @@
 package entities
 
+import "gorm.io/gorm"
+
 type TransactionEntity struct {
-	Model
+	gorm.Model
 	UserId   uint
 	Amount   int32  `json:"amount,omitempty"`
 	Currency string `json:"currency,omitempty"`
 	Status   string `json:"status,omitempty"`
+}
+
+type Tabler interface {
+	TableName() string
+}
+
+// TableName overrides the table name used by User to `profiles`
+func (TransactionEntity) TableName() string {
+	return "Transaction"
 }

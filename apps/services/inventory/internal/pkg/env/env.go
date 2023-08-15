@@ -2,14 +2,14 @@ package env
 
 import (
 	"fmt"
-	"log"
+	"os"
 
-	"github.com/caarlos0/env"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Port                       string `env:"INVENTORY_SERVICE_PORT" envDefault:"9003"`
-	POSTGRES_CONNECTION_STRING string `env:"POSTGRES_CONNECTION_STRING" envDefault:"postgres://postgres:postgrespw@localhost:5432"`
+	Port                       string
+	POSTGRES_CONNECTION_STRING string
 }
 
 var Envs Config
@@ -18,11 +18,25 @@ var Envs Config
 InitConfig initializes the configuration by parsing environment variables and storing them in Config and ServicesConfig structs.
 */
 func InitConfig() {
-	cfg := Config{}
-
-	if err := env.Parse(&cfg); err != nil {
-		log.Fatal(err)
+	// Load environment variables from .env file
+	err := godotenv.Load("apps/services/cart/.env")
+	if err != nil {
+		// Handle error if the .env file can't be loaded
+		panic(err)
 	}
-	Envs = cfg
+
+	Envs = Config{
+		Port:                       getEnv("INVENTORY_SERVICE_PORT", "9003"),
+		POSTGRES_CONNECTION_STRING: getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
+	}
+
 	fmt.Println("Envs were successfully loaded!")
+}
+
+func getEnv(key, defaultValue string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return defaultValue
+	}
+	return value
 }

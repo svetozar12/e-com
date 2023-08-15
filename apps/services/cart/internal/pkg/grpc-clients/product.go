@@ -12,7 +12,7 @@ import (
 var ProductClient pbProduct.ProducCatalogServiceClient
 
 func initProductClient() {
-	conn, err := grpc.Dial(env.Envs.ProductCatalogServiceAdress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(env.Envs.CART_SERVICE_PRODUCT_CATALOG_SERVICE_ADDRESS, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Errorf("Failed to dial bufnet: %v", err)
 	}

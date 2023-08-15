@@ -15,6 +15,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
 func TestGetInventory(t *testing.T) {
@@ -57,6 +58,6 @@ func TestGetInventory(t *testing.T) {
 	})
 
 	t.Cleanup(func() {
-		inventoryrepository.DeleteInventory(&entities.InventoryEntity{Model: entities.Model{ID: inventory.ID}})
+		inventoryrepository.DeleteInventory(&entities.InventoryEntity{Model: gorm.Model{ID: inventory.ID}})
 	})
 }

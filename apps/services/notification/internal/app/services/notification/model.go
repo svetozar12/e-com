@@ -5,8 +5,8 @@ import (
 	"svetozar12/e-com/v2/apps/services/notification/internal/app/entities"
 )
 
-func PBToNotificationEntity(pbNotification *pb.SendNotificationRequest, read bool) *entities.Notification {
-	return &entities.Notification{
+func PBToNotificationEntity(pbNotification *pb.SendNotificationRequest, read bool) *entities.NotificationEntity {
+	return &entities.NotificationEntity{
 		Title:     pbNotification.Title,
 		Content:   pbNotification.Content,
 		Type:      pbNotification.Type.String(),

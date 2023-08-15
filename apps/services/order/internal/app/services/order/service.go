@@ -46,6 +46,6 @@ func updateOrderStatus(ctx context.Context, in *pb.UpdateOrderStatusRequest) (*p
 	if err != nil {
 		return nil, err
 	}
-	updatedOrder, err := orderRepository.UpdateOrder(&entities.Order{UserID: int32(order.UserID), Model: gorm.Model{ID: order.ID}, Status: in.NewStatus})
+	updatedOrder, err := orderRepository.UpdateOrder(&entities.OrderEntity{UserID: int32(order.UserID), Model: gorm.Model{ID: order.ID}, Status: in.NewStatus})
 	return &pb.UpdateOrderStatusResponse{OrderId: int32(updatedOrder.ID), Message: constants.OrderStatusUpdated}, nil
 }

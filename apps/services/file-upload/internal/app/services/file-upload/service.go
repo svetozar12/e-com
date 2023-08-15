@@ -2,10 +2,9 @@ package fileupload
 
 import (
 	"context"
-	"fmt"
-	"io/ioutil"
 	"os"
 	pb "svetozar12/e-com/v2/api/v1/file-upload/dist/proto"
+	"svetozar12/e-com/v2/apps/services/file-upload/internal/pkg/constants"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -16,22 +15,11 @@ func uploadImage(ctx context.Context, in *pb.ImageUploadRequest) (*pb.ImageUploa
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	dir, err := os.Getwd()
-	fmt.Println(dir, "request")
-	// Create a temporary file within our temp-images directory that follows
-	// a particular naming pattern
-	tempFile, err := ioutil.TempFile("temp-images", "upload-*.png")
+	file, err := uploadImageUtil(in)
 	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, err.Error())
+		return nil, err
 	}
-	defer tempFile.Close()
-
-	// write this byte array to our temporary file
-	_, err = tempFile.Write(in.ImageData)
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, err.Error())
-	}
-	return &pb.ImageUploadResponse{Success: true, FileId: tempFile.Name()}, nil
+	return &pb.ImageUploadResponse{Success: true, FileId: file.Name()}, nil
 }
 
 func getImage(ctx context.Context, in *pb.GetImageRequest) (*pb.GetImageResponse, error) {
@@ -40,9 +28,9 @@ func getImage(ctx context.Context, in *pb.GetImageRequest) (*pb.GetImageResponse
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	body, err := ioutil.ReadFile(in.Id)
+	body, err := os.ReadFile(in.Id)
 	if err != nil {
-		return nil, status.Error(codes.NotFound, "Image not found")
+		return nil, status.Error(codes.NotFound, constants.ImageNotFound)
 	}
 	return &pb.GetImageResponse{ImageData: body}, nil
 }
@@ -54,7 +42,7 @@ func deleteImage(ctx context.Context, in *pb.DeleteImageRequest) (*pb.DeleteImag
 	}
 	e := os.Remove(in.Id)
 	if e != nil {
-		return nil, status.Error(codes.NotFound, "Image not found")
+		return nil, status.Error(codes.NotFound, constants.ImageNotFound)
 	}
 
 	return &pb.DeleteImageResponse{Success: true}, nil
