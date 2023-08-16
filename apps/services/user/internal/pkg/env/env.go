@@ -27,7 +27,7 @@ func InitConfig() {
 	}
 
 	Envs = Config{
-		Port:                       getEnv("PORT", "9008"),
+		Port:                       getEnv("PORT", "9000"),
 		POSTGRES_CONNECTION_STRING: getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
 		JWT_SECRET:                 getEnv("USER_SERVICE_JWT_SECRET", "secret"),
 	}

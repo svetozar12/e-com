@@ -8,10 +8,9 @@ import (
 )
 
 type Config struct {
-	Port                        string `env:"PRODUCT_CATALOG_SERVICE_PORT" envDefault:"9001"`
-	POSTGRES_CONNECTION_STRING  string `env:"PRODUCT_CATALOG_SERVICE_POSTGRES_CONNECTION_STRING" envDefault:"postgres://postgres:postgrespw@localhost:5432"`
-	FILE_UPLOAD_SERVICE_ADDRESS string `env:"PRODUCT_CATALOG_FILE_UPLOAD_SERVICE_PORT" envDefault:"0.0.0.0:9002"`
-	INVENTORY_SERVICE_ADDRESS   string `env:"PRODUCT_CATALOG_INVENTORY_SERVICE_PORT" envDefault:"0.0.0.0:9003"`
+	Port                       string
+	POSTGRES_CONNECTION_STRING string
+	INVENTORY_SERVICE_ADDRESS  string
 }
 
 var Envs Config
@@ -28,10 +27,9 @@ func InitConfig() {
 	}
 
 	Envs = Config{
-		Port:                        getEnv("PORT", "9008"),
-		POSTGRES_CONNECTION_STRING:  getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
-		FILE_UPLOAD_SERVICE_ADDRESS: getEnv("PRODUCT_CATALOG_FILE_UPLOAD_SERVICE_ADDRESS", "0.0.0.0:9002"),
-		INVENTORY_SERVICE_ADDRESS:   getEnv("PRODUCT_CATALOG_INVENTORY_SERVICE_ADDRESS", "0.0.0.0:9003"),
+		Port:                       getEnv("PORT", "9001"),
+		POSTGRES_CONNECTION_STRING: getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
+		INVENTORY_SERVICE_ADDRESS:  getEnv("PRODUCT_CATALOG_INVENTORY_SERVICE_ADDRESS", "0.0.0.0:9003"),
 	}
 
 	fmt.Println("Envs were successfully loaded!")

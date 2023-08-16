@@ -16,24 +16,41 @@ service ProducCatalogService {
                         get: "/v1/product-catalog"
             };
     };
-    rpc CreateProduct (CreateProductRequest) returns (Product) {
+    rpc CreateProduct (CreateProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         post: "/v1/product-catalog",
                         body: "*",
             };
     };
-    rpc UpdateProduct (UpdateProductRequest) returns (Product) {
+    rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         put: "/v1/product-catalog/{id}",
                         body: "*"
             };
     };
-    rpc DeleteProduct (DeleteProductRequest) returns (Empty) {
+    rpc DeleteProduct (DeleteProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         delete: "/v1/product-catalog/{id}"
             };
     } 
 };
+
+enum Status {
+        SUCCESSFUL = 0;
+        FAILED = 1;
+};
+
+enum Action{
+        CREATE = 0;
+        UPDATE = 1;
+        DELETE = 2;
+};
+
+message ProductResponse {
+        Status status = 1;
+        Action action = 2;
+        int32 productId = 3; 
+}
 
 message Empty {}
 

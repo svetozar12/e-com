@@ -1,19 +1,18 @@
 package bootstrap
 
 import (
-	"fmt"
 	"log"
 	"net"
+	"svetozar12/e-com/v2/apps/services/file-upload/internal/app/messageQues"
 	fileupload "svetozar12/e-com/v2/apps/services/file-upload/internal/app/services/file-upload"
 	"svetozar12/e-com/v2/apps/services/file-upload/internal/pkg/env"
-	"svetozar12/e-com/v2/libs/api/rabitmq"
 
 	"google.golang.org/grpc"
 )
 
 func Bootstrap() {
 	env.InitConfig()
-	ch, conn, err := rabitmq.RabbitMqConnect("amqp://guest:guest@localhost:5672/")
+	ch, conn, err := messageQues.RabbitMqConnect("amqp://guest:guest@localhost:5672/")
 	if err != nil {
 		panic(err)
 	}
@@ -24,7 +23,7 @@ func Bootstrap() {
 	msgs, err := ch.Consume(
 		queueName, // Queue name
 		"",        // Consumer
-		false,     // Auto-ack (set to false for manual acknowledgment)
+		true,      // Auto-ack (set to false for manual acknowledgment)
 		false,     // Exclusive
 		false,     // No-local
 		false,     // No-wait
@@ -35,7 +34,7 @@ func Bootstrap() {
 	}
 	for msg := range msgs {
 
-		fmt.Println("Received Email Subject:", string(msg.Body))
+		processFileUpload(msg.Body)
 	}
 	grpcAddr := ":" + env.Envs.Port
 	listener, err := net.Listen("tcp", grpcAddr)
@@ -48,4 +47,13 @@ func Bootstrap() {
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+}
+
+func processFileUpload(message []byte) {
+	// ... (Handle the notification message and perform necessary actions)
+	file, err := fileupload.UploadImageUtil(message)
+	if err != nil {
+		panic(err)
+	}
+	messageQues.UpdateProductMessage(messageQues.FileUploadCh, file.Name())
 }

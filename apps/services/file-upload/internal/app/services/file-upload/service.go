@@ -15,7 +15,7 @@ func uploadImage(ctx context.Context, in *pb.ImageUploadRequest) (*pb.ImageUploa
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	file, err := uploadImageUtil(in)
+	file, err := UploadImageUtil(in.ImageData)
 	if err != nil {
 		return nil, err
 	}

@@ -2,10 +2,11 @@ package product
 
 import (
 	"context"
-	pbFileUpload "svetozar12/e-com/v2/api/v1/file-upload/dist/proto"
+	"fmt"
 	inventory_service "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messageQues"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/constants"
 	grpcclients "svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/grpc-clients"
@@ -27,30 +28,34 @@ func getProduct(ctx context.Context, in *pb.GetProductRequest) (*pb.Product, err
 	return ProductModel(product), nil
 }
 
-func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Product, error) {
+func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.ProductResponse, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	uploadImageRes, uploadImageErr := grpcclients.FileUploadClient.UploadImage(ctx, &pbFileUpload.ImageUploadRequest{ImageData: in.Image})
-
-	if uploadImageErr != nil {
-		return nil, uploadImageErr
-	}
-	product, err := productRepository.CreateProduct(&entities.ProductEntity{Name: in.Name, Image: uploadImageRes.FileId, Price: in.Price, Description: in.Description, Available: in.Available, Weight: in.Weight, Currency: in.Currency})
+	err = messageQues.UploadFileMessage(messageQues.ProductCatalogCh, in.Image)
 	if err != nil {
-		return nil, status.Error(codes.Aborted, constants.ProductNotCreated)
+		return nil, err
 	}
-	res, _ := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
+	// TODO do transaction here if any of actions bellow fail revert changes in database
+	product, err := productRepository.CreateProduct(&entities.ProductEntity{Name: in.Name, Price: in.Price, Description: in.Description, Available: in.Available, Weight: in.Weight, Currency: in.Currency})
+	if err != nil {
+		return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_FAILED, Action: pb.Action_CREATE}, status.Error(codes.Aborted, constants.ProductNotCreated)
+	}
+	res, err := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
+	if err != nil {
+		fmt.Println(err)
+		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
+	}
 	_, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}})
 	if err != nil {
 		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
 	}
-	return ProductModel(product), nil
+	return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_SUCCESSFUL, Action: pb.Action_CREATE}, nil
 }
 
-func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Product, error) {
+func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.ProductResponse, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
@@ -68,17 +73,10 @@ func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Produc
 	}
 	for _, v := range in.Image {
 		if v != 0 {
-			_, deleteImageErr := grpcclients.FileUploadClient.DeleteImage(ctx, &pbFileUpload.DeleteImageRequest{Id: product.Image})
+			messageQues.DeleteFileMessage(messageQues.ProductCatalogCh, product.Image)
 
-			if deleteImageErr != nil {
-				return nil, deleteImageErr
-			}
-			uploadImageRes, uploadImageErr := grpcclients.FileUploadClient.UploadImage(ctx, &pbFileUpload.ImageUploadRequest{ImageData: in.Image})
+			err = messageQues.UploadFileMessage(messageQues.ProductCatalogCh, in.Image)
 
-			if uploadImageErr != nil {
-				return nil, uploadImageErr
-			}
-			product.Image = uploadImageRes.FileId
 			break
 		}
 	}
@@ -98,12 +96,12 @@ func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Produc
 
 	updatedproduct, err := productRepository.UpdateProduct(product)
 	if err != nil {
-		return nil, status.Error(codes.Aborted, constants.ProductNotUpdated)
+		return &pb.ProductResponse{ProductId: int32(updatedproduct.ID), Status: pb.Status_FAILED, Action: pb.Action_UPDATE}, status.Error(codes.Aborted, constants.ProductNotUpdated)
 	}
-	return ProductModel(updatedproduct), nil
+	return &pb.ProductResponse{ProductId: int32(updatedproduct.ID), Status: pb.Status_SUCCESSFUL, Action: pb.Action_UPDATE}, nil
 }
 
-func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Empty, error) {
+func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.ProductResponse, error) {
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
@@ -116,12 +114,9 @@ func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Empty,
 	// TODO: Perform transaction if DeleteImage fails don't delete product
 	_, err = productRepository.DeleteProduct(&entities.ProductEntity{Model: gorm.Model{ID: uint(in.Id)}})
 	if err != nil {
-		return nil, status.Error(codes.Aborted, constants.ProductNotDeleted)
+		return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_FAILED, Action: pb.Action_DELETE}, status.Error(codes.Aborted, constants.ProductNotDeleted)
 	}
-	_, deleteImageErr := grpcclients.FileUploadClient.DeleteImage(ctx, &pbFileUpload.DeleteImageRequest{Id: product.Image})
+	messageQues.DeleteFileMessage(messageQues.ProductCatalogCh, product.Image)
 
-	if deleteImageErr != nil {
-		return nil, deleteImageErr
-	}
-	return &pb.Empty{}, nil
+	return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_SUCCESSFUL, Action: pb.Action_DELETE}, nil
 }

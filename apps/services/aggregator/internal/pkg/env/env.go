@@ -33,7 +33,7 @@ func InitConfig() {
 	}
 
 	Envs = Config{
-		Port:                            getEnv("NOTIFICATION_SERVICE_PORT", "9008"),
+		Port:                            getEnv("NOTIFICATION_SERVICE_PORT", "3000"),
 		ServeHttp:                       getEnv("SERVE_HTTP", "true"),
 		USER_SERVICE_ADDRESS:            getEnv("USER_SERVICE_ADDRESS", "0.0.0.0:9000"),
 		PRODUCT_CATALOG_SERVICE_ADDRESS: getEnv("PRODUCT_CATALOG_SERVICE_ADDRESS", "0.0.0.0:9001"),

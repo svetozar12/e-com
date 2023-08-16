@@ -13,14 +13,14 @@ func (s *Server) GetProduct(ctx context.Context, in *pb.GetProductRequest) (*pb.
 	return getProduct(ctx, in)
 }
 
-func (s *Server) CreateProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Product, error) {
+func (s *Server) CreateProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.ProductResponse, error) {
 	return createProduct(ctx, in)
 }
 
-func (s *Server) UpdateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Product, error) {
+func (s *Server) UpdateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.ProductResponse, error) {
 	return updateProduct(ctx, in)
 }
 
-func (s *Server) DeleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Empty, error) {
+func (s *Server) DeleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.ProductResponse, error) {
 	return deleteProduct(ctx, in)
 }
