@@ -21,26 +21,20 @@ func Bootstrap() {
 	if err != nil {
 		panic(err)
 	}
-	queueName := "product-update-queue"
+	// queueName := "product-update-queue"
 
-	msgs, err := ch.Consume(
-		queueName, // Queue name
-		"",        // Consumer
-		true,      // Auto-ack (set to false for manual acknowledgment)
-		false,     // Exclusive
-		false,     // No-local
-		false,     // No-wait
-		nil,       // Args
-	)
-	if err != nil {
-		log.Fatalf("Failed to start consuming messages: %v", err)
-	}
-	for msg := range msgs {
-
-		processProductUpdate(msg.Body)
-	}
-	defer conn.Close()
-	defer ch.Close()
+	// msgs, err := ch.Consume(
+	// 	queueName, // Queue name
+	// 	"",        // Consumer
+	// 	true,      // Auto-ack (set to false for manual acknowledgment)
+	// 	false,     // Exclusive
+	// 	false,     // No-local
+	// 	false,     // No-wait
+	// 	nil,       // Args
+	// )
+	// if err != nil {
+	// 	log.Fatalf("Failed to start consuming messages: %v", err)
+	// }
 
 	grpcclients.InitClients()
 	grpcAddr := ":" + env.Envs.Port
@@ -55,6 +49,12 @@ func Bootstrap() {
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+	// for msg := range msgs {
+	// 	fmt.Println("Update", msg)
+	// 	processProductUpdate(msg.Body)
+	// }
+	defer conn.Close()
+	defer ch.Close()
 }
 
 func processProductUpdate(message []byte) {

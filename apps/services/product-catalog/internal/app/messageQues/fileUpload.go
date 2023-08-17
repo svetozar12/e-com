@@ -2,6 +2,7 @@ package messageQues
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -9,6 +10,7 @@ import (
 
 func UploadFileMessage(ch *amqp.Channel, file []byte) error {
 	queueName := "file-upload-queue"
+	fmt.Println("UPLOAD IMAGE Product catalog")
 	_, err := ch.QueueDeclare(
 		queueName, // Queue name
 		true,      // Durable
@@ -18,7 +20,8 @@ func UploadFileMessage(ch *amqp.Channel, file []byte) error {
 		nil,       // Arguments
 	)
 	if err != nil {
-		log.Fatalf("Failed to declare a queue: %v", err)
+		fmt.Printf("Failed to declare a queue: %v\n", err)
+		return err
 	}
 
 	err = ch.PublishWithContext(context.Background(),

@@ -27,7 +27,7 @@ func InitConfig() {
 	}
 
 	Envs = Config{
-		Port:                       getEnv("NOTIFICATION_SERVICE_PORT", "9008"),
+		Port:                       getEnv("NOTIFICATION_SERVICE_PORT", "9005"),
 		POSTGRES_CONNECTION_STRING: getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
 		CART_SERVICE_PRODUCT_CATALOG_SERVICE_ADDRESS: getEnv("CART_SERVICE_PRODUCT_CATALOG_SERVICE_ADDRESS", "0.0.0.0:9001"),
 	}

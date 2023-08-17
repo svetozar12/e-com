@@ -20,7 +20,7 @@ InitConfig initializes the configuration by parsing environment variables and st
 */
 func InitConfig() {
 	// Load environment variables from .env file
-	err := godotenv.Load()
+	err := godotenv.Load("apps/services/payment/.env")
 	if err != nil {
 		// Handle error if the .env file can't be loaded
 		panic("Error loading .env file")

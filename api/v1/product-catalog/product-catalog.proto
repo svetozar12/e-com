@@ -16,18 +16,10 @@ service ProducCatalogService {
                         get: "/v1/product-catalog"
             };
     };
-    rpc CreateProduct (CreateProductRequest) returns (ProductResponse) {
-            option (google.api.http) = {
-                        post: "/v1/product-catalog",
-                        body: "*",
-            };
-    };
-    rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse) {
-            option (google.api.http) = {
-                        put: "/v1/product-catalog/{id}",
-                        body: "*"
-            };
-    };
+    // http mapping is custom handled
+    rpc CreateProduct (CreateProductRequest) returns (ProductResponse);
+    // http mapping is custom handled
+    rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse);
     rpc DeleteProduct (DeleteProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         delete: "/v1/product-catalog/{id}"

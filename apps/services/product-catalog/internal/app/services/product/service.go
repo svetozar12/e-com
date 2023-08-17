@@ -2,14 +2,11 @@ package product
 
 import (
 	"context"
-	"fmt"
-	inventory_service "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messageQues"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/constants"
-	grpcclients "svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/grpc-clients"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -43,12 +40,12 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 	if err != nil {
 		return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_FAILED, Action: pb.Action_CREATE}, status.Error(codes.Aborted, constants.ProductNotCreated)
 	}
-	res, err := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
-	if err != nil {
-		fmt.Println(err)
-		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
-	}
-	_, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}})
+	// res, err := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
+	// }
+	// _, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}})
 	if err != nil {
 		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
 	}

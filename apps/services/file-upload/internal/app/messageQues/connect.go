@@ -2,7 +2,6 @@ package messageQues
 
 import (
 	"fmt"
-	"log"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -21,19 +20,6 @@ func RabbitMqConnect(connectionString string) (*amqp.Channel, *amqp.Connection, 
 	}
 
 	FileUploadCh = ch
-	queueName := "product-update-queue"
-
-	_, err = ch.QueueDeclare(
-		queueName, // Queue name
-		true,      // Durable
-		false,     // Delete when unused
-		false,     // Exclusive
-		false,     // No-wait
-		nil,       // Arguments
-	)
-	if err != nil {
-		log.Fatalf("Failed to declare a queue: %v", err)
-	}
 
 	return ch, conn, nil
 }

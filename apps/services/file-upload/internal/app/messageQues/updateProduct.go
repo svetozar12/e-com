@@ -11,7 +11,18 @@ func UpdateProductMessage(ch *amqp.Channel, imageName string) error {
 
 	queueName := "product-update-queue"
 
-	err := ch.PublishWithContext(context.Background(),
+	_, err := ch.QueueDeclare(
+		queueName, // Queue name
+		true,      // Durable
+		false,     // Delete when unused
+		false,     // Exclusive
+		false,     // No-wait
+		nil,       // Arguments
+	)
+	if err != nil {
+		log.Fatalf("Failed to declare a queue: %v", err)
+	}
+	err = ch.PublishWithContext(context.Background(),
 		"",        // Exchange
 		queueName, // Routing key
 		false,     // Mandatory
