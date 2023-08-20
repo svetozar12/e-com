@@ -7,7 +7,10 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx buf generate -o ./dist --template ../buf.gen.yaml",
+        "commands": [
+          "rm -r -f dist",
+          "npx buf generate -o ./dist --template ../buf.gen.yaml"
+        ],
         "cwd": "api/v1/file-upload"
       },
       "outputs": ["{projectRoot}/dist"],
