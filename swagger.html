@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Swagger UI</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="swagger-ui/dist/swagger-ui.css"
+    />
+    <style>
+      /* Optional styling adjustments */
+      /* For example: remove the top bar */
+      .topbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="swagger-ui"></div>
+    <script src="swagger-ui/dist/swagger-ui-bundle.js"></script>
+    <script>
+      // Load Swagger UI
+      const ui = SwaggerUIBundle({
+        url: 'merged-swagger.json', // Link to your merged Swagger JSON file
+        dom_id: '#swagger-ui',
+      });
+    </script>
+  </body>
+</html>
