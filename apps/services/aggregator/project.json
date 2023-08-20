@@ -4,6 +4,12 @@
   "projectType": "application",
   "sourceRoot": "apps/services/aggregator",
   "targets": {
+    "build-openapi": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "python3 tools/scripts/mergeSwagger.py"
+      }
+    },
     "build": {
       "executor": "@nx-go/nx-go:build",
       "options": {

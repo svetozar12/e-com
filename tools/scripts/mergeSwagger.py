@@ -1,6 +1,6 @@
 import json
 
-OUTPUT_FILE = "merged-swagger.json"
+OUTPUT_FILE = "./apps/services/aggregator/third_party/swagger.json"
 
 # Function that generates the Swagger JSON file path
 def get_oapi_path(proto_name):
