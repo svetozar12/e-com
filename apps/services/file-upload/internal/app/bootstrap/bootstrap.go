@@ -44,7 +44,11 @@ func processFileUpload(message []byte) {
 	if err != nil {
 		panic(err)
 	}
-	messageQues.UpdateProductMessage(messageQues.FileUploadCh, file.Name())
+	productData := make(map[string]any)
+	productData["Id"] = 1
+	productData["Image"] = file.Name()
+
+	messageQues.UpdateProductMessage(messageQues.FileUploadCh, productData)
 }
 
 func ConsumeFileUploadMessages(ch *amqp.Channel) {

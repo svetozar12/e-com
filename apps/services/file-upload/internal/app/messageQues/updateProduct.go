@@ -2,16 +2,20 @@ package messageQues
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func UpdateProductMessage(ch *amqp.Channel, imageName string) error {
+func UpdateProductMessage(ch *amqp.Channel, productData map[string]interface{}) error {
 
 	queueName := "product-update-queue"
-
-	_, err := ch.QueueDeclare(
+	data, err := json.Marshal(productData)
+	if err != nil {
+		panic(err)
+	}
+	_, err = ch.QueueDeclare(
 		queueName, // Queue name
 		true,      // Durable
 		false,     // Delete when unused
@@ -29,7 +33,7 @@ func UpdateProductMessage(ch *amqp.Channel, imageName string) error {
 		false,     // Immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
-			Body:        []byte(imageName),
+			Body:        data,
 		},
 	)
 	if err != nil {
