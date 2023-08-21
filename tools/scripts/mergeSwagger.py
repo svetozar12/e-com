@@ -31,7 +31,7 @@ merged_data = {
 }
 
 # List of proto names
-proto_names = ["cart","file-upload", "inventory","notification","order","payment","product-catalog","review","user"]
+proto_names = ["cart", "file-upload", "inventory", "notification", "order", "payment", "product-catalog", "review", "user"]
 
 # Merge JSON files
 for proto_name in proto_names:
@@ -40,6 +40,34 @@ for proto_name in proto_names:
         data = json.load(file)
         merged_data["paths"].update(data.get("paths", {}))
         merged_data["definitions"].update(data.get("definitions", {}))
+
+# Add example multipart/form-data endpoint
+example_form_data_path = "/example/form-data"
+merged_data["paths"][example_form_data_path] = {
+    "post": {
+        "summary": "Example Form Data Endpoint",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+            {
+                "name": "file",
+                "in": "formData",
+                "type": "file",
+                "required": True
+            },
+            {
+                "name": "additional_field",
+                "in": "formData",
+                "type": "string"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Success response"
+            }
+        }
+    }
+}
 
 # Write merged data to the output file
 with open(OUTPUT_FILE, "w") as output_file:

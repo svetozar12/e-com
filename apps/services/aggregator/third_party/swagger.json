@@ -788,6 +788,35 @@
           "UserService"
         ]
       }
+    },
+    "/example/form-data": {
+      "post": {
+        "summary": "Example Form Data Endpoint",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "type": "file",
+            "required": true
+          },
+          {
+            "name": "additional_field",
+            "in": "formData",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response"
+          }
+        }
+      }
     }
   },
   "definitions": {
