@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 import "google/api/annotations.proto";
-import "validate/validate.proto";
+import "google/openapiv3/annotations.proto";
 
 option go_package = "./product-catalog-service";
 
@@ -21,6 +21,26 @@ service ProducCatalogService {
                         post: "/v1/product-catalog",
                         body: "*",
             };
+            option (openapi.v3.operation) = {
+                request_body: {
+                  request_body: {
+                    content: {
+                      additional_properties: [
+                              {
+                                name: "multipart/form-data";
+                                value: {
+                                  schema: {
+                                    reference: {
+                                      _ref: "#/components/schemas/CreateProductRequest"
+                                    }
+                                  }
+                                }
+                              }
+                        ]
+                    }
+                  }
+                }
+              };
     };
     rpc UpdateProduct (UpdateProductRequest) returns (Product) {
             option (google.api.http) = {
@@ -77,7 +97,7 @@ message CreateProductRequest {
         int32 id = 1;
         string name = 2;
         int32 price = 3;
-        bytes image = 4;
+        bytes image = 4 [(openapi.v3.property) = {type: "string", format:"binary"}];
         string description = 5;
         bool available = 6;
         int32 weight = 7;
@@ -91,7 +111,7 @@ message UpdateProductRequest {
         int32 id = 1;
         optional string name = 2;
         optional int32 price = 3;
-        optional bytes image = 4;
+        optional bytes image = 4 [(openapi.v3.property) = {type: "string", format:"binary"}];
         optional string description = 5;
         optional bool available = 6;
         optional int32 weight = 7;

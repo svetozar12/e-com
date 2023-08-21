@@ -18,775 +18,253 @@
     }
   ],
   "paths": {
-    "/v1/cart": {
-      "get": {
-        "summary": "RPC method to get the user's shopping cart",
-        "operationId": "CartService_GetShoppingCart",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartShoppingCart"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "CartService"
-        ]
-      },
-      "post": {
-        "summary": "RPC method to add an item to the cart",
-        "operationId": "CartService_AddToCart",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartShoppingCart"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/cartAddToCartRequest"
-            }
-          }
-        ],
-        "tags": [
-          "CartService"
-        ]
-      },
-      "put": {
-        "summary": "RPC method to update the quantity of an item in the cart",
-        "operationId": "CartService_UpdateCartItem",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartShoppingCart"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/cartUpdateCartItemRequest"
-            }
-          }
-        ],
-        "tags": [
-          "CartService"
-        ]
-      }
-    },
-    "/v1/cart/{productId}": {
-      "delete": {
-        "summary": "RPC method to remove an item from the cart",
-        "operationId": "CartService_RemoveCartItem",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartShoppingCart"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "CartService"
-        ]
-      }
-    },
-    "/v1/notification": {
-      "post": {
-        "summary": "RPC method to send a notification",
-        "operationId": "NotificationService_SendNotification",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/notificationSendNotificationResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/notificationSendNotificationRequest"
-            }
-          }
-        ],
-        "tags": [
-          "NotificationService"
-        ]
-      }
-    },
-    "/v1/order": {
-      "post": {
-        "operationId": "OrderService_CreateOrder",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/orderCreateOrderResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/orderCreateOrderRequest"
-            }
-          }
-        ],
-        "tags": [
-          "OrderService"
-        ]
-      }
-    },
-    "/v1/order/{orderId}": {
-      "get": {
-        "operationId": "OrderService_GetOrder",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/orderGetOrderResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "OrderService"
-        ]
-      },
-      "put": {
-        "operationId": "OrderService_UpdateOrderStatus",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/orderUpdateOrderStatusResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "newStatus": {
-                  "$ref": "#/definitions/orderOrderStatus"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "OrderService"
-        ]
-      }
-    },
-    "/v1/product-catalog": {
-      "get": {
-        "operationId": "ProducCatalogService_GetProductList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/GetProductListResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "ProducCatalogService"
-        ]
-      },
-      "post": {
-        "operationId": "ProducCatalogService_CreateProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateProductRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ProducCatalogService"
-        ]
-      }
-    },
-    "/v1/product-catalog/{id}": {
-      "get": {
-        "operationId": "ProducCatalogService_GetProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "ProducCatalogService"
-        ]
-      },
-      "delete": {
-        "operationId": "ProducCatalogService_DeleteProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/Empty"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "ProducCatalogService"
-        ]
-      },
-      "put": {
-        "operationId": "ProducCatalogService_UpdateProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "price": {
-                  "type": "integer",
-                  "format": "int32"
-                },
-                "image": {
-                  "type": "string",
-                  "format": "byte"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "available": {
-                  "type": "boolean"
-                },
-                "weight": {
-                  "type": "integer",
-                  "format": "int32"
-                },
-                "inventory": {
-                  "$ref": "#/definitions/InventoryAvaliability"
-                },
-                "currency": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "ProducCatalogService"
-        ]
-      }
-    },
-    "/v1/product-catalog/{productId}/reviews": {
-      "get": {
-        "summary": "Get all reviews for a specific product",
-        "operationId": "ReviewService_GetProductReviews",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/GetProductReviewsResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "ReviewService"
-        ]
-      }
-    },
-    "/v1/reviews": {
-      "post": {
-        "summary": "Add a new review for a product",
-        "operationId": "ReviewService_AddReview",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/Review"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AddReviewRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ReviewService"
-        ]
-      }
-    },
-    "/v1/reviews/{reviewId}": {
-      "get": {
-        "summary": "Get a review by its ID",
-        "operationId": "ReviewService_GetReview",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/Review"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "reviewId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "ReviewService"
-        ]
-      }
-    },
     "/v1/auth/verify": {
       "post": {
+        "tags": [
+          "AuthenticationService"
+        ],
         "operationId": "AuthenticationService_VerifyToken",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/VerifyTokenResponse"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyTokenResponse"
+                }
+              }
             }
           },
           "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
+            "description": "Default error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
             }
           }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/VerifyTokenRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AuthenticationService"
-        ]
+        }
       }
     },
     "/v1/public/auth": {
       "post": {
-        "operationId": "AuthenticationService_Login",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/LoginResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/LoginRequest"
-            }
-          }
-        ],
         "tags": [
           "AuthenticationService"
-        ]
-      }
-    },
-    "/v1/public/user": {
-      "post": {
-        "operationId": "UserService_Register",
+        ],
+        "operationId": "AuthenticationService_Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/RegisterResponse"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
             }
           },
           "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RegisterRequest"
-            }
-          }
-        ],
-        "tags": [
-          "UserService"
-        ]
-      }
-    },
-    "/v1/user/{id}": {
-      "get": {
-        "operationId": "UserService_GetUser",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "UserService"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      },
-      "delete": {
-        "operationId": "UserService_DeleteUser",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "UserService"
-        ]
-      },
-      "put": {
-        "operationId": "UserService_UpdateUser",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string"
-                },
-                "fname": {
-                  "type": "string"
-                },
-                "lname": {
-                  "type": "string"
+            "description": "Default error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
                 }
               }
             }
           }
-        ],
+        }
+      }
+    },
+    "/v1/public/user": {
+      "post": {
         "tags": [
           "UserService"
-        ]
+        ],
+        "operationId": "UserService_Register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Default error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/{id}": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "operationId": "UserService_GetUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Default error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "UserService"
+        ],
+        "operationId": "UserService_UpdateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Default error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UserService"
+        ],
+        "operationId": "UserService_DeleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Default error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/example/form-data": {
@@ -819,565 +297,134 @@
       }
     }
   },
-  "definitions": {
-    "cartAddToCartRequest": {
-      "type": "object",
-      "properties": {
-        "productId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "currency": {
-          "type": "string"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "Message representing the request to add an item to the cart"
-    },
-    "cartCartItem": {
-      "type": "object",
-      "properties": {
-        "productId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pricePerItem": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "currency": {
-          "type": "string"
-        }
-      },
-      "title": "Message representing a single item in the shopping cart"
-    },
-    "cartShoppingCart": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/cartCartItem"
+  "definitions": {},
+  "components": {
+    "schemas": {
+      "GoogleProtobufAny": {
+        "type": "object",
+        "properties": {
+          "@type": {
+            "type": "string",
+            "description": "The type of the serialized message."
           }
         },
-        "totalPrice": {
-          "type": "integer",
-          "format": "int32",
-          "description": "You can add more fields as needed, such as user_id, created_at, etc."
-        }
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
       },
-      "title": "Message representing the user's shopping cart"
-    },
-    "cartUpdateCartItemRequest": {
-      "type": "object",
-      "properties": {
-        "productId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "Message representing the request to update the quantity of an item in the cart"
-    },
-    "protobufAny": {
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": {}
-    },
-    "rpcStatus": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "details": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/protobufAny"
-          }
-        }
-      }
-    },
-    "DeleteImageResponse": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        }
-      }
-    },
-    "GetImageResponse": {
-      "type": "object",
-      "properties": {
-        "imageData": {
-          "type": "string",
-          "format": "byte"
-        }
-      }
-    },
-    "ImageUploadResponse": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "fileId": {
-          "type": "string"
-        }
-      }
-    },
-    "Inventory": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "productId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "availableQuantity": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "Definition of the Inventory message"
-    },
-    "notificationNotificationType": {
-      "type": "string",
-      "enum": [
-        "EMAIL"
-      ],
-      "default": "EMAIL",
-      "title": "Enum representing notification types"
-    },
-    "notificationSendNotificationRequest": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "content": {
-          "type": "string"
-        },
-        "type": {
-          "$ref": "#/definitions/notificationNotificationType"
-        },
-        "recipient": {
-          "type": "string"
-        }
-      },
-      "title": "Message representing the request to send a notification"
-    },
-    "notificationSendNotificationResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        }
-      },
-      "title": "Message representing the response of sending a notification"
-    },
-    "orderCreateOrderRequest": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/orderItem"
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         },
-        "userId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "shippingAddress": {
-          "type": "string"
-        },
-        "stripeTOken": {
-          "type": "string"
-        }
-      }
-    },
-    "orderCreateOrderResponse": {
-      "type": "object",
-      "properties": {
-        "orderId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
-    "orderGetOrderResponse": {
-      "type": "object",
-      "properties": {
-        "orderId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/orderItem"
-          }
-        },
-        "shippingAddress": {
-          "type": "string"
-        },
-        "status": {
-          "$ref": "#/definitions/orderOrderStatus"
-        }
-      }
-    },
-    "orderItem": {
-      "type": "object",
-      "properties": {
-        "productId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "orderOrderStatus": {
-      "type": "string",
-      "enum": [
-        "PENDING",
-        "PROCESSING",
-        "COMPLETED",
-        "CANCELED"
-      ],
-      "default": "PENDING"
-    },
-    "orderUpdateOrderStatusResponse": {
-      "type": "object",
-      "properties": {
-        "orderId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
-    "paymentCurrency": {
-      "type": "string",
-      "enum": [
-        "USD",
-        "EUR",
-        "GBP"
-      ],
-      "default": "USD",
-      "description": "- USD: United States Dollar\n - EUR: Euro\n - GBP: British Pound Sterling",
-      "title": "Define the Currency enum"
-    },
-    "paymentPaymentResponse": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "$ref": "#/definitions/paymentPaymentStatus"
-        },
-        "transactionId": {
-          "type": "integer",
-          "format": "int32"
-        }
+        "description": "Authentication Service"
       },
-      "description": "PaymentResponse represents the response after processing a payment request."
-    },
-    "paymentPaymentStatus": {
-      "type": "string",
-      "enum": [
-        "PaymentSuccessful",
-        "PaymentFailed"
-      ],
-      "default": "PaymentSuccessful"
-    },
-    "CreateProductRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
-        "price": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "image": {
-          "type": "string",
-          "format": "byte"
-        },
-        "description": {
-          "type": "string"
-        },
-        "available": {
-          "type": "boolean"
-        },
-        "weight": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "inventory": {
-          "$ref": "#/definitions/InventoryAvaliability"
-        },
-        "currency": {
-          "type": "string"
-        }
-      }
-    },
-    "Empty": {
-      "type": "object"
-    },
-    "GetProductListResponse": {
-      "type": "object",
-      "properties": {
-        "productList": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/Product"
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
           }
         }
-      }
-    },
-    "InventoryAvaliability": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "value": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "Product": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
-        "price": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "image": {
-          "type": "string",
-          "format": "byte"
-        },
-        "description": {
-          "type": "string"
-        },
-        "available": {
-          "type": "boolean"
-        },
-        "weight": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "inventory": {
-          "$ref": "#/definitions/InventoryAvaliability"
-        },
-        "currency": {
-          "type": "string"
-        }
-      }
-    },
-    "AddReviewRequest": {
-      "type": "object",
-      "properties": {
-        "productId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "comment": {
-          "type": "string"
-        },
-        "rating": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Add any other relevant fields here"
-        }
       },
-      "title": "Request message to add a new review"
-    },
-    "GetProductReviewsResponse": {
-      "type": "object",
-      "properties": {
-        "review": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/Review"
+      "RegisterRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         }
-      }
-    },
-    "Review": {
-      "type": "object",
-      "properties": {
-        "reviewId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "productId": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Product ID should be a positive integer"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "comment": {
-          "type": "string",
-          "title": "Comment should not be empty"
-        },
-        "rating": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Rating should be between 1 and 5 (inclusive)"
-        },
-        "timestamp": {
-          "type": "string",
-          "format": "date-time",
-          "title": "Timestamp should be set"
+      },
+      "RegisterResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          }
         }
       },
-      "title": "Definition of the Review message"
-    },
-    "LoginRequest": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string"
+      "Status": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GoogleProtobufAny"
+            },
+            "description": "A list of messages that carry the error details.  There is a common set of message types for APIs to use."
+          }
         },
-        "password": {
-          "type": "string"
+        "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fname": {
+            "type": "string"
+          },
+          "lname": {
+            "type": "string"
+          }
         }
       },
-      "title": "Authentication Service"
-    },
-    "LoginResponse": {
-      "type": "object",
-      "properties": {
-        "accessToken": {
-          "type": "string"
-        },
-        "refreshToken": {
-          "type": "string"
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fname": {
+            "type": "string"
+          },
+          "lname": {
+            "type": "string"
+          }
         }
-      }
-    },
-    "RegisterRequest": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
+      },
+      "VerifyTokenRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
         }
-      }
-    },
-    "RegisterResponse": {
-      "type": "object",
-      "properties": {
-        "accessToken": {
-          "type": "string"
-        }
-      }
-    },
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "email": {
-          "type": "string"
-        },
-        "fname": {
-          "type": "string"
-        },
-        "lname": {
-          "type": "string"
-        }
-      }
-    },
-    "VerifyTokenRequest": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        }
-      }
-    },
-    "VerifyTokenResponse": {
-      "type": "object",
-      "properties": {
-        "isValid": {
-          "type": "boolean"
+      },
+      "VerifyTokenResponse": {
+        "type": "object",
+        "properties": {
+          "isValid": {
+            "type": "boolean"
+          }
         }
       }
     }
