@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "google/api/annotations.proto";
 import "validate/validate.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "./user-service";
 
@@ -12,11 +13,21 @@ service UserService {
                 body: "*",
             };
     };
-    rpc GetUser (GetUserRequest) returns (User) {
-            option (google.api.http) = {
-                get: "/v1/user/{id}"
-            };
+        rpc GetUser (GetUserRequest) returns (User) {
+          option (google.api.http) = {
+            get: "/v1/user/{id}"
+          };
+          option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            security: {
+                security_requirement: {
+                    key: "bearerAuth";
+                    value: {
+                    }
+                }
+            }
         };
+        
+    };
     rpc UpdateUser (UpdateUserRequest) returns (User) {
             option (google.api.http) = {
                 put: "/v1/user/{id}",

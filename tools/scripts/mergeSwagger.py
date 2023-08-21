@@ -13,12 +13,25 @@ merged_data = {
         "title": "Merged API Documentation",
         "version": "1.0"
     },
+    "securityDefinitions": {
+        "bearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token authorization"
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
     "paths": {},
     "definitions": {}
 }
 
 # List of proto names
-proto_names = ["cart", "inventory"]
+proto_names = ["cart","file-upload", "inventory","notification","order","payment","product-catalog","review","user"]
 
 # Merge JSON files
 for proto_name in proto_names:
@@ -28,7 +41,7 @@ for proto_name in proto_names:
         merged_data["paths"].update(data.get("paths", {}))
         merged_data["definitions"].update(data.get("definitions", {}))
 
-# Write merged data to output file
+# Write merged data to the output file
 with open(OUTPUT_FILE, "w") as output_file:
     json.dump(merged_data, output_file, indent=2)
 
