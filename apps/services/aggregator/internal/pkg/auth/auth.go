@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strings"
 	userPb "svetozar12/e-com/v2/api/v1/user/dist/proto"
@@ -14,12 +13,10 @@ import (
 
 func authenticate(w http.ResponseWriter, r *http.Request) bool {
 	reqToken := r.Header.Get("Authorization")
-	splitToken := strings.Split(reqToken, "Bearer ")
-	if len(splitToken) == 1 {
+	if reqToken == "" {
 		return false
 	}
-	fmt.Println(splitToken, len(splitToken), "greg")
-	reqToken = splitToken[1]
+
 	ctx := context.Background()
 	conn, err := grpc.Dial(env.Envs.USER_SERVICE_ADDRESS, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
