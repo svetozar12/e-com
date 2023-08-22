@@ -16,8 +16,20 @@
         ]
       }
     },
-    "build": {
+    "build-sdk": {
       "dependsOn": ["build-openAPI"],
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx openapi-generator-cli generate -i api/v1/product-catalog/dist/OpenAPI/openapi.yaml -o libs/shared/sdk/src/api/v1/product-catalog -g typescript-axios --additional-properties=supportsES6=true,typescriptThreePlus=true --skip-validate-spec"
+        ],
+        "parallel": false
+      },
+      "outputs": ["{projectRoot}/dist"],
+      "inputs": ["{projectRoot}/*.proto"]
+    },
+    "build": {
+      "dependsOn": ["build-sdk"],
 
       "executor": "nx:run-commands",
       "options": {

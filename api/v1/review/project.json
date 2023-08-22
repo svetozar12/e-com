@@ -4,26 +4,39 @@
   "projectType": "application",
   "sourceRoot": "api",
   "targets": {
-    "pre-build": {
+    "build-openAPI": {
       "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist/OpenAPI"],
+      "inputs": ["{projectRoot}/*.proto"],
       "options": {
         "commands": [
           "rm -r -f dist",
-          "npx buf generate -o ./dist --template ../buf.gen.yaml"
+          "make-dir api/v1/review/dist/OpenAPI",
+          "npx protoc --proto_path=api --openapi_out=api/v1/review/dist/OpenAPI ./api/v1/review/review.proto"
+        ]
+      }
+    },
+    "build-sdk": {
+      "dependsOn": ["build-openAPI"],
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx openapi-generator-cli generate -i api/v1/review/dist/OpenAPI/openapi.yaml -o libs/shared/sdk/src/api/v1/review -g typescript-axios --additional-properties=supportsES6=true,typescriptThreePlus=true --skip-validate-spec"
         ],
-        "cwd": "api/v1/review"
+        "parallel": false
       },
       "outputs": ["{projectRoot}/dist"],
       "inputs": ["{projectRoot}/*.proto"]
     },
     "build": {
-      "dependsOn": ["pre-build"],
+      "dependsOn": ["build-sdk"],
+
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx openapi-generator-cli generate -i api/v1/review/dist/openapi/review.swagger.json -o libs/shared/sdk/src/api/v1/review -g typescript-axios --additional-properties=supportsES6=true,typescriptThreePlus=true --skip-validate-spec"
+          "npx buf generate -o ./v1/review/dist --template v1/buf.gen.yaml"
         ],
-        "parallel": false
+        "cwd": "api"
       },
       "outputs": ["{projectRoot}/dist"],
       "inputs": ["{projectRoot}/*.proto"]

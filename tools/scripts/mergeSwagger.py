@@ -1,6 +1,7 @@
 import yaml
+import json
 
-OUTPUT_FILE = "./apps/services/aggregator/third_party/swagger.yaml"
+OUTPUT_FILE = "./apps/services/aggregator/third_party/swagger-build/swagger.json"
 
 # Function that generates the OpenAPI YAML file path
 def get_oapi_path(proto_name):
@@ -32,7 +33,7 @@ merged_data = {
 }
 
 # List of proto names
-proto_names = ["product-catalog","user"]
+proto_names = ["product-catalog","user","review","payment","order","notification","inventory","file-upload","cart"]
 
 # Merge YAML files
 for proto_name in proto_names:
@@ -42,8 +43,8 @@ for proto_name in proto_names:
         merged_data["paths"].update(data.get("paths", {}))
         merged_data["components"]["schemas"].update(data.get("components", {}).get("schemas", {}))
 
-# Convert merged data to YAML and write to the output file
+# Convert merged data to JSON and write to the output file
 with open(OUTPUT_FILE, "w") as output_file:
-    yaml.dump(merged_data, output_file)
+    json.dump(merged_data, output_file, indent=4)
 
-print(f"Merged OpenAPI YAML file saved as {OUTPUT_FILE}")
+print(f"Merged OpenAPI JSON file saved as {OUTPUT_FILE}")
