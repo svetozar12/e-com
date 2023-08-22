@@ -4,7 +4,20 @@
   "projectType": "application",
   "sourceRoot": "apps/services/aggregator",
   "targets": {
+    "build-openAPI": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "python3 tools/scripts/mergeSwagger.py"
+      }
+    },
+    "build-swagger": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "sh tools/scripts/buildSwagger.sh"
+      }
+    },
     "build": {
+      "dependsOn": ["build-swagger"],
       "executor": "@nx-go/nx-go:build",
       "options": {
         "outputPath": "dist/apps/services/aggregator/aggregator",
@@ -12,6 +25,7 @@
       }
     },
     "serve": {
+      "dependsOn": ["build-openAPI"],
       "executor": "@nx-go/nx-go:serve",
       "options": {
         "cmd": "gow",

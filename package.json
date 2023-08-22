@@ -23,6 +23,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "run-script-os": "^1.1.6",
+    "swagger-ui-dist": "^5.4.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

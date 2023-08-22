@@ -52,7 +52,7 @@ service CartService {
   // RPC method to add an item to the cart
   rpc AddToCart(AddToCartRequest) returns (ShoppingCart) {
     option (google.api.http) = {
-      post: "/v1/cart/add"
+      post: "/v1/cart"
       body: "*"
     };
   }
@@ -60,7 +60,7 @@ service CartService {
   // RPC method to update the quantity of an item in the cart
   rpc UpdateCartItem(UpdateCartItemRequest) returns (ShoppingCart) {
     option (google.api.http) = {
-      put: "/v1/cart/update"
+      put: "/v1/cart"
       body: "*"
     };
   }
@@ -68,14 +68,14 @@ service CartService {
   // RPC method to remove an item from the cart
   rpc RemoveCartItem(RemoveCartItemRequest) returns (ShoppingCart) {
     option (google.api.http) = {
-      delete: "/v1/cart/remove/{product_id}"
+      delete: "/v1/cart/{product_id}"
     };
   }
 
   // RPC method to get the user's shopping cart
   rpc GetShoppingCart(GetShoppingCartRequest) returns (ShoppingCart) {
     option (google.api.http) = {
-      get: "/v1/cart/get"
+      get: "/v1/cart"
     };
   }
 }

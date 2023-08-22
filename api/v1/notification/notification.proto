@@ -42,7 +42,7 @@ service NotificationService {
   // RPC method to send a notification
   rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse) {
     option (google.api.http) = {
-      post: "/v1/notification/send"
+      post: "/v1/notification"
       body: "*"
     };
   }
