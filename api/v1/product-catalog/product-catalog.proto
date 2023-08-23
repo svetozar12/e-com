@@ -16,7 +16,7 @@ service ProducCatalogService {
                         get: "/v1/product-catalog"
             };
     };
-    rpc CreateProduct (CreateProductRequest) returns (Product) {
+    rpc CreateProduct (CreateProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         post: "/v1/product-catalog",
                         body: "*",
@@ -42,11 +42,31 @@ service ProducCatalogService {
                 }
               };
     };
-    rpc UpdateProduct (UpdateProductRequest) returns (Product) {
+    rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         put: "/v1/product-catalog/{id}",
                         body: "*"
             };
+            option (openapi.v3.operation) = {
+                request_body: {
+                  request_body: {
+                    content: {
+                      additional_properties: [
+                              {
+                                name: "multipart/form-data";
+                                value: {
+                                  schema: {
+                                    reference: {
+                                      _ref: "#/components/schemas/UpdateProductRequest"
+                                    }
+                                  }
+                                }
+                              }
+                        ]
+                    }
+                  }
+                }
+              };
     };
     rpc DeleteProduct (DeleteProductRequest) returns (Empty) {
             option (google.api.http) = {
