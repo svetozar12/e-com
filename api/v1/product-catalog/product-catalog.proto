@@ -68,7 +68,7 @@ service ProducCatalogService {
                 }
               };
     };
-    rpc DeleteProduct (DeleteProductRequest) returns (Empty) {
+    rpc DeleteProduct (DeleteProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         delete: "/v1/product-catalog/{id}"
             };

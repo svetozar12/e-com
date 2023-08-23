@@ -34,6 +34,6 @@
       }
     }
   },
-  "implicitDependencies": ["protos-cart"],
+  "implicitDependencies": ["protos-cart", "protos-product-catalog"],
   "tags": []
 }

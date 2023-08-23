@@ -10,7 +10,7 @@
       "inputs": ["{projectRoot}/*.proto"],
       "options": {
         "commands": [
-          "rm -r -f dist",
+          "rm -r -f api/v1/cart/dist",
           "make-dir api/v1/cart/dist/OpenAPI",
           "npx protoc --proto_path=api --openapi_out=api/v1/cart/dist/OpenAPI ./api/v1/cart/cart.proto"
         ]
@@ -30,11 +30,14 @@
     },
     "build": {
       "dependsOn": ["build-sdk"],
-
       "executor": "nx:run-commands",
       "options": {
+        "parallel": false,
         "commands": [
-          "npx buf generate -o ./v1/cart/dist --template v1/buf.gen.yaml"
+          "mkdir v1/cart/dist/cart-service",
+          "protoc -I=./v1/cart -I=. --go_out=./v1/cart/dist --go-grpc_out=./v1/cart/dist --experimental_allow_proto3_optional --grpc-gateway_out ./v1/cart/dist/cart-service --grpc-gateway_opt logtostderr=true --grpc-gateway_opt paths=source_relative --grpc-gateway_opt generate_unbound_methods=true  --validate_out=lang=go:./v1/cart/dist ./v1/cart/*.proto",
+          "ls v1/cart/dist",
+          "mv v1/cart/dist/cart-service v1/cart/dist/proto"
         ],
         "cwd": "api"
       },

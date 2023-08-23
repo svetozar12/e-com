@@ -23,7 +23,7 @@ message ShoppingCart {
 
 // Message representing the request to add an item to the cart
 message AddToCartRequest {
-  int32 product_id = 1;
+  int32 product_id = 1 [(validate.rules).int32.gte = 1];
   int32 quantity = 2;
   string currency = 3;
   int32 userId = 4;
@@ -31,20 +31,20 @@ message AddToCartRequest {
 
 // Message representing the request to update the quantity of an item in the cart
 message UpdateCartItemRequest {
-  int32 product_id = 1;
+  int32 product_id = 1 [(validate.rules).int32.gte = 1];
   int32 quantity = 2;
   int32 userId = 3;
 }
 
 // Message representing the request to remove an item from the cart
 message RemoveCartItemRequest {
-  int32 product_id = 1;
+  int32 product_id = 1 [(validate.rules).int32.gte = 1];
   int32 userId = 2;
 }
 
 // Message representing the request to get the user's shopping cart
 message GetShoppingCartRequest {
-  int32 userId = 1; 
+  int32 userId = 1 [(validate.rules).int32.gte = 1]; 
 }
 
 // Service definition for the shopping cart service
