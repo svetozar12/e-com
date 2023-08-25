@@ -2,6 +2,7 @@ package product
 
 import (
 	"context"
+	"fmt"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messageQues"
@@ -26,11 +27,12 @@ func getProduct(ctx context.Context, in *pb.GetProductRequest) (*pb.Product, err
 }
 
 func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.ProductResponse, error) {
+	fmt.Println("CREATE PRODUCT ENDPOINT")
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-
+	fmt.Println(in)
 	err = messageQues.UploadFileMessage(messageQues.ProductCatalogCh, in.Image)
 	if err != nil {
 		return nil, err

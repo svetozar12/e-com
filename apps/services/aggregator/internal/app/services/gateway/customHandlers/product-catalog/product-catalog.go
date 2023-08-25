@@ -30,7 +30,7 @@ func initProductCatalogClients() {
 
 func handleBinaryFileUpload(w http.ResponseWriter, r *http.Request, params map[string]string) {
 	formdata.ParseFormData(w, r)
-	file, _, err := r.FormFile("file")
+	file, _, err := r.FormFile("image")
 	if err != nil {
 		return
 	}
