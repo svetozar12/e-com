@@ -1,4 +1,4 @@
-package messageQues
+package fileUploadPublishers
 
 import (
 	"context"

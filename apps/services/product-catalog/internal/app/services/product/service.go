@@ -3,11 +3,15 @@ package product
 import (
 	"context"
 	"encoding/base64"
+	"fmt"
+	inventory_service "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
-	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messageQues"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq/publishers/fileUploadPublishers"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/constants"
+	grpcclients "svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/grpc-clients"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -31,6 +35,11 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
+
+	channel, err := rabbitmq.GetRabbitMQChannel()
+	if err != nil {
+		return nil, err
+	}
 	// TODO do transaction here if any of actions bellow fail revert changes in database
 	product, err := productRepository.CreateProduct(&entities.ProductEntity{Name: in.Name, Price: in.Price, Description: in.Description, Available: in.Available, Weight: in.Weight, Currency: in.Currency})
 	if err != nil {
@@ -39,17 +48,17 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 	fileData := make(map[string]any)
 	fileData["Id"] = product.ID
 	fileData["Image"] = base64.StdEncoding.EncodeToString(in.Image)
-	err = messageQues.UploadFileMessage(messageQues.ProductCatalogCh, fileData)
+	err = fileUploadPublishers.UploadFileMessage(channel, fileData)
 	if err != nil {
 		return nil, err
 	}
-	// TODO REMOVE COMMENT
-	// res, err := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
-	// }
-	// _, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}})
+
+	res, err := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
+	if err != nil {
+		fmt.Println(err, "GREGORI")
+		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
+	}
+	_, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}})
 	if err != nil {
 		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
 	}
@@ -60,6 +69,10 @@ func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Produc
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	channel, err := rabbitmq.GetRabbitMQChannel()
+	if err != nil {
+		return nil, err
 	}
 	product, err := productRepository.GetProduct("id = ?", in.Id)
 	if err != nil {
@@ -74,11 +87,11 @@ func updateProduct(ctx context.Context, in *pb.UpdateProductRequest) (*pb.Produc
 	}
 	for _, v := range in.Image {
 		if v != 0 {
-			messageQues.DeleteFileMessage(messageQues.ProductCatalogCh, product.Image)
+			fileUploadPublishers.DeleteFileMessage(channel, product.Image)
 			fileData := make(map[string]any)
 			fileData["Id"] = product.ID
 			fileData["Image"] = base64.StdEncoding.EncodeToString(in.Image)
-			err = messageQues.UploadFileMessage(messageQues.ProductCatalogCh, fileData)
+			err = fileUploadPublishers.UploadFileMessage(channel, fileData)
 
 			break
 		}
@@ -109,6 +122,10 @@ func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Produc
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
+	channel, err := rabbitmq.GetRabbitMQChannel()
+	if err != nil {
+		return nil, err
+	}
 	product, err := productRepository.GetProduct("id = ?", in.Id)
 	if err != nil {
 		return nil, status.Error(codes.NotFound, constants.ProductNotFound)
@@ -119,7 +136,7 @@ func deleteProduct(ctx context.Context, in *pb.DeleteProductRequest) (*pb.Produc
 	if err != nil {
 		return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_FAILED, Action: pb.Action_DELETE}, status.Error(codes.Aborted, constants.ProductNotDeleted)
 	}
-	messageQues.DeleteFileMessage(messageQues.ProductCatalogCh, product.Image)
+	fileUploadPublishers.DeleteFileMessage(channel, product.Image)
 
 	return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_SUCCESSFUL, Action: pb.Action_DELETE}, nil
 }

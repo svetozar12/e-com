@@ -47,8 +47,13 @@ func handleBinaryFileUpload(w http.ResponseWriter, r *http.Request, params map[s
 	available, err := strconv.ParseBool(r.FormValue("available"))
 	weightI, err := strconv.ParseInt(r.FormValue("weight"), 1, 64)
 	weight := int32(weightI)
-	data, err := productCatalogClient.CreateProduct(context.Background(), &productPb.CreateProductRequest{Image: buf.Bytes(), Id: id, Name: r.FormValue("name"), Price: price, Description: r.FormValue("description"), Available: available, Weight: weight, Currency: r.FormValue("currency")})
-
+	var inventory *productPb.InventoryAvaliability
+	inventoryJson := r.FormValue("inventory")
+	err = json.Unmarshal([]byte(inventoryJson), &inventory)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error while unmarshling"), http.StatusInternalServerError)
+	}
+	data, err := productCatalogClient.CreateProduct(context.Background(), &productPb.CreateProductRequest{Image: buf.Bytes(), Inventory: inventory, Id: id, Name: r.FormValue("name"), Price: price, Description: r.FormValue("description"), Available: available, Weight: weight, Currency: r.FormValue("currency")})
 	if err != nil {
 		http.Error(w, fmt.Sprintf("failed to upload file: %s", err.Error()), http.StatusInternalServerError)
 	}
