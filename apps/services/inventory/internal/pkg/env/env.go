@@ -8,8 +8,9 @@ import (
 )
 
 type Config struct {
-	Port                       string
-	POSTGRES_CONNECTION_STRING string
+	Port                        string
+	POSTGRES_CONNECTION_STRING  string
+	RABBIT_MQ_CONNECTION_STRING string
 }
 
 var Envs Config
@@ -26,8 +27,9 @@ func InitConfig() {
 	}
 
 	Envs = Config{
-		Port:                       getEnv("INVENTORY_SERVICE_PORT", "9003"),
-		POSTGRES_CONNECTION_STRING: getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
+		Port:                        getEnv("INVENTORY_SERVICE_PORT", "9003"),
+		POSTGRES_CONNECTION_STRING:  getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
+		RABBIT_MQ_CONNECTION_STRING: getEnv("PRODUCT_CATALOG_RABBIT_MQ_CONNECTION_STRING", "amqp://guest:guest@localhost:5672/"),
 	}
 
 	fmt.Println("Envs were successfully loaded!")
