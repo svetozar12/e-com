@@ -2,7 +2,6 @@ package fileupload
 
 import (
 	"context"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"testing"
@@ -31,7 +30,6 @@ func FileUpload(t *testing.T) {
 			t.Fatalf("UploadImage failed: %v", err)
 		}
 		imageIds[0] = resp.FileId
-		fmt.Println(resp, "response")
 	})
 	t.Cleanup(func() {
 		for i := 0; i < len(imageIds); i++ {

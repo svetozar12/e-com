@@ -2,7 +2,6 @@ package review_test
 
 import (
 	"context"
-	"fmt"
 	"strings"
 	"testing"
 
@@ -50,7 +49,6 @@ func TestAddReview(t *testing.T) {
 
 	t.Run("rpc AddReview(invalid input)", func(t *testing.T) {
 		_, err := client.AddReview(ctx, &pb.AddReviewRequest{ProductId: 0, UserId: 0, Comment: "", Rating: 9})
-		fmt.Println(err.Error())
 		if !strings.Contains(err.Error(), "ProductId: "+constants.GTEValueMessage("1")) {
 			t.Errorf(constants.InvalidFieldMessage("productId"))
 		}

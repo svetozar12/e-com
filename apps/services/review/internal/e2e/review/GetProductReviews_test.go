@@ -2,7 +2,6 @@ package review_test
 
 import (
 	"context"
-	"fmt"
 
 	"strings"
 	"testing"
@@ -31,7 +30,6 @@ func TestGetProductReviews(t *testing.T) {
 	review2, _ := reviewrepository.CreateReview(&entities.ReviewEntity{ProductId: 1, UserId: 1, Comment: "dummy comment2", Rating: 4})
 	t.Run("rpc GetProductReviews(expected behavior)", func(t *testing.T) {
 		resp, err := client.GetProductReviews(ctx, &pb.GetProductReviewsRequest{ProductId: int32(review.ProductId)})
-		fmt.Print(resp, "igore")
 		if err != nil {
 			t.Fatalf("GetReview failed: %v", err)
 		}

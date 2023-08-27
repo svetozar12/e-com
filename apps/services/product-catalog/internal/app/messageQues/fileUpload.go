@@ -2,15 +2,15 @@ package messageQues
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func UploadFileMessage(ch *amqp.Channel, file []byte) error {
+func UploadFileMessage(ch *amqp.Channel, fileData map[string]any) error {
 	queueName := "file-upload-queue"
-	fmt.Println("UPLOAD IMAGE Product catalog")
 	_, err := ch.QueueDeclare(
 		queueName, // Queue name
 		true,      // Durable
@@ -24,6 +24,10 @@ func UploadFileMessage(ch *amqp.Channel, file []byte) error {
 		return err
 	}
 
+	data, err := json.Marshal(fileData)
+	if err != nil {
+		return err
+	}
 	err = ch.PublishWithContext(context.Background(),
 		"",        // Exchange
 		queueName, // Routing key
@@ -31,7 +35,7 @@ func UploadFileMessage(ch *amqp.Channel, file []byte) error {
 		false,     // Immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
-			Body:        file,
+			Body:        data,
 		},
 	)
 	if err != nil {

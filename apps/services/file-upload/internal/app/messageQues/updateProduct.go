@@ -3,17 +3,15 @@ package messageQues
 import (
 	"context"
 	"encoding/json"
-	"log"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func UpdateProductMessage(ch *amqp.Channel, productData map[string]interface{}) error {
-
 	queueName := "product-update-queue"
 	data, err := json.Marshal(productData)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	_, err = ch.QueueDeclare(
 		queueName, // Queue name
@@ -24,7 +22,7 @@ func UpdateProductMessage(ch *amqp.Channel, productData map[string]interface{}) 
 		nil,       // Arguments
 	)
 	if err != nil {
-		log.Fatalf("Failed to declare a queue: %v", err)
+		return err
 	}
 	err = ch.PublishWithContext(context.Background(),
 		"",        // Exchange
@@ -37,7 +35,7 @@ func UpdateProductMessage(ch *amqp.Channel, productData map[string]interface{}) 
 		},
 	)
 	if err != nil {
-		log.Fatalf("Failed to publish a message: %v", err)
+		return err
 	}
 	return err
 }

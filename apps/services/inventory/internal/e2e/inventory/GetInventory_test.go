@@ -2,7 +2,6 @@ package inventory_test
 
 import (
 	"context"
-	"fmt"
 	"strings"
 	"testing"
 
@@ -37,7 +36,6 @@ func TestGetInventory(t *testing.T) {
 			t.Fatalf(constants.InvalidFieldValueMessage("availableQuantity"))
 		}
 		if resp.ProductId != int32(inventory.ProductId) {
-			fmt.Println(resp.ProductId, inventory.ProductId, "error")
 			t.Fatalf(constants.InvalidFieldValueMessage("ProductId"))
 		}
 	})

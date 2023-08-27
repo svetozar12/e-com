@@ -2,7 +2,6 @@ package review
 
 import (
 	"context"
-	"fmt"
 	pb "svetozar12/e-com/v2/api/v1/review/dist/proto"
 	"svetozar12/e-com/v2/apps/services/review/internal/app/entities"
 	reviewrepository "svetozar12/e-com/v2/apps/services/review/internal/app/repositories/reviewRepository"
@@ -33,7 +32,6 @@ func getProductReviews(ctx context.Context, in *pb.GetProductReviewsRequest) (*p
 	if err != nil {
 		return nil, status.Error(codes.NotFound, constants.ReviewNotFound)
 	}
-	fmt.Println(review)
 	return &pb.GetProductReviewsResponse{Review: ConvertArrayToPBReviews(review)}, nil
 }
 

@@ -2,7 +2,6 @@ package fileupload
 
 import (
 	"context"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -36,8 +35,6 @@ func GetFile(t *testing.T) {
 		if errGetFile != nil {
 			t.Fatalf("GetImage failed: %v", err)
 		}
-
-		fmt.Println(resp, "response")
 	})
 	t.Run("rpc GetFile(invalid input)", func(t *testing.T) {
 
