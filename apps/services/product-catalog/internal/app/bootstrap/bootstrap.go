@@ -16,7 +16,7 @@ import (
 
 func Bootstrap() {
 	env.InitConfig()
-	instance, err := rabbitmq.GetRabbitMQInstance("amqp://guest:guest@localhost:5672/")
+	instance, err := rabbitmq.GetRabbitMQInstance(env.Envs.RABBIT_MQ_CONNECTION_STRING)
 	if err != nil {
 		panic(err)
 	}

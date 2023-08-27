@@ -8,7 +8,8 @@ import (
 )
 
 type Config struct {
-	Port string `env:"FILE_UPLOAD_PORT" envDefault:"9002"`
+	Port                        string `env:"FILE_UPLOAD_PORT" envDefault:"9002"`
+	RABBIT_MQ_CONNECTION_STRING string
 }
 
 var Envs Config
@@ -25,7 +26,8 @@ func InitConfig() {
 	}
 
 	Envs = Config{
-		Port: getEnv("FILE_UPLOAD_PORT", "9002"),
+		Port:                        getEnv("FILE_UPLOAD_PORT", "9002"),
+		RABBIT_MQ_CONNECTION_STRING: getEnv("FILE_UPLOAD_RABBIT_MQ_CONNECTION_STRING", "amqp://guest:guest@localhost:5672/"),
 	}
 
 	fmt.Println("Envs were successfully loaded!")

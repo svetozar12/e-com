@@ -3,16 +3,33 @@ package bootstrap
 import (
 	"log"
 	"net"
-	"svetozar12/e-com/v2/apps/services/file-upload/internal/app/messageQues"
+	"svetozar12/e-com/v2/apps/services/file-upload/internal/app/messaging/rabbitmq"
+	"svetozar12/e-com/v2/apps/services/file-upload/internal/app/messaging/rabbitmq/consumers/fileUploadConsumers"
 	fileupload "svetozar12/e-com/v2/apps/services/file-upload/internal/app/services/file-upload"
 	"svetozar12/e-com/v2/apps/services/file-upload/internal/pkg/env"
+	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
 )
 
 func Bootstrap() {
 	env.InitConfig()
-	go messageQues.Boots()
+	instance, err := rabbitmq.GetRabbitMQInstance(env.Envs.RABBIT_MQ_CONNECTION_STRING)
+	if err != nil {
+		panic(err)
+	}
+	ch, err := instance.CreateChannel()
+	if err != nil {
+		panic(err)
+	}
+	defer ch.Close()
+	defer instance.Close()
+
+	instance.DeclareQueues(constants.ProductUpdateQueueName,
+		constants.FileUploadQueueName)
+
+	go fileUploadConsumers.ConsumeFileUploadMessages(ch)
+
 	grpcAddr := ":" + env.Envs.Port
 	listener, err := net.Listen("tcp", grpcAddr)
 	if err != nil {
