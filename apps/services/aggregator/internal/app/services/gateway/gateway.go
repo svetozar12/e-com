@@ -23,7 +23,6 @@ func Run() error {
 	if env.Envs.ServeHttp == "true" {
 		fmt.Println("Aggregator service is running on http://localhost" + gatewayAddr)
 		err := http.ListenAndServe(gatewayAddr, nil)
-		fmt.Println(err)
 		return err
 	}
 

@@ -3,7 +3,6 @@ package product
 import (
 	"context"
 	"encoding/base64"
-	"fmt"
 	inventory_service "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
@@ -45,6 +44,16 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 	if err != nil {
 		return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_FAILED, Action: pb.Action_CREATE}, status.Error(codes.Aborted, constants.ProductNotCreated)
 	}
+	res, err := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
+	if err != nil {
+		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
+	}
+	product.Inventory = entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}
+	_, err = productRepository.UpdateProduct(product)
+	if err != nil {
+		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
+	}
+
 	fileData := make(map[string]any)
 	fileData["Id"] = product.ID
 	fileData["Image"] = base64.StdEncoding.EncodeToString(in.Image)
@@ -53,15 +62,6 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 		return nil, err
 	}
 
-	res, err := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
-	if err != nil {
-		fmt.Println(err, "GREGORI")
-		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
-	}
-	_, err = productRepository.UpdateProduct(&entities.ProductEntity{Inventory: entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}})
-	if err != nil {
-		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
-	}
 	return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_SUCCESSFUL, Action: pb.Action_CREATE}, nil
 }
 

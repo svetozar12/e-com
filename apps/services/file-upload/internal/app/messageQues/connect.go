@@ -28,31 +28,7 @@ func RabbitMqConnect(connectionString string) (*amqp.Channel, *amqp.Connection, 
 	return ch, conn, nil
 }
 
-// func processFileUpload(data map[string]interface{}) {
-// 	// ... (Handle the notification message and perform necessary actions)
-// 	fmt.Println(data["Id"], "ASENE")
-
-// 	file, err := fileupload.UploadImageUtil(data["Image"].([]byte))
-// 	if err != nil {
-// 		fmt.Println("Error in UploadImageUtil")
-// 		panic(err)
-// 	}
-// 	fmt.Println(data["Id"], "ASENE")
-// 	productData := make(map[string]any)
-// 	productData["Id"] = data["Id"]
-// 	productData["Image"] = file.Name()
-
-// 	err = UpdateProductMessage(FileUploadCh, productData)
-// 	if err != nil {
-// 		fmt.Println("Error in UpdateProductMessage")
-// 		panic(err)
-// 	}
-
-// }
-
 func processFileUpload(data map[string]interface{}) {
-	fmt.Println(data["Id"], "ASENE")
-
 	imageData, err := base64.StdEncoding.DecodeString(data["Image"].(string))
 	if err != nil {
 		fmt.Println("Image data is not []byte, skipping file upload.", data["Image"])
