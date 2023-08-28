@@ -33,6 +33,5 @@
       }
     }
   },
-  "implicitDependencies": ["protos-product-catalog"],
   "tags": []
 }

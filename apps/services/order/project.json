@@ -33,12 +33,5 @@
       }
     }
   },
-  "implicitDependencies": [
-    "protos-order",
-    "services-inventory",
-    "services-user",
-    "services-payment",
-    "services-cart"
-  ],
   "tags": []
 }

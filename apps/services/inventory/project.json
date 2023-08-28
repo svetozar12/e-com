@@ -33,6 +33,5 @@
       }
     }
   },
-  "implicitDependencies": ["protos-inventory"],
   "tags": []
 }
