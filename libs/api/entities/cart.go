@@ -10,10 +10,6 @@ type CartEntity struct {
 	Currency  string `json:"currency,omitempty"`
 }
 
-type Tabler interface {
-	TableName() string
-}
-
 // TableName overrides the table name used by User to `profiles`
 func (CartEntity) TableName() string {
 	return "Cart"
