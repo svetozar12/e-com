@@ -8,9 +8,9 @@ import (
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq/publishers/fileUploadPublishers"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq/publishers/inventoryPublishers"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/constants"
-	grpcclients "svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/grpc-clients"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -44,11 +44,8 @@ func createProduct(ctx context.Context, in *pb.CreateProductRequest) (*pb.Produc
 	if err != nil {
 		return &pb.ProductResponse{ProductId: int32(product.ID), Status: pb.Status_FAILED, Action: pb.Action_CREATE}, status.Error(codes.Aborted, constants.ProductNotCreated)
 	}
-	res, err := grpcclients.InventoryClient.AddInventory(ctx, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
-	if err != nil {
-		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)
-	}
-	product.Inventory = entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}
+	inventoryPublishers.AddInventoryMessage(channel, &inventory_service.AddInventoryRequest{ProductId: int32(product.ID), InitialQuantity: in.Inventory.Value})
+	// product.Inventory = entities.InventoryEntity{AvailableQuantity: res.AvailableQuantity, Model: gorm.Model{ID: uint(res.Id)}}
 	_, err = productRepository.UpdateProduct(product)
 	if err != nil {
 		return nil, status.Error(codes.Aborted, constants.InventoryNotUpdated)

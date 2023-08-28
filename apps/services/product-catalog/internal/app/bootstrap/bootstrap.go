@@ -7,9 +7,8 @@ import (
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq/consumers/productCatalogConsumers"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/services/product"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/constants"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/env"
-	grpcclients "svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/grpc-clients"
-	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
 )
@@ -32,7 +31,7 @@ func Bootstrap() {
 		constants.FileUploadQueueName)
 
 	go productCatalogConsumers.ConsumeProductUpdateMessage(ch)
-	grpcclients.InitClients()
+	go productCatalogConsumers.ConsumeProductUpdateInventoryMessage(ch)
 
 	grpcAddr := ":" + env.Envs.Port
 	listener, err := net.Listen("tcp", grpcAddr)

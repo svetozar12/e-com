@@ -152,7 +152,7 @@ message UpdateProductRequest {
         optional string description = 5;
         optional bool available = 6;
         optional int32 weight = 7;
-        optional InventoryAvaliability inventory = 8;
+        // optional InventoryAvaliability inventory = 8;
         optional string currency = 9;       
 }
 

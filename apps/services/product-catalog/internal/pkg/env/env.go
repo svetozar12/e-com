@@ -30,7 +30,6 @@ func InitConfig() {
 	Envs = Config{
 		Port:                        getEnv("PORT", "9001"),
 		POSTGRES_CONNECTION_STRING:  getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
-		INVENTORY_SERVICE_ADDRESS:   getEnv("PRODUCT_CATALOG_INVENTORY_SERVICE_ADDRESS", "0.0.0.0:9003"),
 		RABBIT_MQ_CONNECTION_STRING: getEnv("PRODUCT_CATALOG_RABBIT_MQ_CONNECTION_STRING", "amqp://guest:guest@localhost:5672/"),
 	}
 

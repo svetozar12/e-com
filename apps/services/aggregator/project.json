@@ -28,7 +28,6 @@
       "dependsOn": ["build-openAPI"],
       "executor": "@nx-go/nx-go:serve",
       "options": {
-        "cmd": "gow",
         "cwd": ".",
         "main": "apps/services/aggregator/main.go"
       }

@@ -4,20 +4,20 @@ import (
 	"encoding/json"
 	"log"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
+	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/constants"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func ConsumeProductUpdateMessage(ch *amqp.Channel) {
-	queueName := "product-update-queue"
+func ConsumeProductUpdateInventoryMessage(ch *amqp.Channel) {
 	msgs, err := ch.Consume(
-		queueName, // Queue name
-		"",        // Consumer
-		true,      // Auto-ack (set to false for manual acknowledgment)
-		false,     // Exclusive
-		false,     // No-local
-		false,     // No-wait
-		nil,       // Args
+		constants.CreateInventoryResponseQuery, // Queue name
+		"",                                     // Consumer
+		true,                                   // Auto-ack (set to false for manual acknowledgment)
+		false,                                  // Exclusive
+		false,                                  // No-local
+		false,                                  // No-wait
+		nil,                                    // Args
 	)
 	if err != nil {
 		log.Fatalf("Failed to start consuming messages: %v", err)
@@ -29,26 +29,29 @@ func ConsumeProductUpdateMessage(ch *amqp.Channel) {
 			log.Println("Error decoding message:", err)
 			continue // Move to the next message
 		}
-		processProductUpdate(data)
+		processProductUpdateInventory(data)
 	}
 }
 
-func processProductUpdate(data map[string]interface{}) {
+func processProductUpdateInventory(data map[string]interface{}) {
 	// Check if data is nil before proceeding
 	if data == nil {
 		log.Println("Received nil data, skipping update.")
 		return
 	}
 
+	productId := data["ProductId"].(float64)
+	inventoryId := data["InventoryId"].(float64)
+
 	// Get the existing product by ID
-	existingProduct, err := productRepository.GetProduct("id = ?", uint(data["Id"].(float64)))
+	existingProduct, err := productRepository.GetProduct("id = ?", productId)
 	if err != nil {
 		log.Println("Error getting existing product:", err)
 		return
 	}
 
-	// Update the product's Image property
-	existingProduct.Image = string(data["Image"].(string))
+	// Update the product's Inventory id
+	existingProduct.Inventory.ID = uint(inventoryId)
 
 	// Process the product update
 	_, err = productRepository.UpdateProduct(existingProduct)

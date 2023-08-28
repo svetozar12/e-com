@@ -6,8 +6,8 @@ import (
 	"svetozar12/e-com/v2/apps/services/file-upload/internal/app/messaging/rabbitmq"
 	"svetozar12/e-com/v2/apps/services/file-upload/internal/app/messaging/rabbitmq/consumers/fileUploadConsumers"
 	fileupload "svetozar12/e-com/v2/apps/services/file-upload/internal/app/services/file-upload"
+	"svetozar12/e-com/v2/apps/services/file-upload/internal/pkg/constants"
 	"svetozar12/e-com/v2/apps/services/file-upload/internal/pkg/env"
-	"svetozar12/e-com/v2/libs/api/constants"
 
 	"google.golang.org/grpc"
 )
@@ -43,3 +43,7 @@ func Bootstrap() {
 	}
 
 }
+
+var ProductUpdateQueueName = "product-update-queue"
+var FileDeleteQueueName = "file-delete-queue"
+var FileUploadQueueName = "file-upload-queue"
