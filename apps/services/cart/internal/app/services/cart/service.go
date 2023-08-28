@@ -3,8 +3,8 @@ package cart
 import (
 	"context"
 	pb "svetozar12/e-com/v2/api/v1/cart/dist/proto"
-	"svetozar12/e-com/v2/apps/services/cart/internal/app/entities"
 	cartRepository "svetozar12/e-com/v2/apps/services/cart/internal/app/repositories/productRepository"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
