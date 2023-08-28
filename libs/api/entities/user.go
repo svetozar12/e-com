@@ -10,10 +10,6 @@ type UserEntity struct {
 	Lname    string `json:"lname,omitempty"`
 }
 
-type Tabler interface {
-	TableName() string
-}
-
 // TableName overrides the table name used by User to `profiles`
 func (UserEntity) TableName() string {
 	return "User"

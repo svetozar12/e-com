@@ -21,10 +21,6 @@ type ItemEntity struct {
 	Quantity  int32 `gorm:"not null"`
 }
 
-type Tabler interface {
-	TableName() string
-}
-
 // TableName overrides the table name used by User to `profiles`
 func (OrderEntity) TableName() string {
 	return "Order"

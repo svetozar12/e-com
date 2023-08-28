@@ -2,7 +2,7 @@ package product
 
 import (
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
-	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func ProductModel(product *entities.ProductEntity) *pb.Product {

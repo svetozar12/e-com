@@ -15,10 +15,6 @@ type ProductEntity struct {
 	Currency    string          `json:"currency" binding:"required"`
 }
 
-type Tabler interface {
-	TableName() string
-}
-
 // TableName overrides the table name used by User to `profiles`
 func (ProductEntity) TableName() string {
 	return "Product"

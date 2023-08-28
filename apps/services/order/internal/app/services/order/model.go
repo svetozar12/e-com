@@ -2,7 +2,7 @@ package order
 
 import (
 	pb "svetozar12/e-com/v2/api/v1/order/dist/proto"
-	"svetozar12/e-com/v2/apps/services/order/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func ProtoItemsToEntityItems(protoItems []*pb.Item) []entities.ItemEntity {

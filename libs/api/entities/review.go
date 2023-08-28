@@ -10,10 +10,6 @@ type ReviewEntity struct {
 	Rating    int32  `json:"rating,omitempty"`
 }
 
-type Tabler interface {
-	TableName() string
-}
-
 // TableName overrides the table name used by User to `profiles`
 func (ReviewEntity) TableName() string {
 	return "Review"

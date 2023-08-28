@@ -3,9 +3,9 @@ package order
 import (
 	"context"
 	pb "svetozar12/e-com/v2/api/v1/order/dist/proto"
-	"svetozar12/e-com/v2/apps/services/order/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/order/internal/app/repositories/orderRepository"
 	"svetozar12/e-com/v2/apps/services/order/internal/pkg/constants"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

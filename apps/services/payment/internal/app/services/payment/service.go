@@ -3,8 +3,8 @@ package payment
 import (
 	"context"
 	pb "svetozar12/e-com/v2/api/v1/payment/dist/proto"
-	"svetozar12/e-com/v2/apps/services/payment/internal/app/entities"
 	transactionRepository "svetozar12/e-com/v2/apps/services/payment/internal/app/repositories/paymentRepository"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

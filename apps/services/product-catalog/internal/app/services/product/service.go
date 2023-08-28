@@ -5,12 +5,12 @@ import (
 	"encoding/base64"
 	inventory_service "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
 	pb "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
-	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq/publishers/fileUploadPublishers"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/messaging/rabbitmq/publishers/inventoryPublishers"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/repositories/productRepository"
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/pkg/constants"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

@@ -2,7 +2,7 @@ package orderRepository
 
 import (
 	"svetozar12/e-com/v2/apps/services/order/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/order/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func GetOrder(order *entities.OrderEntity) (*entities.OrderEntity, error) {
