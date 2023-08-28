@@ -11,10 +11,6 @@ type NotificationEntity struct {
 	Read      bool   `gorm:"not null"`
 }
 
-type Tabler interface {
-	TableName() string
-}
-
 // TableName overrides the table name used by User to `profiles`
 func (NotificationEntity) TableName() string {
 	return "Notification"

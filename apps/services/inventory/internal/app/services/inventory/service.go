@@ -3,9 +3,9 @@ package inventory
 import (
 	"context"
 	pb "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
-	"svetozar12/e-com/v2/apps/services/inventory/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/inventory/internal/app/repositories/inventoryRepository"
 	"svetozar12/e-com/v2/apps/services/inventory/internal/pkg/constants"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

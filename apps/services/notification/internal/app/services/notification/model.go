@@ -2,7 +2,7 @@ package notification
 
 import (
 	pb "svetozar12/e-com/v2/api/v1/notification/dist/proto"
-	"svetozar12/e-com/v2/apps/services/notification/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func PBToNotificationEntity(pbNotification *pb.SendNotificationRequest, read bool) *entities.NotificationEntity {

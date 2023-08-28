@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"log"
 	inventoryPb "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
-	"svetozar12/e-com/v2/apps/services/inventory/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/inventory/internal/app/messaging/rabbitmq"
 	"svetozar12/e-com/v2/apps/services/inventory/internal/app/messaging/rabbitmq/publishers/productCatalogPublishers"
 	"svetozar12/e-com/v2/apps/services/inventory/internal/app/repositories/inventoryRepository"
 	"svetozar12/e-com/v2/apps/services/inventory/internal/pkg/constants"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )

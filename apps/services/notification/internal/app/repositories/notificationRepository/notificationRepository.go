@@ -2,7 +2,7 @@ package notificationRepository
 
 import (
 	"svetozar12/e-com/v2/apps/services/notification/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/notification/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func GetNotification(notification *entities.NotificationEntity) (*entities.NotificationEntity, error) {

@@ -2,7 +2,7 @@ package inventoryRepository
 
 import (
 	"svetozar12/e-com/v2/apps/services/inventory/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/inventory/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func GetInventory(query interface{}, args ...interface{}) (*entities.InventoryEntity, error) {
