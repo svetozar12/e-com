@@ -1,8 +1,8 @@
 package postgres
 
 import (
-	"svetozar12/e-com/v2/apps/services/order/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/order/internal/pkg/env"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

@@ -21,13 +21,12 @@ func Run() error {
 	http.Handle("/", RedirectToDocsMiddleware(AuthMiddleware(gwmux)))
 	// Empty parameters mean use the TLS Config specified with the server.
 	if env.Envs.ServeHttp == "true" {
-		fmt.Println("Serving gRPC-Gateway and OpenAPI Documentation on port(http)", gatewayAddr)
+		fmt.Println("Aggregator service is running on http://localhost" + gatewayAddr)
 		err := http.ListenAndServe(gatewayAddr, nil)
-		fmt.Println(err)
 		return err
 	}
 
-	fmt.Println("Serving gRPC-Gateway and OpenAPI Documentation on port(https)", gatewayAddr)
+	fmt.Println("Aggregator service is running on https://" + gatewayAddr)
 	return fmt.Errorf("serving gRPC-Gateway server: %w", http.ListenAndServeTLS(gatewayAddr, "", "", nil))
 }
 
@@ -35,7 +34,6 @@ func Run() error {
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		isAuth := auth.MapProtectedEndpoints(w, r)
-		fmt.Println(isAuth, "IVAN")
 		if !isAuth {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return

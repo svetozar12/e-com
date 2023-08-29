@@ -2,13 +2,12 @@ package user
 
 import (
 	"context"
-	"fmt"
 	pb "svetozar12/e-com/v2/api/v1/user/dist/proto"
-	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/user/internal/app/repositories/userRepository"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/constants"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/env"
 	"svetozar12/e-com/v2/apps/services/user/internal/pkg/jwtUtils"
+	"svetozar12/e-com/v2/libs/api/entities"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -17,7 +16,6 @@ import (
 )
 
 func register(ctx context.Context, in *pb.RegisterRequest) (*pb.RegisterResponse, error) {
-	fmt.Println(in, "IVANE")
 	err := in.ValidateAll()
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())

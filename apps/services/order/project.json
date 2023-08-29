@@ -14,7 +14,6 @@
     "serve": {
       "executor": "@nx-go/nx-go:serve",
       "options": {
-        "cmd": "gow",
         "cwd": ".",
         "main": "apps/services/order/main.go"
       }
@@ -34,12 +33,5 @@
       }
     }
   },
-  "implicitDependencies": [
-    "protos-order",
-    "services-inventory",
-    "services-user",
-    "services-payment",
-    "services-cart"
-  ],
   "tags": []
 }

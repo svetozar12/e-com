@@ -25,8 +25,6 @@ func initFileUploadClients() {
 
 func handleGetFile(w http.ResponseWriter, r *http.Request, params map[string]string) {
 	imageId := r.URL.Query().Get("imageId")
-	fmt.Println(imageId)
-	// imageId := params["id"]
 	ctx := context.Background()
 	data, err := fileUploadClient.GetImage(ctx, &fileuploadPb.GetImageRequest{Id: imageId})
 	if err != nil {

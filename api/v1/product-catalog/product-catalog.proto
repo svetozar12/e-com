@@ -16,7 +16,7 @@ service ProducCatalogService {
                         get: "/v1/product-catalog"
             };
     };
-    rpc CreateProduct (CreateProductRequest) returns (Product) {
+    rpc CreateProduct (CreateProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         post: "/v1/product-catalog",
                         body: "*",
@@ -42,18 +42,55 @@ service ProducCatalogService {
                 }
               };
     };
-    rpc UpdateProduct (UpdateProductRequest) returns (Product) {
+    rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         put: "/v1/product-catalog/{id}",
                         body: "*"
             };
+            option (openapi.v3.operation) = {
+                request_body: {
+                  request_body: {
+                    content: {
+                      additional_properties: [
+                              {
+                                name: "multipart/form-data";
+                                value: {
+                                  schema: {
+                                    reference: {
+                                      _ref: "#/components/schemas/UpdateProductRequest"
+                                    }
+                                  }
+                                }
+                              }
+                        ]
+                    }
+                  }
+                }
+              };
     };
-    rpc DeleteProduct (DeleteProductRequest) returns (Empty) {
+    rpc DeleteProduct (DeleteProductRequest) returns (ProductResponse) {
             option (google.api.http) = {
                         delete: "/v1/product-catalog/{id}"
             };
     } 
 };
+
+enum Status {
+        SUCCESSFUL = 0;
+        FAILED = 1;
+};
+
+enum Action{
+        CREATE = 0;
+        UPDATE = 1;
+        DELETE = 2;
+};
+
+message ProductResponse {
+        Status status = 1;
+        Action action = 2;
+        int32 productId = 3; 
+}
 
 message Empty {}
 
@@ -115,7 +152,7 @@ message UpdateProductRequest {
         optional string description = 5;
         optional bool available = 6;
         optional int32 weight = 7;
-        optional InventoryAvaliability inventory = 8;
+        // optional InventoryAvaliability inventory = 8;
         optional string currency = 9;       
 }
 

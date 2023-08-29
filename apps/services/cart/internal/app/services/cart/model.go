@@ -4,8 +4,8 @@ import (
 	"context"
 	pb "svetozar12/e-com/v2/api/v1/cart/dist/proto"
 	pbProduct "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
-	"svetozar12/e-com/v2/apps/services/cart/internal/app/entities"
 	grpcclients "svetozar12/e-com/v2/apps/services/cart/internal/pkg/grpc-clients"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func ConvertToPBCart(cart *entities.CartEntity, ctx context.Context) *pb.CartItem {

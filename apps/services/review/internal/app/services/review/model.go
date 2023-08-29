@@ -2,7 +2,7 @@ package review
 
 import (
 	pb "svetozar12/e-com/v2/api/v1/review/dist/proto"
-	"svetozar12/e-com/v2/apps/services/review/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 )

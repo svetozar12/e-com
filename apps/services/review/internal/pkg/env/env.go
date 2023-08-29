@@ -19,14 +19,14 @@ InitConfig initializes the configuration by parsing environment variables and st
 */
 func InitConfig() {
 	// Load environment variables from .env file
-	err := godotenv.Load("apps/services/cart/.env")
+	err := godotenv.Load("apps/services/review/.env")
 	if err != nil {
 		// Handle error if the .env file can't be loaded
 		panic(err)
 	}
 
 	Envs = Config{
-		Port:                       getEnv("PORT", "9008"),
+		Port:                       getEnv("PORT", "9004"),
 		POSTGRES_CONNECTION_STRING: getEnv("POSTGRES_CONNECTION_STRING", "postgres://postgres:postgrespw@localhost:5432"),
 	}
 

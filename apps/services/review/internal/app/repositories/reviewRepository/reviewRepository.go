@@ -2,7 +2,7 @@ package reviewrepository
 
 import (
 	"svetozar12/e-com/v2/apps/services/review/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/review/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func GetReview(query interface{}, args ...interface{}) (*entities.ReviewEntity, error) {

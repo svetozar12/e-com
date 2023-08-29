@@ -2,7 +2,7 @@ package userRepository
 
 import (
 	"svetozar12/e-com/v2/apps/services/user/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/user/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func GetUser(query interface{}, args ...interface{}) (*entities.UserEntity, error) {

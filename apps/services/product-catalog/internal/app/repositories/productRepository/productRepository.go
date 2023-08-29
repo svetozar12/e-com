@@ -2,7 +2,7 @@ package productRepository
 
 import (
 	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/product-catalog/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func GetProduct(query interface{}, args ...interface{}) (*entities.ProductEntity, error) {

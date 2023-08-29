@@ -14,7 +14,6 @@
     "serve": {
       "executor": "@nx-go/nx-go:serve",
       "options": {
-        "cmd": "gow",
         "cwd": ".",
         "main": "apps/services/notification/main.go"
       }
@@ -34,6 +33,5 @@
       }
     }
   },
-  "implicitDependencies": ["protos-notification"],
   "tags": []
 }

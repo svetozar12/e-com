@@ -2,7 +2,7 @@ package cartRepository
 
 import (
 	"svetozar12/e-com/v2/apps/services/cart/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/cart/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func GetCart(cart *entities.CartEntity) (*entities.CartEntity, error) {

@@ -2,7 +2,7 @@ package inventory
 
 import (
 	pb "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
-	"svetozar12/e-com/v2/apps/services/inventory/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func ConvertToPBInventory(inventory *entities.InventoryEntity) *pb.Inventory {

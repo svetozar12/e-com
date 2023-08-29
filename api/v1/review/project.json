@@ -10,7 +10,7 @@
       "inputs": ["{projectRoot}/*.proto"],
       "options": {
         "commands": [
-          "rm -r -f dist",
+          "rm -r -f api/v1/review/dist",
           "make-dir api/v1/review/dist/OpenAPI",
           "npx protoc --proto_path=api --openapi_out=api/v1/review/dist/OpenAPI ./api/v1/review/review.proto"
         ]
@@ -30,11 +30,14 @@
     },
     "build": {
       "dependsOn": ["build-sdk"],
-
       "executor": "nx:run-commands",
       "options": {
+        "parallel": false,
         "commands": [
-          "npx buf generate -o ./v1/review/dist --template v1/buf.gen.yaml"
+          "mkdir v1/review/dist/review-service",
+          "protoc -I=./v1/review -I=. --go_out=./v1/review/dist --go-grpc_out=./v1/review/dist --experimental_allow_proto3_optional --grpc-gateway_out ./v1/review/dist/review-service --grpc-gateway_opt logtostderr=true --grpc-gateway_opt paths=source_relative --grpc-gateway_opt generate_unbound_methods=true  --validate_out=lang=go:./v1/review/dist ./v1/review/*.proto",
+          "ls v1/review/dist",
+          "mv v1/review/dist/review-service v1/review/dist/proto"
         ],
         "cwd": "api"
       },

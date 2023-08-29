@@ -2,7 +2,7 @@ package transactionRepository
 
 import (
 	"svetozar12/e-com/v2/apps/services/payment/internal/app/databases/postgres"
-	"svetozar12/e-com/v2/apps/services/payment/internal/app/entities"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func GetTransaction(transaction *entities.TransactionEntity) (*entities.TransactionEntity, error) {

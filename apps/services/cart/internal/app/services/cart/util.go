@@ -4,10 +4,10 @@ import (
 	"context"
 	pb "svetozar12/e-com/v2/api/v1/cart/dist/proto"
 	product_catalog_service "svetozar12/e-com/v2/api/v1/product-catalog/dist/proto"
-	"svetozar12/e-com/v2/apps/services/cart/internal/app/entities"
 	cartRepository "svetozar12/e-com/v2/apps/services/cart/internal/app/repositories/productRepository"
 	"svetozar12/e-com/v2/apps/services/cart/internal/pkg/constants"
 	grpcclients "svetozar12/e-com/v2/apps/services/cart/internal/pkg/grpc-clients"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

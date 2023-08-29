@@ -30,7 +30,7 @@ func initProductCatalogClients() {
 
 func handleBinaryFileUpload(w http.ResponseWriter, r *http.Request, params map[string]string) {
 	formdata.ParseFormData(w, r)
-	file, _, err := r.FormFile("file")
+	file, _, err := r.FormFile("image")
 	if err != nil {
 		return
 	}
@@ -40,15 +40,20 @@ func handleBinaryFileUpload(w http.ResponseWriter, r *http.Request, params map[s
 		http.Error(w, fmt.Sprintf("failed to copy file: %s", err.Error()), http.StatusInternalServerError)
 		return
 	}
-	idI, err := strconv.ParseInt(params["id"], 1, 64)
-	id := int32(idI)
-	priceI, err := strconv.ParseInt(r.FormValue("price"), 1, 64)
+
+	priceI, err := strconv.ParseInt(r.FormValue("price"), 1, 32)
 	price := int32(priceI)
 	available, err := strconv.ParseBool(r.FormValue("available"))
-	weightI, err := strconv.ParseInt(r.FormValue("weight"), 1, 64)
+	weightI, err := strconv.ParseInt(r.FormValue("weight"), 1, 32)
 	weight := int32(weightI)
-	data, err := productCatalogClient.CreateProduct(context.Background(), &productPb.CreateProductRequest{Image: buf.Bytes(), Id: id, Name: r.FormValue("name"), Price: price, Description: r.FormValue("description"), Available: available, Weight: weight, Currency: r.FormValue("currency")})
-
+	var inventory *productPb.InventoryAvaliability
+	inventoryJson := r.FormValue("inventory")
+	err = json.Unmarshal([]byte(inventoryJson), &inventory)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error while unmarshling"), http.StatusInternalServerError)
+	}
+	fmt.Println(price, weight)
+	data, err := productCatalogClient.CreateProduct(context.Background(), &productPb.CreateProductRequest{Image: buf.Bytes(), Inventory: inventory, Name: r.FormValue("name"), Price: price, Description: r.FormValue("description"), Available: available, Weight: weight, Currency: r.FormValue("currency")})
 	if err != nil {
 		http.Error(w, fmt.Sprintf("failed to upload file: %s", err.Error()), http.StatusInternalServerError)
 	}

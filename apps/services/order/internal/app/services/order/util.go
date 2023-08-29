@@ -9,11 +9,11 @@ import (
 	pb "svetozar12/e-com/v2/api/v1/order/dist/proto"
 	pbPayment "svetozar12/e-com/v2/api/v1/payment/dist/proto"
 	user_service "svetozar12/e-com/v2/api/v1/user/dist/proto"
-	"svetozar12/e-com/v2/apps/services/order/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/order/internal/app/repositories/orderRepository"
 	"svetozar12/e-com/v2/apps/services/order/internal/pkg/constants"
 	grpcClients "svetozar12/e-com/v2/apps/services/order/internal/pkg/grpc-clients"
 	metadataConstants "svetozar12/e-com/v2/libs/api/constants"
+	"svetozar12/e-com/v2/libs/api/entities"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"

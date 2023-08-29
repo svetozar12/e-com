@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/smtp"
 	pb "svetozar12/e-com/v2/api/v1/notification/dist/proto"
-	"svetozar12/e-com/v2/apps/services/notification/internal/app/entities"
 	"svetozar12/e-com/v2/apps/services/notification/internal/app/repositories/notificationRepository"
 	"svetozar12/e-com/v2/apps/services/notification/internal/pkg/env"
+	"svetozar12/e-com/v2/libs/api/entities"
 )
 
 func sendNotificationUtil(in *pb.SendNotificationRequest) (*entities.NotificationEntity, error) {
