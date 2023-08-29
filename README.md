@@ -1,6 +1,6 @@
 # E-COM-MICROSERVICES
 
-This is an learning project about fullstack app(E-COM) which involves microservices
+This is an learning project about microservices
 
 ## Run Locally
 

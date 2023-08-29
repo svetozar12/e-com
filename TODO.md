@@ -1,4 +1,0 @@
-- Decode jwt at aggregator level and pass it to context only to rpc methods which are protected
-- Add ci pipeline(later cd)
-- Find better solution for env variables
-- Implement asynchronous communication with RabbitMQ(message broker)
