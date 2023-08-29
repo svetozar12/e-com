@@ -31,7 +31,6 @@ func Bootstrap() {
 		constants.FileUploadQueueName)
 
 	go productCatalogConsumers.ConsumeProductUpdateMessage(ch)
-	go productCatalogConsumers.ConsumeProductUpdateInventoryMessage(ch)
 
 	grpcAddr := ":" + env.Envs.Port
 	listener, err := net.Listen("tcp", grpcAddr)

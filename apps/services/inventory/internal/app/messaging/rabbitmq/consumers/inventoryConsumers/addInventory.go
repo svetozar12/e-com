@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"log"
 	inventoryPb "svetozar12/e-com/v2/api/v1/inventory/dist/proto"
-	"svetozar12/e-com/v2/apps/services/inventory/internal/app/messaging/rabbitmq"
-	"svetozar12/e-com/v2/apps/services/inventory/internal/app/messaging/rabbitmq/publishers/productCatalogPublishers"
 	"svetozar12/e-com/v2/apps/services/inventory/internal/app/repositories/inventoryRepository"
+	"svetozar12/e-com/v2/apps/services/inventory/internal/app/repositories/productRepository"
 	"svetozar12/e-com/v2/apps/services/inventory/internal/pkg/constants"
 	"svetozar12/e-com/v2/libs/api/entities"
 
 	amqp "github.com/rabbitmq/amqp091-go"
+	"gorm.io/gorm"
 )
 
 func ConsumeAddInventoryMessage(ch *amqp.Channel) {
@@ -44,13 +44,7 @@ func processAddInventory(data *inventoryPb.AddInventoryRequest) {
 		return
 	}
 
-	inventory, err := inventoryRepository.CreateInventory(&entities.InventoryEntity{ProductId: uint(data.ProductId), AvailableQuantity: data.InitialQuantity})
-	ch, err := rabbitmq.GetRabbitMQChannel()
-	if err != nil {
-		panic(err)
-	}
-	inventoryData := make(map[string]any)
-	inventoryData["ProductId"] = data.ProductId
-	inventoryData["InventoryId"] = inventory.ID
-	productCatalogPublishers.UpdateProductInventory(ch, inventoryData)
+	inventory, _ := inventoryRepository.CreateInventory(&entities.InventoryEntity{ProductId: uint(data.ProductId), AvailableQuantity: data.InitialQuantity})
+
+	productRepository.UpdateProduct(&entities.ProductEntity{Model: gorm.Model{ID: uint(data.ProductId)}, Inventory: *inventory})
 }
