@@ -1,8 +1,0 @@
-{
-  "name": "shared-sdk",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/shared/sdk/src",
-  "projectType": "library",
-  "tags": [],
-  "implicitDependencies": ["services-aggregator"]
-}
