@@ -4,16 +4,26 @@
  */
 
 import express from 'express';
-import * as path from 'path';
-
+import GmailTransporter from './utils/mail.util';
+import { appRouter } from './routes';
+import bodyParser from 'body-parser';
+import { errorHandler } from './middleware/error.middleware';
+import { initEnv } from './utils/env.utils';
 const app = express();
+export const envs = initEnv();
+export const gmailTransporter = new GmailTransporter();
 
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to api!' });
-});
-
+app.use('/', appRouter);
+// Register the error handler middleware
+app.use(errorHandler);
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
