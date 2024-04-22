@@ -10,6 +10,7 @@ import {
   SEND_CODE_UNSUCCESSFULLY,
 } from '../../constants/auth.constants';
 import { StatusCodes } from 'http-status-codes';
+import { EMAIL_CONTENT, EMAIL_SUBJECT } from '../../constants/email.constants';
 export const authRouter = Router();
 
 authRouter.post('/signUp', (req, res) => {
@@ -19,8 +20,8 @@ authRouter.post('/signUp', (req, res) => {
 
   gmailTransporter.sendEmail(
     email,
-    'Sending verification code',
-    `Your code: ${code}`,
+    EMAIL_SUBJECT,
+    EMAIL_CONTENT(code.toString()),
     (error) => {
       if (error)
         return res
