@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 
 const makeErrorsReadable = (errors) => {
@@ -9,7 +10,12 @@ const makeErrorsReadable = (errors) => {
   return readableErrors;
 };
 
-export function errorHandler(err, req, res, next) {
+export function errorMiddleware(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   if (err instanceof ZodError) {
     return res.json({
       status: 400,
@@ -17,6 +23,7 @@ export function errorHandler(err, req, res, next) {
       errors: makeErrorsReadable(err.errors),
     });
   } else {
+    console.log(err);
     return res.json({ status: 500, message: 'Internal server error' });
   }
 }
