@@ -11,6 +11,7 @@ import {
 } from '../../constants/auth.constants';
 import { StatusCodes } from 'http-status-codes';
 import { EMAIL_CONTENT, EMAIL_SUBJECT } from '../../constants/email.constants';
+import Cart from '../../models/Cart.model';
 export const authRouter = Router();
 
 authRouter.post('/signUp', (req, res) => {
@@ -22,12 +23,17 @@ authRouter.post('/signUp', (req, res) => {
     email,
     EMAIL_SUBJECT,
     EMAIL_CONTENT(code.toString()),
-    (error) => {
+    async (error) => {
       if (error)
         return res
           .json({ message: SEND_CODE_UNSUCCESSFULLY })
           .status(StatusCodes.UNAUTHORIZED);
-      User.create({ email, verificationCode: code, verified: false });
+      const user = await User.create({
+        email,
+        verificationCode: code,
+        verified: false,
+      });
+      await Cart.create({ userId: user._id, products: [] });
       return res.json({ message: SEND_CODE_SUCCESSFULLY });
     }
   );

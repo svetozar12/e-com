@@ -7,6 +7,7 @@ export interface IProduct extends Document {
   createdAt: Date;
   updatedAt: Date;
   userId: string;
+  quantity: number;
 }
 
 const productSchema = new Schema<IProduct>({
@@ -20,6 +21,10 @@ const productSchema = new Schema<IProduct>({
     required: true,
   },
   price: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
     type: Number,
     required: true,
   },
