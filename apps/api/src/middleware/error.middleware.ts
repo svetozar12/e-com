@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import { ZodError } from 'zod';
 
 const makeErrorsReadable = (errors) => {
@@ -17,13 +18,14 @@ export function errorMiddleware(
   next: NextFunction
 ) {
   if (err instanceof ZodError) {
-    return res.json({
-      status: 400,
+    return res.status(StatusCodes.BAD_REQUEST).json({
       message: 'Validation error',
       errors: makeErrorsReadable(err.errors),
     });
   } else {
-    console.log(err);
-    return res.json({ status: 500, message: 'Internal server error' });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
+      err,
+    });
   }
 }

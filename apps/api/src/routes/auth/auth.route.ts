@@ -14,42 +14,52 @@ import { EMAIL_CONTENT, EMAIL_SUBJECT } from '../../constants/email.constants';
 import Cart from '../../models/Cart.model';
 export const authRouter = Router();
 
-authRouter.post('/signUp', (req, res) => {
-  const { email } = signUpBodySchema.parse(req.body);
+authRouter.post('/signUp', (req, res, next) => {
+  try {
+    const { email } = signUpBodySchema.parse(req.body);
 
-  const code = randomVerificationCode();
+    const code = randomVerificationCode();
 
-  gmailTransporter.sendEmail(
-    email,
-    EMAIL_SUBJECT,
-    EMAIL_CONTENT(code.toString()),
-    async (error) => {
-      if (error)
-        return res
-          .json({ message: SEND_CODE_UNSUCCESSFULLY })
-          .status(StatusCodes.UNAUTHORIZED);
-      const user = await User.create({
-        email,
-        verificationCode: code,
-        verified: false,
-      });
-      await Cart.create({ userId: user._id, products: [] });
-      return res.json({ message: SEND_CODE_SUCCESSFULLY });
-    }
-  );
+    gmailTransporter.sendEmail(
+      email,
+      EMAIL_SUBJECT,
+      EMAIL_CONTENT(code.toString()),
+      async (error) => {
+        if (error)
+          return res
+            .json({ message: SEND_CODE_UNSUCCESSFULLY })
+            .status(StatusCodes.UNAUTHORIZED);
+        const user = await User.create({
+          email,
+          verificationCode: code,
+          verified: false,
+        });
+        await Cart.create({ userId: user._id, products: [] });
+        return res.json({ message: SEND_CODE_SUCCESSFULLY });
+      }
+    );
+  } catch (error) {
+    next(error);
+  }
 });
 
-authRouter.post('/verify', async (req, res) => {
-  const { code, email } = verifyBodySchema.parse(req.body);
-  const { verificationCode } = await User.findOne({ email }).lean();
-  if (verificationCode !== parseInt(code)) {
-    return res.send(INVALID_CODE).status(StatusCodes.BAD_REQUEST);
-  }
+authRouter.post('/verify', async (req, res, next) => {
+  try {
+    const { code, email } = verifyBodySchema.parse(req.body);
+    const { verificationCode } = (await User.findOne({ email }).lean()) || {};
+    if (verificationCode !== code) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: INVALID_CODE });
+    }
 
-  const user = await User.findOneAndUpdate(
-    { email },
-    { verificationCode: null, verified: true }
-  ).lean();
-  const accessToken = generateToken({ email, id: user._id });
-  return res.json(accessToken);
+    const user = await User.findOneAndUpdate(
+      { email },
+      { verificationCode: null, verified: true }
+    ).lean();
+    const accessToken = generateToken({ email, id: user._id });
+    return res.json({ accessToken });
+  } catch (error) {
+    next(error);
+  }
 });
