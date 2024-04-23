@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import { envs } from '../main';
 
 export async function connectMongo(): Promise<void> {
-  console.log(envs, 'test');
   const { DB_URL } = envs;
   try {
     await mongoose.connect(DB_URL);

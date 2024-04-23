@@ -10,6 +10,8 @@ import {
   SEND_CODE_UNSUCCESSFULLY,
 } from '../../constants/auth.constants';
 import { StatusCodes } from 'http-status-codes';
+import { EMAIL_CONTENT, EMAIL_SUBJECT } from '../../constants/email.constants';
+import Cart from '../../models/Cart.model';
 export const authRouter = Router();
 
 authRouter.post('/signUp', (req, res) => {
@@ -19,14 +21,19 @@ authRouter.post('/signUp', (req, res) => {
 
   gmailTransporter.sendEmail(
     email,
-    'Sending verification code',
-    `Your code: ${code}`,
-    (error) => {
+    EMAIL_SUBJECT,
+    EMAIL_CONTENT(code.toString()),
+    async (error) => {
       if (error)
         return res
           .json({ message: SEND_CODE_UNSUCCESSFULLY })
           .status(StatusCodes.UNAUTHORIZED);
-      User.create({ email, verificationCode: code, verified: false });
+      const user = await User.create({
+        email,
+        verificationCode: code,
+        verified: false,
+      });
+      await Cart.create({ userId: user._id, products: [] });
       return res.json({ message: SEND_CODE_SUCCESSFULLY });
     }
   );
