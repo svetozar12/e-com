@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   initAxiosInstance({
-    baseURL: 'http://localhost:4000/api', // Example Base URL
+    baseURL: 'http://localhost:3000/api', // Example Base URL
     // other configuration settings...
   });
   return (

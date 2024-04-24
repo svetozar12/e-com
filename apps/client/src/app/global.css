@@ -54,3 +54,10 @@ pre {
   overflow: scroll;
   padding: 0.5rem 0.75rem;
 }
+
+/* Global styles and variables */
+
+:root {
+  --primary-100: #313338;
+  --border-radius: 5px;
+}
