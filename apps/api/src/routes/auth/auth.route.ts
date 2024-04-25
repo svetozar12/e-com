@@ -29,11 +29,17 @@ authRouter.post('/signUp', (req, res, next) => {
           return res
             .json({ message: SEND_CODE_UNSUCCESSFULLY })
             .status(StatusCodes.UNAUTHORIZED);
-        const user = await User.create({
-          email,
-          verificationCode: code,
-          verified: false,
-        });
+
+        let user = await User.findOneAndUpdate(
+          { email },
+          { verificationCode: code }
+        ).lean();
+        if (!user) {
+          user = await User.create({
+            email,
+            verificationCode: code,
+          });
+        }
         await Cart.create({ userId: user._id, products: [] });
         return res.json({ message: SEND_CODE_SUCCESSFULLY });
       }
@@ -47,7 +53,7 @@ authRouter.post('/verify', async (req, res, next) => {
   try {
     const { code, email } = verifyBodySchema.parse(req.body);
     const { verificationCode } = (await User.findOne({ email }).lean()) || {};
-    if (verificationCode !== code) {
+    if (verificationCode !== parseInt(code)) {
       return res
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: INVALID_CODE });
@@ -55,7 +61,7 @@ authRouter.post('/verify', async (req, res, next) => {
 
     const user = await User.findOneAndUpdate(
       { email },
-      { verificationCode: null, verified: true }
+      { verificationCode: null }
     ).lean();
     const accessToken = generateToken({ email, id: user._id });
     return res.json({ accessToken });

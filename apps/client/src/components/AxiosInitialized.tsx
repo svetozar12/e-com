@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 const AxiosInitialized = () => {
   useEffect(() => {
     initAxiosInstance({
-      baseURL: 'http://localhost:3000/api', // Example Base URL
+      baseURL: 'http://localhost:4000/api', // Example Base URL
       // other configuration settings...
     });
   }, []);

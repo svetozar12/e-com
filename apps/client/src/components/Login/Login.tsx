@@ -9,19 +9,30 @@ export type Step = 'email' | 'verify';
 
 const Login = () => {
   const [step, setStep] = useState<Step>('email');
+  const [email, setEmail] = useState('');
+
   function renderStep() {
     switch (step) {
       case 'email':
-        return <EmailStep setStep={setStep} />;
+        return (
+          <EmailStep email={email} setEmail={setEmail} setStep={setStep} />
+        );
       case 'verify':
-        return <VerifyStep setStep={setStep} />;
+        return <VerifyStep email={email} setStep={setStep} />;
       default:
-        return <EmailStep setStep={setStep} />;
+        return (
+          <EmailStep email={email} setEmail={setEmail} setStep={setStep} />
+        );
     }
   }
   return (
     <div className={css.container}>
-      <div className={css.formContainer}>{renderStep()}</div>
+      <div className={css.formContainer}>
+        <form className={css.form} onSubmit={(e) => e.preventDefault()}>
+          <h1 className={css.header}>E-COMMERCE APP</h1>
+          {renderStep()}
+        </form>
+      </div>
     </div>
   );
 };
