@@ -1,0 +1,11 @@
+@import url('base.css');
+/* Global styles and variables */
+:root {
+  --primary-100: #313338;
+  --primary-200: #1e1f22;
+  --primary-300: #b5bac1;
+  --border-radius: 5px;
+  --default-text: white;
+  --button-primary: #593290;
+  --button-secondary: #000019;
+}

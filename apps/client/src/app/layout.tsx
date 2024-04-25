@@ -1,5 +1,5 @@
 import React from 'react';
-import './global.css';
+import '../styles/global.css';
 import { initAxiosInstance } from '@e-com/sdk';
 import AxiosInitialized from '../components/AxiosInitialized';
 export const metadata = {

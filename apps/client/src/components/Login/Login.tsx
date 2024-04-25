@@ -2,6 +2,8 @@
 import { sdk } from '@e-com/sdk';
 import React, { useState } from 'react';
 import css from './Login.module.css';
+import Button from '../common/Button/Button';
+import Input from '../common/Inputs/Input';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,15 +14,22 @@ const Login = () => {
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
-        <input
-          style={{ border: '1px black solid' }}
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.currentTarget.value)}
-        />
-        <button type="submit" onClick={onSubmit}>
-          SUBMIT
-        </button>
+        <form className={css.form}>
+          <h1 className={css.header}>E-COMMERCE APP</h1>
+          <div>
+            <label htmlFor="email">EMAIL</label>
+            <Input
+              id="email"
+              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+            ></Input>
+          </div>
+          <Button type="submit" onClick={onSubmit}>
+            LOGIN
+          </Button>
+        </form>
       </div>
     </div>
   );
