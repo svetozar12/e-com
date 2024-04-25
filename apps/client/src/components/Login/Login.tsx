@@ -1,36 +1,27 @@
 'use client';
-import { sdk } from '@e-com/sdk';
 import React, { useState } from 'react';
 import css from './Login.module.css';
-import Button from '../common/Button/Button';
-import Input from '../common/Inputs/Input';
+
+import EmailStep from './subComponents/EmailStep/EmailStep';
+import VerifyStep from './subComponents/VerifyStep/VerifyStep';
+
+export type Step = 'email' | 'verify';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  async function onSubmit() {
-    console.log('hi', email);
-    const res = await sdk.auth().verify({ code: 123, email });
+  const [step, setStep] = useState<Step>('email');
+  function renderStep() {
+    switch (step) {
+      case 'email':
+        return <EmailStep setStep={setStep} />;
+      case 'verify':
+        return <VerifyStep setStep={setStep} />;
+      default:
+        return <EmailStep setStep={setStep} />;
+    }
   }
   return (
     <div className={css.container}>
-      <div className={css.formContainer}>
-        <form className={css.form}>
-          <h1 className={css.header}>E-COMMERCE APP</h1>
-          <div>
-            <label htmlFor="email">EMAIL</label>
-            <Input
-              id="email"
-              required
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.currentTarget.value)}
-            ></Input>
-          </div>
-          <Button type="submit" onClick={onSubmit}>
-            LOGIN
-          </Button>
-        </form>
-      </div>
+      <div className={css.formContainer}>{renderStep()}</div>
     </div>
   );
 };
