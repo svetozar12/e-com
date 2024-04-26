@@ -4,6 +4,7 @@ import css from './Login.module.css';
 
 import EmailStep from './subComponents/EmailStep/EmailStep';
 import VerifyStep from './subComponents/VerifyStep/VerifyStep';
+import Spinner from '../common/Spinner/Spinner';
 
 export type Step = 'email' | 'verify';
 

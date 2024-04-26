@@ -12,6 +12,7 @@ import {
 import { StatusCodes } from 'http-status-codes';
 import { EMAIL_CONTENT, EMAIL_SUBJECT } from '../../constants/email.constants';
 import Cart from '../../models/Cart.model';
+import { authMiddleware } from '../../middleware/auth.middleware';
 export const authRouter = Router();
 
 authRouter.post('/signUp', (req, res, next) => {
@@ -69,3 +70,5 @@ authRouter.post('/verify', async (req, res, next) => {
     next(error);
   }
 });
+
+authRouter.get('/verifyToken', authMiddleware);

@@ -2,7 +2,11 @@ import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 import { asyncHandler } from './utils';
 
 export const sdk = {
-  auth: () => ({ signUp: asyncHandler(signUp), verify: asyncHandler(verify) }),
+  auth: () => ({
+    signUp: asyncHandler(signUp),
+    verify: asyncHandler(verify),
+    verifyToken: asyncHandler(verifyToken),
+  }),
 };
 
 let instance: AxiosInstance;
@@ -17,4 +21,10 @@ async function signUp(reqData: { email: string }) {
 
 async function verify(reqData: { email: string; code: string }) {
   return instance.post('/auth/verify', reqData);
+}
+
+async function verifyToken(token: string) {
+  return instance.get('/auth/verify', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }
