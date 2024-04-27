@@ -8,11 +8,14 @@ interface IEmailStep {
   email: string;
   setStep: React.Dispatch<React.SetStateAction<Step>>;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EmailStep = ({ setStep, email, setEmail }: IEmailStep) => {
+const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
   async function onSubmit() {
+    setIsLoading(true);
     const [res, err] = await sdk.auth().signUp({ email });
+    setIsLoading(false);
     const { data } = res || {};
     if (data) {
       setStep('verify');

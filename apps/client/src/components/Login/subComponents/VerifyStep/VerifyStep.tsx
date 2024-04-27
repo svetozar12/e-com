@@ -7,15 +7,18 @@ import { sdk } from '@e-com/sdk';
 interface IVerifyStep {
   email: string;
   setStep: React.Dispatch<React.SetStateAction<Step>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const VerifyStep = ({ setStep, email }: IVerifyStep) => {
+const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
   const [code, setCode] = useState('');
   async function onSubmit() {
+    setIsLoading(true);
     const [res, err] = await sdk.auth().verify({ code: code, email });
-
-    const { data } = res || {};
-    console.log(data.accessToken);
+    setIsLoading(false);
+    const {
+      data: { accessToken },
+    } = res || {};
   }
   return (
     <>
