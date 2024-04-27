@@ -18,6 +18,10 @@ p,
 pre {
   margin: 0;
 }
+* {
+  color: var(--default-text);
+}
+
 *,
 ::before,
 ::after {

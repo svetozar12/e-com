@@ -1,0 +1,16 @@
+.container button {
+  background-color: var(--button-primary);
+  color: var(--default-text);
+  width: 100%;
+  height: 40px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.1s ease-in;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.container button:hover {
+  transition: background-color 0.1s ease-in;
+  background-color: var(--button-secondary);
+}

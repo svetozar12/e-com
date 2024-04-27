@@ -6,7 +6,6 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   verificationCode: number;
-  verified: boolean;
   products: Array<IProduct['_id']>;
 }
 
@@ -25,10 +24,7 @@ const userSchema = new Schema<IUser>({
     required: true,
     unique: true,
   },
-  verified: {
-    type: Boolean,
-    required: true,
-  },
+
   createdAt: {
     type: Date,
     default: Date.now,

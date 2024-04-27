@@ -1,0 +1,13 @@
+.container input {
+  background-color: var(--primary-200);
+  border-radius: var(--border-radius);
+  height: 40px;
+  padding: 10px;
+  width: 100%;
+}
+
+.container input:focus {
+  outline: none;
+  color: var(--default-text);
+  border: none;
+}

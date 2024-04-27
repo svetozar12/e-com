@@ -10,7 +10,7 @@ import bodyParser from 'body-parser';
 import { errorMiddleware } from './middleware/error.middleware';
 import { initEnv } from './utils/env.utils';
 import { connectMongo } from './utils/mongo.utils';
-
+import cors from 'cors';
 const app = express();
 // global instances
 export const envs = initEnv();
@@ -18,12 +18,13 @@ export const gmailTransporter = new GmailTransporter();
 
 connectMongo();
 
-app.use(bodyParser.urlencoded());
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
+app.use(bodyParser.json());
+app.use(cors());
 app.use('/api', appRouter);
 app.use(errorMiddleware);
 
