@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../../../common/Button/Button';
 import Input from '../../../common/Inputs/Input';
 import { sdk } from '@e-com/sdk';
 import { Step } from '../../Login';
+import { toast } from 'react-toastify';
 
 interface IEmailStep {
   email: string;
@@ -16,11 +17,16 @@ const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
     setIsLoading(true);
     const [res, err] = await sdk.auth().signUp({ email });
     setIsLoading(false);
+    if (err) {
+      const { message } = err;
+      toast.error(message);
+      setStep('email');
+    }
     const { data } = res || {};
     if (data) {
+      console.log(data);
+      toast.success(data.message);
       setStep('verify');
-    } else {
-      setStep('email');
     }
   }
   return (
