@@ -71,4 +71,6 @@ authRouter.post('/verify', async (req, res, next) => {
   }
 });
 
-authRouter.get('/verifyToken', authMiddleware);
+authRouter.get('/verifyToken', authMiddleware, (req, res) => {
+  return res.status(200).send('Token is valid');
+});

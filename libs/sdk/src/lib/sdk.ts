@@ -28,11 +28,3 @@ async function verifyToken(token: string) {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
-
-export interface IUser extends Document {
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
-  verificationCode: number;
-  products: Array<string>;
-}

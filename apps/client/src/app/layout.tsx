@@ -24,11 +24,10 @@ export default async function RootLayout({
   const headersList = headers();
   const pathname = headersList.get('x-pathname');
   const isAuthenticated = await isAuth();
-  console.log(isAuthenticated, 'HI');
+
   if (isAuthenticated && pathname !== '/') {
     return redirect('/');
   }
-
   if (!isAuthenticated && pathname !== '/login') {
     return redirect('/login');
   }
@@ -48,10 +47,9 @@ export default async function RootLayout({
 async function isAuth() {
   const cookieStore = cookies();
   const token = cookieStore.get('accessToken')?.value;
-
   if (!token) return false;
   const [res, err] = await sdk.auth().verifyToken(token);
   if (err) return false;
   const { status } = res || {};
-  return status !== 200;
+  return status === 200;
 }

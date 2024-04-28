@@ -7,7 +7,6 @@ const Navbar = () => {
   const { session } = useSession();
   const pathname = usePathname();
   if (pathname === '/login') return null;
-  console.log(session);
   return <div>Navbar</div>;
 };
 
