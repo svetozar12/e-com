@@ -24,7 +24,15 @@ async function verify(reqData: { email: string; code: string }) {
 }
 
 async function verifyToken(token: string) {
-  return instance.get('/auth/verify', {
+  return instance.get('/auth/verifyToken', {
     headers: { Authorization: `Bearer ${token}` },
   });
+}
+
+export interface IUser extends Document {
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+  verificationCode: number;
+  products: Array<string>;
 }
