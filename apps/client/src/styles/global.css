@@ -9,4 +9,6 @@
   --button-primary: #593290;
   --button-secondary: #000019;
   --error-color: red;
+
+  --toastify-toast-background: var(var(--primary-100));
 }
