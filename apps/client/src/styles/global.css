@@ -10,5 +10,8 @@
   --button-secondary: #000019;
   --error-color: red;
 
-  --toastify-toast-background: var(var(--primary-100));
+  --icon-size: 23px;
+  --avatar-size: 34px;
+
+  --shadow-1: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }

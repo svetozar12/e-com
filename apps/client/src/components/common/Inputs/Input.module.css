@@ -3,11 +3,11 @@
   border-radius: var(--border-radius);
   height: 40px;
   padding: 10px;
+  color: var(--default-text);
   width: 100%;
 }
 
 .container input:focus {
   outline: none;
-  color: var(--default-text);
   border: none;
 }

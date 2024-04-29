@@ -1,0 +1,6 @@
+.container {
+  color: var(--default-text);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  cursor: pointer;
+}

@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { ACCESS_TOKEN } from '../constants/cookies';
 
 type Session = {
   email: string;
@@ -14,7 +15,7 @@ type Session = {
 
 export const useSession = () => {
   const [session, setSession] = useState<Session | null>(null);
-  const token = getCookie('accessToken');
+  const token = getCookie(ACCESS_TOKEN);
   const router = useRouter();
   useEffect(() => {
     try {
@@ -25,7 +26,7 @@ export const useSession = () => {
       setSession(decoded);
     } catch (error) {
       setSession(null);
-      deleteCookie('accessToken');
+      deleteCookie(ACCESS_TOKEN);
       toast.error('Invalid token');
       router.push('/login');
     }

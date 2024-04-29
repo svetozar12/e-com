@@ -25,11 +25,8 @@ export default async function RootLayout({
   const pathname = headersList.get('x-pathname');
   const isAuthenticated = await isAuth();
 
-  if (isAuthenticated && pathname !== '/') {
+  if (isAuthenticated && pathname === '/login') {
     return redirect('/');
-  }
-  if (!isAuthenticated && pathname !== '/login') {
-    return redirect('/login');
   }
 
   return (

@@ -28,7 +28,9 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
     const {
       data: { accessToken },
     } = res || {};
-    setCookie('accessToken', accessToken);
+    const now = new Date();
+    now.setTime(now.getTime() + 1 * 3600 * 1000);
+    setCookie('accessToken', accessToken, { expires: now });
     if (accessToken) {
       router.push('/');
     }
