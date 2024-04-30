@@ -19,11 +19,6 @@ const Navbar = () => {
         type="search"
         placeholder="what are you searching for today ?"
       />
-      <Dropdown label="Click me!">
-        <a href="#">Action 1</a>
-        <a href="#">Action 2</a>
-        <a href="#">Action 3</a>
-      </Dropdown>
       <Profile />
       <Cart />
     </div>

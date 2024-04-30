@@ -8,7 +8,7 @@ import { ACCESS_TOKEN } from '../constants/cookies';
 
 type Session = {
   email: string;
-  id: string;
+  _id: string;
   iat: number;
   exp: number;
 };
@@ -22,6 +22,7 @@ export const useSession = () => {
       if (!token) {
         return setSession(null);
       }
+
       const decoded = jwtDecode(token) as Session;
       setSession(decoded);
     } catch (error) {

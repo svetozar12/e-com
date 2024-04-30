@@ -15,3 +15,8 @@
 
   --shadow-1: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
+
+.icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}

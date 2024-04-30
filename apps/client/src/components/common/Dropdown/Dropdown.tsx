@@ -11,7 +11,7 @@ const Dropdown = ({ label, children }: IDropdown) => {
 
   return (
     <div className={css.container} tabIndex={0}>
-      <div onClick={() => setIsOpen(true)}>{label}</div>
+      <div onClick={() => setIsOpen(!isOpen)}>{label}</div>
       <div className={css.dropdownContent}>{children}</div>
     </div>
   );

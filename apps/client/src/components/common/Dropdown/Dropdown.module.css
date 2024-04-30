@@ -3,7 +3,6 @@
 }
 
 .dropdownContent {
-  width: 200px;
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -11,9 +10,9 @@
   box-shadow: var(--shadow-1);
   z-index: 1;
   border-radius: 4px;
-  padding: 8px 0;
-  top: 40px;
-  left: 50%; /* Positions the top left corner at the center of the button */
+  padding: 8px;
+  top: 50px;
+  left: 50%;
   transform: translateX(-50%);
 }
 
