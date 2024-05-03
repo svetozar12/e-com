@@ -64,11 +64,13 @@ authRouter.post('/verify', async (req, res, next) => {
       { email },
       { verificationCode: null }
     ).lean();
-    const accessToken = generateToken({ email, id: user._id });
+    const accessToken = generateToken({ email, _id: user._id });
     return res.json({ accessToken });
   } catch (error) {
     next(error);
   }
 });
 
-authRouter.get('/verifyToken', authMiddleware);
+authRouter.get('/verifyToken', authMiddleware, (req, res) => {
+  return res.status(200).send('Token is valid');
+});

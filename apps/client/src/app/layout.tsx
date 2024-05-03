@@ -1,12 +1,12 @@
 import React from 'react';
 import '../styles/global.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { initAxiosInstance, sdk } from '@e-com/sdk';
+import { initAxiosInstance, sdk, setSdkToken } from '@e-com/sdk';
 import AxiosInitialized from '../components/AxiosInitialized';
-import { getCookie } from 'cookies-next';
 import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { ToastContainer } from 'react-toastify';
+import Navbar from '../components/Navbar/Navbar';
 import LoadingBarClient from '../components/LoadingBar';
 export const metadata = {
   title: 'Welcome to client',
@@ -24,15 +24,20 @@ export default async function RootLayout({
 
   const headersList = headers();
   const pathname = headersList.get('x-pathname');
-  if ((await isAuth()) && !pathname?.includes('/login')) {
-    return redirect('/login');
+  const isAuthenticated = await isAuth();
+
+  if (isAuthenticated && pathname === '/login') {
+    return redirect('/');
   }
 
+  const cartData = await sdk.cart().get();
+  console.log(cartData);
   return (
     <html lang="en">
-      <AxiosInitialized></AxiosInitialized>
       <body>
+        <Navbar />
         {children}
+        <AxiosInitialized />
         <LoadingBarClient />
         <ToastContainer theme="dark" />
       </body>
@@ -40,10 +45,20 @@ export default async function RootLayout({
   );
 }
 
-async function isAuth() {
-  const token = getCookie('token') || '';
-  if (!token) return false;
-  const [res] = await sdk.auth().verifyToken(token);
+export async function isAuth() {
+  const cookieStore = cookies();
+  const token = cookieStore.get('accessToken')?.value;
+  setSdkToken(token || '');
+  if (!token) {
+    return false;
+  }
+  const [res, err] = await sdk.auth().verifyToken(token);
+  if (err) {
+    return false;
+  }
   const { status } = res || {};
-  return status !== 200;
+  if (status === 200) {
+    return false;
+  }
+  return status === 200;
 }

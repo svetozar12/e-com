@@ -1,0 +1,4 @@
+.container {
+  color: var(--default-text);
+  cursor: pointer;
+}

@@ -3,6 +3,7 @@
   width: 100vw;
   background: url(/images/loginBG.webp) no-repeat top center fixed;
   background-size: cover;
+  color: var(--default-text);
 }
 
 /* Form container with improved visual properties */
