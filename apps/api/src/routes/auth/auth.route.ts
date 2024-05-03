@@ -8,7 +8,7 @@ import {
   INVALID_CODE,
   SEND_CODE_SUCCESSFULLY,
   SEND_CODE_UNSUCCESSFULLY,
-} from '../../constants/auth.constants';
+} from './auth.constants';
 import { StatusCodes } from 'http-status-codes';
 import { EMAIL_CONTENT, EMAIL_SUBJECT } from '../../constants/email.constants';
 import Cart from '../../models/Cart.model';

@@ -1,10 +1,7 @@
 import { Router } from 'express';
 import { idSchema } from '../../common/schema';
 import Product from '../../models/Product.model';
-import {
-  PRODUCT_DELETED,
-  PRODUCT_NOT_FOUND,
-} from '../../constants/product.constants';
+import { PRODUCT_DELETED, PRODUCT_NOT_FOUND } from './product.constants';
 import { StatusCodes } from 'http-status-codes';
 import { postProductBodySchema, putProductBodySchema } from './product.schema';
 import { authMiddleware } from '../../middleware/auth.middleware';
