@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { authMiddleware } from '../../middleware/auth.middleware';
 import Cart from '../../models/Cart.model';
 import { StatusCodes } from 'http-status-codes';
-import { CART_NOT_FOUND } from '../../constants/cart.constants';
+import { CART_NOT_FOUND } from './cart.constants';
 import { putCartBodySchema } from './cart.schema';
 
 export const cartRouter = Router();

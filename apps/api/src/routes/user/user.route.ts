@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import { idSchema } from '../../common/schema';
 import User from '../../models/User.model';
-import { USER_DELETED, USER_NOT_FOUND } from '../../constants/user.constatns';
+import { USER_DELETED, USER_NOT_FOUND } from './user.constatns';
 import { StatusCodes } from 'http-status-codes';
 import { authMiddleware } from '../../middleware/auth.middleware';
 
