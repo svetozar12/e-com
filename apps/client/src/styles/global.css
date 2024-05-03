@@ -10,13 +10,15 @@
   --button-secondary: #000019;
   --error-color: red;
 
-  --icon-size: 23px;
+  --icon-medium: 23px;
+  --icon-large: 35px;
+
   --avatar-size: 34px;
 
   --shadow-1: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
 
 .icon {
-  width: var(--icon-size);
-  height: var(--icon-size);
+  width: var(--icon-medium);
+  height: var(--icon-medium);
 }

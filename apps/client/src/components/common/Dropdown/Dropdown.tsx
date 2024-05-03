@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import css from './Dropdown.module.css';
 
 interface IDropdown {
-  label: React.ReactNode; // Text for the dropdown button
-  children: React.ReactNode; // Content inside the dropdown
+  label: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Dropdown = ({ label, children }: IDropdown) => {

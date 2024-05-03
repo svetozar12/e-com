@@ -5,6 +5,11 @@
   color: var(--default-text);
 }
 
+.icon {
+  width: var(--icon-large);
+  height: var(--icon-large);
+}
+
 .initials {
   background-color: #bbb;
   border-radius: 50%;

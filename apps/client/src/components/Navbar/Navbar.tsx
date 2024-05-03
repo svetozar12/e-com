@@ -6,10 +6,10 @@ import Profile from './subComponents/Profile/Profile';
 import Cart from './subComponents/Cart/Cart';
 import Image from 'next/image';
 import css from './Navbar.module.css';
-import Dropdown from '../common/Dropdown/Dropdown';
 
 const Navbar = () => {
   const pathname = usePathname();
+
   if (pathname === '/login') return null;
   return (
     <div className={css.container}>

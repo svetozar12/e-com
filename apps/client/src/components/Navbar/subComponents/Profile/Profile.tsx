@@ -1,6 +1,6 @@
 import useSession from '../../../../hooks/useSession';
 import { getEmailInitials } from '../../../../utils/getInitials';
-import React from 'react';
+import React, { useTransition } from 'react';
 import css from './Profile.module.css';
 import { FaUser } from 'react-icons/fa';
 import cx from 'classnames';
@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 const Profile = () => {
   const { session } = useSession();
   const router = useRouter();
+  const [, startTransition] = useTransition();
   if (!session) {
     return (
       <Dropdown
@@ -29,10 +30,19 @@ const Profile = () => {
             gap: '4px',
           }}
         >
-          <FaHouseUser className="icon" />
+          <FaHouseUser className={css.icon} />
           Login into your account
         </div>
-        <Button onClick={() => router.push('/login')}>Login</Button>
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            startTransition(() => {
+              router.push('/login');
+            });
+          }}
+        >
+          Login
+        </Button>
       </Dropdown>
     );
   }
