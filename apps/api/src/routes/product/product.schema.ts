@@ -8,4 +8,6 @@ export const postProductBodySchema = z.object({
   userId: z.string().min(1),
 });
 
+export const getProductQuery = z.object({ categoryId: z.string().min(1) });
+
 export const putProductBodySchema = postProductBodySchema.optional();
