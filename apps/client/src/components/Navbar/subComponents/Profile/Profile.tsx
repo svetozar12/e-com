@@ -8,6 +8,7 @@ import Dropdown from '../../../common/Dropdown/Dropdown';
 import { FaHouseUser } from 'react-icons/fa';
 import Button from '../../../common/Button/Button';
 import { useRouter } from 'next/navigation';
+import { RiArrowDropDownFill } from 'react-icons/ri';
 
 const Profile = () => {
   const { session } = useSession();
@@ -15,7 +16,23 @@ const Profile = () => {
   const [, startTransition] = useTransition();
   if (!session) {
     return (
-      <Dropdown label={<FaUser className={cx(css.container, 'icon-small')} />}>
+      <Dropdown
+        label={
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            <FaUser className={cx(css.container, 'icon-small')} />
+            <span>Profile</span>
+            <RiArrowDropDownFill className="icon-small" />
+          </div>
+        }
+      >
         <div
           style={{
             display: 'flex',
