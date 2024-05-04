@@ -18,29 +18,14 @@ const Profile = () => {
     return (
       <Dropdown
         label={
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '5px',
-              cursor: 'pointer',
-            }}
-          >
+          <div className={css.profileContainer}>
             <FaUser className={cx(css.container, 'icon-small')} />
             <span>Profile</span>
             <RiArrowDropDownFill className="icon-small" />
           </div>
         }
       >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '4px',
-          }}
-        >
+        <div className={css.profileDropdownContent}>
           <FaHouseUser className="icon-large" />
           <span className="text-small">Login into your account</span>
         </div>

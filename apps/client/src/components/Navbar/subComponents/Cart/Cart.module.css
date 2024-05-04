@@ -2,3 +2,11 @@
   color: var(--default-text);
   cursor: pointer;
 }
+
+.cartContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}

@@ -14,3 +14,18 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+.profileContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.profileDropdownContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
