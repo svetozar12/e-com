@@ -29,3 +29,10 @@
   align-items: center;
   gap: 4px;
 }
+
+@media (max-width: 480px) {
+  .profileContainer span,
+  .profileContainer svg:not(:first-child) {
+    display: none;
+  }
+}

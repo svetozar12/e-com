@@ -10,3 +10,10 @@
   gap: 5px;
   cursor: pointer;
 }
+
+@media (max-width: 480px) {
+  .cartContainer span,
+  .cartContainer svg:not(:first-child) {
+    display: none;
+  }
+}
