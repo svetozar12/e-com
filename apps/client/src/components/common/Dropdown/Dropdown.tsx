@@ -11,7 +11,9 @@ const Dropdown = ({ label, children }: IDropdown) => {
 
   return (
     <div className={`${isOpen && css.container}`} tabIndex={0}>
-      <div onClick={() => setIsOpen((prev) => !prev)}>{label}</div>
+      <div className="hover-effect" onClick={() => setIsOpen((prev) => !prev)}>
+        {label}
+      </div>
       <div className={css.dropdownContent}>{children}</div>
     </div>
   );

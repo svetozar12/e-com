@@ -15,13 +15,7 @@ const Profile = () => {
   const [, startTransition] = useTransition();
   if (!session) {
     return (
-      <Dropdown
-        label={
-          <div className={css.container}>
-            <FaUser className={css.container} />
-          </div>
-        }
-      >
+      <Dropdown label={<FaUser className={cx(css.container, 'icon-small')} />}>
         <div
           style={{
             display: 'flex',
@@ -30,7 +24,7 @@ const Profile = () => {
             gap: '4px',
           }}
         >
-          <FaHouseUser className={css.icon} />
+          <FaHouseUser className="icon-large" />
           <span className="text-small">Login into your account</span>
         </div>
         <Button
@@ -55,7 +49,7 @@ const Profile = () => {
         </div>
       }
     >
-      <p>Hello {session.email}</p>
+      <span>Hello {session.email}</span>
     </Dropdown>
   );
 };

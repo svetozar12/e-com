@@ -12,15 +12,35 @@
   --button-secondary: #000019;
   --error-color: red;
 
-  --icon-medium: 23px;
-  --icon-large: 40px;
+  --icon-small: 25px;
+  --icon-medium: 30px;
+  --icon-large: 35px;
 
-  --avatar-size: 34px;
+  --transition: 0.2s;
 
   --shadow-1: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
 
-.icon {
+.icon-small {
+  width: var(--icon-small);
+  height: var(--icon-small);
+}
+
+.icon-medium {
   width: var(--icon-medium);
   height: var(--icon-medium);
+}
+
+.icon-large {
+  width: var(--icon-large);
+  height: var(--icon-large);
+}
+
+.hover-effect {
+  transition: opacity var(--transition) ease;
+  opacity: 1;
+}
+
+.hover-effect:hover {
+  opacity: 0.5;
 }

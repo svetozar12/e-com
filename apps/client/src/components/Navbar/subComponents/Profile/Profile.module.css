@@ -1,13 +1,8 @@
 .container {
-  width: var(--avatar-size);
-  height: var(--avatar-size);
+  width: var(--icon-medium);
+  height: var(--icon-medium);
   cursor: pointer;
   color: var(--default-text);
-}
-
-.icon {
-  width: var(--icon-large);
-  height: var(--icon-large);
 }
 
 .initials {

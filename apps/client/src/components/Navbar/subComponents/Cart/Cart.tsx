@@ -6,7 +6,9 @@ import cx from 'classnames';
 
 const Cart = () => {
   return (
-    <Dropdown label={<FaCartShopping className={cx(css.container, 'icon')} />}>
+    <Dropdown
+      label={<FaCartShopping className={cx(css.container, 'icon-small')} />}
+    >
       hello
     </Dropdown>
   );
