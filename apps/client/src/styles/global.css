@@ -1,4 +1,6 @@
 @import url('base.css');
+@import url('typography.css');
+
 /* Global styles and variables */
 :root {
   --primary-100: #313338;
@@ -11,7 +13,7 @@
   --error-color: red;
 
   --icon-medium: 23px;
-  --icon-large: 35px;
+  --icon-large: 40px;
 
   --avatar-size: 34px;
 

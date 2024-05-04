@@ -7,11 +7,11 @@ interface IDropdown {
 }
 
 const Dropdown = ({ label, children }: IDropdown) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className={css.container} tabIndex={0}>
-      <div onClick={() => setIsOpen(!isOpen)}>{label}</div>
+    <div className={`${isOpen && css.container}`} tabIndex={0}>
+      <div onClick={() => setIsOpen((prev) => !prev)}>{label}</div>
       <div className={css.dropdownContent}>{children}</div>
     </div>
   );

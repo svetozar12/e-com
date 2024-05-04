@@ -29,5 +29,6 @@
 
 .container:focus-within .dropdownContent {
   display: flex;
+  gap: 5px;
   flex-direction: column;
 }

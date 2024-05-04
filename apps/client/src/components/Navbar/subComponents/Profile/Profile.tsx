@@ -31,7 +31,7 @@ const Profile = () => {
           }}
         >
           <FaHouseUser className={css.icon} />
-          Login into your account
+          <span className="text-small">Login into your account</span>
         </div>
         <Button
           onClick={(e) => {
