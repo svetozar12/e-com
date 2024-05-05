@@ -28,7 +28,7 @@ const Profile = () => {
         <div className={css.profileDropdownContent}>
           <FaHouseUser className="icon-large" />
           <span className="text-small" style={{ textAlign: 'center' }}>
-            Login into your account
+            Login into your account to get all benefits
           </span>
         </div>
         <Button
