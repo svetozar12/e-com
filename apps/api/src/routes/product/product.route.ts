@@ -3,7 +3,11 @@ import { idSchema } from '../../common/schema';
 import Product from '../../models/Product.model';
 import { PRODUCT_DELETED, PRODUCT_NOT_FOUND } from './product.constants';
 import { StatusCodes } from 'http-status-codes';
-import { postProductBodySchema, putProductBodySchema } from './product.schema';
+import {
+  getProductQuery,
+  postProductBodySchema,
+  putProductBodySchema,
+} from './product.schema';
 import { authMiddleware } from '../../middleware/auth.middleware';
 
 export const productRouter = Router();
@@ -12,14 +16,23 @@ export const productRouter = Router();
 productRouter.use(authMiddleware);
 
 productRouter.get('/product', async (req, res) => {
-  const productList = await Product.find({ userId: req.user._id });
+  const { categoryId } = getProductQuery.parse(req.query);
+  const productList = await Product.find({
+    userId: req.user._id,
+    category: categoryId,
+  });
   return res.json({ data: productList });
 });
 
 productRouter.get('/product/:id', async (req, res) => {
+  const { categoryId } = getProductQuery.parse(req.query);
   const { id } = idSchema.parse(req.params);
   const user = req.user;
-  const product = await Product.findOne({ _id: id, userId: user.id }).lean();
+  const product = await Product.findOne({
+    _id: id,
+    userId: user.id,
+    category: categoryId,
+  }).lean();
   if (!product) {
     return res
       .json({ message: PRODUCT_NOT_FOUND })
