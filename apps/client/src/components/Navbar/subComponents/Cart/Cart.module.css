@@ -2,3 +2,18 @@
   color: var(--default-text);
   cursor: pointer;
 }
+
+.cartContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .cartContainer span,
+  .cartContainer svg:not(:first-child) {
+    display: none;
+  }
+}

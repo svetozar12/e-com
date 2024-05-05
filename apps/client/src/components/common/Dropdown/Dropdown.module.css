@@ -5,7 +5,7 @@
 .dropdownContent {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: var(--primary-200);
   min-width: 200px;
   box-shadow: var(--shadow-1);
   z-index: 1;
@@ -24,10 +24,11 @@
   margin-left: -10px;
   border-width: 0 10px 10px 10px;
   border-style: solid;
-  border-color: transparent transparent #f9f9f9 transparent;
+  border-color: transparent transparent var(--primary-200) transparent;
 }
 
 .container:focus-within .dropdownContent {
   display: flex;
+  gap: 5px;
   flex-direction: column;
 }

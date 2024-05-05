@@ -1,13 +1,8 @@
 .container {
-  width: var(--avatar-size);
-  height: var(--avatar-size);
+  width: var(--icon-medium);
+  height: var(--icon-medium);
   cursor: pointer;
   color: var(--default-text);
-}
-
-.icon {
-  width: var(--icon-large);
-  height: var(--icon-large);
 }
 
 .initials {
@@ -18,4 +13,26 @@
   align-items: center;
   font-size: 14px;
   font-weight: 600;
+}
+
+.profileContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.profileDropdownContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 480px) {
+  .profileContainer span,
+  .profileContainer svg:not(:first-child) {
+    display: none;
+  }
 }

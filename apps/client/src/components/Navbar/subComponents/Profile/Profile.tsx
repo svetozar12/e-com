@@ -8,6 +8,7 @@ import Dropdown from '../../../common/Dropdown/Dropdown';
 import { FaHouseUser } from 'react-icons/fa';
 import Button from '../../../common/Button/Button';
 import { useRouter } from 'next/navigation';
+import { RiArrowDropDownFill } from 'react-icons/ri';
 
 const Profile = () => {
   const { session } = useSession();
@@ -17,21 +18,18 @@ const Profile = () => {
     return (
       <Dropdown
         label={
-          <div className={css.container}>
-            <FaUser className={css.container} />
+          <div className={css.profileContainer}>
+            <FaUser className={cx(css.container, 'icon-small')} />
+            <span>Profile</span>
+            <RiArrowDropDownFill className="icon-small" />
           </div>
         }
       >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '4px',
-          }}
-        >
-          <FaHouseUser className={css.icon} />
-          Login into your account
+        <div className={css.profileDropdownContent}>
+          <FaHouseUser className="icon-large" />
+          <span className="text-small" style={{ textAlign: 'center' }}>
+            Login into your account to get all benefits
+          </span>
         </div>
         <Button
           onClick={(e) => {
@@ -55,7 +53,7 @@ const Profile = () => {
         </div>
       }
     >
-      <p>Hello {session.email}</p>
+      <span>Hello {session.email}</span>
     </Dropdown>
   );
 };
