@@ -9,7 +9,7 @@ export const userRouter = Router();
 // Middleware
 userRouter.use(authMiddleware);
 
-userRouter.get('/user', async (req, res) => {
+userRouter.get('/', async (req, res) => {
   const { id } = req.user;
   const user = await User.findById(id).lean();
   if (!user) {
@@ -18,7 +18,7 @@ userRouter.get('/user', async (req, res) => {
   return res.json({ user });
 });
 
-userRouter.delete('/user', async (req, res) => {
+userRouter.delete('/', async (req, res) => {
   const { id } = req.user;
   const user = await User.findByIdAndDelete(id).lean();
   if (!user) {

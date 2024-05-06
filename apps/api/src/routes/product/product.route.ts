@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { idSchema } from '../../common/schema';
-import Product from '../../models/Product.model';
+import { idSchema, paginationSchema } from '../../common/schema';
+import Product, { IProduct } from '../../models/Product.model';
 import { PRODUCT_DELETED, PRODUCT_NOT_FOUND } from './product.constants';
 import { StatusCodes } from 'http-status-codes';
 import {
@@ -9,22 +9,30 @@ import {
   putProductBodySchema,
 } from './product.schema';
 import { authMiddleware } from '../../middleware/auth.middleware';
+import {
+  paginateResults,
+  PaginationResults,
+} from '../../utils/pagination.utils';
 
 export const productRouter = Router();
 
 // Middleware
 productRouter.use(authMiddleware);
 
-productRouter.get('/product', async (req, res) => {
+productRouter.get('/', async (req, res) => {
+  const { limit, page } = paginationSchema.parse(req.query);
   const { categoryId } = getProductQuery.parse(req.query);
-  const productList = await Product.find({
-    userId: req.user._id,
-    category: categoryId,
-  });
-  return res.json({ data: productList });
+
+  const results: PaginationResults<IProduct> = await paginateResults(
+    Product,
+    { category: categoryId, userId: req.user._id },
+    page,
+    limit
+  );
+  return res.json(results);
 });
 
-productRouter.get('/product/:id', async (req, res) => {
+productRouter.get('/:id', async (req, res) => {
   const { categoryId } = getProductQuery.parse(req.query);
   const { id } = idSchema.parse(req.params);
   const user = req.user;
@@ -41,14 +49,14 @@ productRouter.get('/product/:id', async (req, res) => {
   return res.json({ product });
 });
 
-productRouter.post('/product', async (req, res) => {
+productRouter.post('/', async (req, res) => {
   const body = postProductBodySchema.parse(req.body);
   const product = await Product.create(body);
 
   return res.json({ product });
 });
 
-productRouter.put('/product/:id', async (req, res) => {
+productRouter.put('/:id', async (req, res) => {
   const { id } = idSchema.parse(req.params);
   const body = putProductBodySchema.parse(req.body);
   const user = req.user;
@@ -65,7 +73,7 @@ productRouter.put('/product/:id', async (req, res) => {
   return res.json({ product });
 });
 
-productRouter.delete('/product/:id', async (req, res) => {
+productRouter.delete('/:id', async (req, res) => {
   const { id } = idSchema.parse(req.params);
   const user = req.user;
   const product = await Product.findOneAndDelete({

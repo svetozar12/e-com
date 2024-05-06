@@ -14,7 +14,10 @@ export function authMiddleware(
 
   if (token == null) return res.sendStatus(401);
   jwt.verify(token, JWT_SECRET, (err, data) => {
-    if (err) return res.sendStatus(403);
+    if (err) {
+      req.user = null;
+      return res.sendStatus(403);
+    }
     req.user = data as IUser;
     next();
   });
