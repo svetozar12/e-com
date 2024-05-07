@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { authMiddleware } from '../../middleware/auth.middleware';
 import { searchQuerySchema } from './search.schema';
-import Product from '../../models/Product.model';
-import User from '../../models/User.model';
+import Product from '../../database/models/Product.model';
+import User from '../../database/models/User.model';
 
 export const searchRouter = Router();
 

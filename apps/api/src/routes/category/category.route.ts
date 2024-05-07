@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { authMiddleware } from '../../middleware/auth.middleware';
-import Category, { ICategory } from '../../models/Category.model';
+import Category, { ICategory } from '../../database/models/Category.model';
 import { idSchema, paginationSchema } from '../../common/schema';
 import { CATEGORY_NOT_FOUND } from './category.constants';
 import { StatusCodes } from 'http-status-codes';
-import Product from '../../models/Product.model';
+import Product from '../../database/models/Product.model';
 import {
   PaginationResults,
   paginateResults,

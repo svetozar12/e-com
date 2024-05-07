@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { idSchema, paginationSchema } from '../../common/schema';
-import Product, { IProduct } from '../../models/Product.model';
+import Product, { IProduct } from '../../database/models/Product.model';
 import { PRODUCT_DELETED, PRODUCT_NOT_FOUND } from './product.constants';
 import { StatusCodes } from 'http-status-codes';
 import {

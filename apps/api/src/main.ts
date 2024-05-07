@@ -9,7 +9,7 @@ import { appRouter } from './routes';
 import bodyParser from 'body-parser';
 import { errorMiddleware } from './middleware/error.middleware';
 import { initEnv } from './utils/env.utils';
-import { connectMongo } from './utils/mongo.utils';
+import { connectMongo } from './database/mongo';
 import cors from 'cors';
 const app = express();
 // global instances

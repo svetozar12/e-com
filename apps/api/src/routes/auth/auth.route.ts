@@ -3,7 +3,7 @@ import { gmailTransporter } from '../../main';
 import { signUpBodySchema, verifyBodySchema } from './auth.schema';
 import { randomVerificationCode } from './auth.utils';
 import { generateToken } from '../../utils/jwt.utils';
-import User from '../../models/User.model';
+import User from '../../database/models/User.model';
 import {
   INVALID_CODE,
   SEND_CODE_SUCCESSFULLY,
@@ -11,7 +11,7 @@ import {
 } from './auth.constants';
 import { StatusCodes } from 'http-status-codes';
 import { EMAIL_CONTENT, EMAIL_SUBJECT } from '../../constants/email.constants';
-import Cart from '../../models/Cart.model';
+import Cart from '../../database/models/Cart.model';
 import { authMiddleware } from '../../middleware/auth.middleware';
 export const authRouter = Router();
 

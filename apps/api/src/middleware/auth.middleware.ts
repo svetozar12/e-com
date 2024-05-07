@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { envs } from '../main';
-import { IUser } from '../models/User.model';
+import { IUser } from '../database/models/User.model';
 
 export function authMiddleware(
   req: Request,

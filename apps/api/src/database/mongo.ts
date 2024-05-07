@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { envs } from '../main';
-import { seedDatabase } from '../database/seed';
+import { seedDatabase } from './seed';
 
 export async function connectMongo(): Promise<void> {
   const { DB_URL } = envs;

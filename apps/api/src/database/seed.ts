@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { envs } from '../main';
-import Category, { ICategory } from '../models/Category.model';
+import Category, { ICategory } from '../database/models/Category.model';
 
 // Sample data
 const categories: Partial<ICategory>[] = [
