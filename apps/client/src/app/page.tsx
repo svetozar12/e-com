@@ -1,6 +1,5 @@
-import styles from './page.module.css';
+import Home from '../components/Home/Home';
 
 export default function Index() {
-  console.log(typeof window, 'HELLO');
-  return <div className={styles.page}>hello</div>;
+  return <Home />;
 }

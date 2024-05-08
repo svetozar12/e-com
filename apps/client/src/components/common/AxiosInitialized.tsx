@@ -2,7 +2,7 @@
 import { initAxiosInstance, setSdkToken } from '@e-com/sdk';
 import { getCookie } from 'cookies-next';
 import React, { useEffect } from 'react';
-import { ACCESS_TOKEN } from '../constants/cookies';
+import { ACCESS_TOKEN } from '../../constants/cookies';
 
 const AxiosInitialized = () => {
   const token = getCookie(ACCESS_TOKEN);
