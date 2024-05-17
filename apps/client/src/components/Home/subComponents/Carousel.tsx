@@ -26,7 +26,7 @@ const Carousel = () => {
     },
   };
   return (
-    <CarouselReact responsive={responsive}>
+    <CarouselReact rewind autoPlay autoPlaySpeed={3000} responsive={responsive}>
       <Image
         src="/images/carousel/carousel1.webp"
         alt="logo"

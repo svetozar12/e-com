@@ -1,0 +1,9 @@
+.container {
+  background: hsla(0, 0%, 8%, 1);
+
+  background: linear-gradient(
+    to right,
+    var(--primary-200) 41%,
+    var(--button-primary) 100%
+  );
+}
