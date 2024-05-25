@@ -13,18 +13,13 @@ export interface ICategory extends Document {
   subcategories?: ISubcategory[];
 }
 
-const subcategorySchema = new Schema<ISubcategory>(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    // Optionally, define child subcategories here
-    // childSubcategories: [subcategorySchema],
+const subcategorySchema = new Schema<ISubcategory>({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
   },
-  { _id: false } // Ensure subdocuments do not get their own _id
-);
+});
 
 const categorySchema = new Schema<ICategory>(
   {

@@ -1,48 +1,47 @@
 'use client';
 import React from 'react';
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
+import { MailOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import css from './MenuNavbar.module.css';
+import { sdk } from '@e-com/sdk';
+
+type MenuItem = Required<MenuProps>['items'][number];
 
 const MenuNavbar = () => {
-  type MenuItem = Required<MenuProps>['items'][number];
-
+  const router = useRouter();
+  const [data, setData] = React.useState<any>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  async function fetchData() {
+    const [res, err, isLoading] = await sdk.category().getCategoryList();
+    if (err) {
+      setIsLoading(false);
+      console.log(err);
+    }
+    if (res) {
+      setData(res);
+      setIsLoading(false);
+    }
+  }
+  console.log(data);
+  const menuData = data.map(({ _id, name, subcategories }, index) => {
+    const children = (subcategories as Array<any>).map((data) => {
+      return { key: data._id, label: data.name };
+    });
+    return { key: _id, label: name, type: 'group', children };
+  });
   const items: MenuItem[] = [
     {
       key: 'categories',
       icon: <MailOutlined />,
       label: 'Categories',
-      children: [
-        {
-          key: '1-1',
-          label: 'Item 1',
-          type: 'group',
-          children: [
-            { key: '1', label: 'Option 1' },
-            { key: '2', label: 'Option 2' },
-          ],
-        },
-        {
-          key: '1-2',
-          label: 'Item 2',
-          type: 'group',
-          children: [
-            { key: '3', label: 'Option 3' },
-            { key: '4', label: 'Option 4' },
-          ],
-        },
-      ],
+      children: menuData,
     },
   ];
 
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click', e);
+    router.push(e.key);
   };
 
   const pathname = usePathname();
@@ -52,7 +51,6 @@ const MenuNavbar = () => {
   return (
     <div className={css.container}>
       <Menu
-        openKeys={['categories']}
         onClick={onClick}
         style={{ width: 256 }}
         mode="horizontal"

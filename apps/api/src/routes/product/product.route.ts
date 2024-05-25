@@ -8,16 +8,12 @@ import {
   postProductBodySchema,
   putProductBodySchema,
 } from './product.schema';
-import { authMiddleware } from '../../middleware/auth.middleware';
 import {
   paginateResults,
   PaginationResults,
 } from '../../utils/pagination.utils';
 
 export const productRouter = Router();
-
-// Middleware
-productRouter.use(authMiddleware);
 
 productRouter.get('/', async (req, res) => {
   const { limit, page } = paginationSchema.parse(req.query);
@@ -59,10 +55,8 @@ productRouter.post('/', async (req, res) => {
 productRouter.put('/:id', async (req, res) => {
   const { id } = idSchema.parse(req.params);
   const body = putProductBodySchema.parse(req.body);
-  const user = req.user;
   const product = await Product.findOneAndUpdate({
     _id: id,
-    user: user.id,
     ...body,
   });
   if (!product) {

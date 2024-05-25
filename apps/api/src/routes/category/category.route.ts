@@ -4,27 +4,28 @@ import Category, { ICategory } from '../../database/models/Category.model';
 import { idSchema, paginationSchema } from '../../common/schema';
 import { CATEGORY_NOT_FOUND } from './category.constants';
 import { StatusCodes } from 'http-status-codes';
-import Product from '../../database/models/Product.model';
+
 import {
   PaginationResults,
   paginateResults,
 } from '../../utils/pagination.utils';
-// import { paginatedResults } from '../../middleware/paginate.middleware';
 
 export const categoryRouter = Router();
 
-// Middleware
-categoryRouter.use(authMiddleware);
-
 categoryRouter.get('/', async (req, res) => {
-  const { limit, page } = paginationSchema.parse(req.query);
-  const results: PaginationResults<ICategory> = await paginateResults(
-    Product,
-    null,
-    page,
-    limit
-  );
-  return res.json(results);
+  try {
+    const { limit, page } = paginationSchema.parse(req.query);
+    const results: PaginationResults<ICategory> = await paginateResults(
+      Category,
+      null,
+      page,
+      limit
+    );
+    return res.json(results);
+  } catch (error) {
+    console.log(error, 'data');
+    return res.json(error);
+  }
 });
 
 categoryRouter.get('/:id', async (req, res) => {
