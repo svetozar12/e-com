@@ -1,22 +1,27 @@
-'use client';
 import React from 'react';
-import { usePathname } from 'next/navigation';
-import Profile from './subComponents/Profile/Profile';
-import Cart from './subComponents/Cart/Cart';
-import css from './Navbar.module.css';
-import Search from './subComponents/Search/Search';
-import Logo from './subComponents/Logo/Logo';
+import Logo from './subcomponents/Logo/Logo';
+import styles from './Navbar.module.css';
+import ShopTabs from './subcomponents/ShopTabs/ShopTabs';
+import { Button } from '@chakra-ui/react';
+import { FiShoppingCart } from 'react-icons/fi';
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
-  const pathname = usePathname();
-
-  if (pathname === '/login') return null;
+  const router = useRouter();
   return (
-    <div className={css.container}>
+    <div className={styles.container}>
       <Logo />
-      <Search />
-      <Profile />
-      <Cart />
+      <ShopTabs />
+      <div className={`${styles.rightSide}`}>
+        <Button
+          onClick={() => router.push('/login')}
+          colorScheme="blue"
+          variant="outline"
+        >
+          Login
+        </Button>
+        <FiShoppingCart size="40px" />
+      </div>
     </div>
   );
 };

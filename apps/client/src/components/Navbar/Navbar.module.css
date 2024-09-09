@@ -1,8 +1,13 @@
 .container {
-  background-color: var(--primary-100);
+  padding: 10px 5%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 0 10px 0 10px;
   gap: 10px;
+  justify-content: space-between;
+}
+
+.rightSide {
+  display: flex;
+  gap: 10px;
+  margin: 10px;
 }

@@ -4,6 +4,40 @@
   "sourceRoot": "apps/client",
   "projectType": "application",
   "tags": [],
-  "// targets": "to see all targets run: nx show project client --web",
-  "targets": {}
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "fe-apps/client",
+        "outputPath": "dist/fe-apps/client"
+      },
+      "dependsOn": [],
+      "configurations": {
+        "development": {
+          "outputPath": "fe-apps/client"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "client:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "client:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "client:build:production",
+          "dev": false
+        }
+      }
+    }
+  }
 }

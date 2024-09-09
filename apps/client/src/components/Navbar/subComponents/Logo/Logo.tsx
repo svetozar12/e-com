@@ -1,20 +1,14 @@
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import React from 'react';
-import css from './Logo.module.css';
-import cx from 'classnames';
+import styles from './Logo.module.css';
+import { Heading } from '@chakra-ui/react';
 
 const Logo = () => {
-  const router = useRouter();
   return (
-    <Image
-      className={cx(css.container, 'hover-effect')}
-      onClick={() => router.push('/')}
-      src="/images/ecom-logo.png"
-      alt="logo"
-      width={100}
-      height={100}
-    />
+    <div className={styles.container}>
+      <Image src="/images/logo.png" alt="logo" width={50} height={50}></Image>
+      <Heading className={styles.heading}>SNAPPER</Heading>
+    </div>
   );
 };
 

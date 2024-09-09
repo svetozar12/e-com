@@ -1,10 +1,14 @@
 import React from 'react';
-import Carousel from './subComponents/Carousel';
+import Button from '../common/Button/Button';
+import { useRouter } from 'next/router';
+import styles from './Home.module.css';
+import NewCollection from './subcomponents/NewCollection/NewCollection';
 
 const Home = () => {
+  const router = useRouter();
   return (
-    <div>
-      <Carousel />
+    <div className={styles.container}>
+      <NewCollection />
     </div>
   );
 };

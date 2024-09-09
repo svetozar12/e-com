@@ -20,10 +20,8 @@ const subcategorySchema = new Schema<ISubcategory>(
       required: true,
       trim: true,
     },
-    // Optionally, define child subcategories here
-    // childSubcategories: [subcategorySchema],
   },
-  { _id: false } // Ensure subdocuments do not get their own _id
+  { _id: false }
 );
 
 const categorySchema = new Schema<ICategory>(
