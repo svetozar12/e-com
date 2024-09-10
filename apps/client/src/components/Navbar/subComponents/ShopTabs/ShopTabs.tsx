@@ -24,7 +24,7 @@ const ShopTabs = () => {
   function handleTabChange(index: number) {
     const tab = Object.keys(tabMapping)[index] as TabType;
     router.push(
-      { pathname: router.pathname, query: { ...router.query, tab } },
+      { pathname: `${router.pathname}`, query: { ...router.query, tab } },
       undefined,
       { shallow: true }
     );

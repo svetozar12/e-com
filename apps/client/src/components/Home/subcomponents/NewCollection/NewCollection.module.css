@@ -3,6 +3,8 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 10%;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .button {
