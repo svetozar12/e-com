@@ -8,11 +8,11 @@ const NewCollection = () => {
   return (
     <div className={styles.container}>
       <div>
-        <Heading size="lg">Don&apos;t miss these offers</Heading>
+        <Heading size="md">Don&apos;t miss these offers</Heading>
         <Heading size="3xl">
-          new 💻
-          <br /> computers <br />
-          for everyone
+          New 💻
+          <br /> Computers <br />
+          For Everyone
         </Heading>
         <Button
           colorScheme="yellow"

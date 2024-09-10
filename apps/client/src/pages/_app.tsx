@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { initAxiosInstance } from '@e-com/sdk';
 import { ChakraProvider } from '@chakra-ui/react';
 import Navbar from '../components/Navbar/Navbar';
+import Footer from '../components/Footer/Footer';
 
 NProgress.configure({ showSpinner: false, minimum: 0.5 });
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -26,9 +27,10 @@ function App({ Component, pageProps }: AppProps) {
   });
   return (
     <ChakraProvider>
-      <Navbar></Navbar>
+      <Navbar />
       <Component {...pageProps} />
       <ToastContainer theme="dark" />
+      <Footer />
     </ChakraProvider>
   );
 }
