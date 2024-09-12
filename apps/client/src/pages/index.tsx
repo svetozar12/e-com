@@ -19,6 +19,6 @@ export default function Index() {
     case 'Smartphones':
       return <SmarthphonesTab />;
     default:
-      return <Home />;
+      return null;
   }
 }

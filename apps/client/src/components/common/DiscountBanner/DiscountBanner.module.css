@@ -1,0 +1,15 @@
+.container {
+  background: linear-gradient(
+    to right,
+    rgba(242, 88, 46, 0.4) 20%,
+    rgba(248, 148, 34, 0.4) 50%,
+    #ffffff 95%
+  );
+  width: 100%;
+  display: flex;
+  padding: 10px 40px 10px 40px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
