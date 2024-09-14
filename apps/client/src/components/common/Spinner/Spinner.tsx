@@ -1,6 +1,6 @@
 import React from 'react';
 import css from './Spinner.module.css';
-
+import { Spinner as ChakraSpinner } from '@chakra-ui/react';
 interface ISpinner {
   children: React.ReactNode;
   loading: boolean;
@@ -13,7 +13,7 @@ const Spinner = (
   return (
     <div className={css.container}>
       <div className={css.overlay}>
-        <div className={css.spinner}></div>
+        <ChakraSpinner size="xl" />
       </div>
       <div className={css.content}>{children}</div>
     </div>

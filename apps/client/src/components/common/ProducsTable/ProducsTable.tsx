@@ -1,24 +1,26 @@
 import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import styles from './ProductsTable.module.css';
+import ProductsTableHeader from './subcomponents/ProductsTableHeader';
 
+export type Pagination = { page: number; limit: number; total: number };
+export type Data = { image: string; title: string; price: number };
 // ADD SORTING
 // FIX STYLE BUGS
-interface IProductsTable {
-  dataSource: Array<{ image: string; title: string; price: number }>;
-  pagination: { page: number; limit: number; total: number };
+export interface IProductsTable {
+  dataSource: Array<Data>;
+  pagination: Pagination;
 }
 
 const ProductsTable = (
-  { dataSource, pagination: { page, limit, total } }: IProductsTable = {
+  { dataSource, pagination }: IProductsTable = {
     dataSource: [],
     pagination: { page: 1, limit: 16, total: 10 },
   }
 ) => {
-  const calcTotal = limit * page > total ? total : limit * page;
   return (
     <div>
-      Showing {page} - {calcTotal} out of {total}
+      <ProductsTableHeader pagination={pagination} dataSource={dataSource} />
       <div className={styles.container}>
         {dataSource.map(({ image, price, title }) => (
           // TODO Use image when supported by backend

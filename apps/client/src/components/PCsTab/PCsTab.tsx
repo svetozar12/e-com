@@ -9,11 +9,11 @@ const PCsTab = () => {
   const [data, setData] = useState([]);
   function fetch() {
     const dataSource = [] as any;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 10; i > 0; i--) {
       dataSource.push({
         image: '', // Placeholder for the image
         price: 120, // Fixed price for each item
-        title: 'test', // Placeholder title
+        title: 'test' + i, // Placeholder title
       });
     }
     console.log(dataSource);
@@ -40,6 +40,7 @@ const PCsTab = () => {
       <ProductsTable
         dataSource={data}
         pagination={{ page: 1, limit: 16, total: data.length }}
+        sort
       ></ProductsTable>
       <Button onClick={fetch}>Explore more</Button>
     </div>

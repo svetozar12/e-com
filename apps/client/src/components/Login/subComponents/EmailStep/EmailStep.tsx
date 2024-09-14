@@ -1,9 +1,8 @@
 import React from 'react';
-import Button from '../../../common/Button/Button';
-import Input from '../../../common/Inputs/Input';
 import { sdk } from '@e-com/sdk';
 import { Step } from '../../Login';
 import { toast } from 'react-toastify';
+import { Button, Input, Text } from '@chakra-ui/react';
 
 interface IEmailStep {
   email: string;
@@ -32,7 +31,10 @@ const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
   return (
     <>
       <div>
-        <label htmlFor="email">EMAIL</label>
+        <Text align="center" mb="8px" fontWeight="bold">
+          Please enter your email
+        </Text>
+
         <Input
           id="email"
           required
@@ -41,7 +43,12 @@ const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
           onChange={(e) => setEmail(e.currentTarget.value)}
         ></Input>
       </div>
-      <Button type="submit" onClick={onSubmit}>
+      <Button
+        width="100%"
+        colorScheme="orange"
+        type="submit"
+        onClick={onSubmit}
+      >
         LOGIN
       </Button>
     </>

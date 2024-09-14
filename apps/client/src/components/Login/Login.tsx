@@ -5,6 +5,9 @@ import css from './Login.module.css';
 import EmailStep from './subComponents/EmailStep/EmailStep';
 import VerifyStep from './subComponents/VerifyStep/VerifyStep';
 import Spinner from '../common/Spinner/Spinner';
+import Image from 'next/image';
+import Logo from '../Navbar/subcomponents/Logo/Logo';
+import { Heading } from '@chakra-ui/react';
 
 export type Step = 'email' | 'verify';
 
@@ -45,9 +48,10 @@ const Login = () => {
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
+        <Logo />
         <Spinner loading={loading}>
           <form className={css.form} onSubmit={(e) => e.preventDefault()}>
-            <h1 className={css.header}>E-COMMERCE APP</h1>
+            <Heading className={css.header}>Hello</Heading>
             {renderStep()}
           </form>
         </Spinner>
