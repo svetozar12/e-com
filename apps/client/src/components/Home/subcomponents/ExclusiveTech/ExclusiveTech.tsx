@@ -12,7 +12,7 @@ const ExclusiveTech = () => {
         </Heading>
         <Heading size="md">Only best offers for you</Heading>
         <Button
-          colorScheme="yellow"
+          colorScheme="orange"
           color="white"
           paddingX={5}
           paddingY={10}

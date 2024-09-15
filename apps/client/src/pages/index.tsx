@@ -5,7 +5,7 @@ import LaptopsTab from '../components/LaptopsTab/LaptopsTab';
 import PCsTab from '../components/PCsTab/PCsTab';
 import SmarthphonesTab from '../components/SmarthphonesTab/SmarthphonesTab';
 
-export default function Index() {
+function Index() {
   const router = useRouter();
   const tab = router.query.tab as TabType;
 
@@ -22,3 +22,5 @@ export default function Index() {
       return null;
   }
 }
+
+export default Index;

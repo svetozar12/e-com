@@ -30,7 +30,7 @@ const SubscribeToOffers = () => {
         <InputRightElement width="140px" height="60px">
           <Button
             borderRadius={50}
-            colorScheme="yellow"
+            colorScheme="orange"
             color="white"
             h="60px"
             size="lg"

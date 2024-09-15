@@ -15,7 +15,7 @@ const NewCollection = () => {
           For Everyone
         </Heading>
         <Button
-          colorScheme="yellow"
+          colorScheme="orange"
           color="white"
           paddingX={5}
           paddingY={10}

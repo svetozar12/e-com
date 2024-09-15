@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import axios from 'axios';
 import { auth } from './resources/auth';
 import { cart } from './resources/cart';
 
@@ -7,11 +7,9 @@ export const sdk = {
   cart,
 };
 
-export let instance: AxiosInstance;
-
-export function initAxiosInstance(config: CreateAxiosDefaults) {
-  instance = axios.create(config);
-}
+export const instance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+});
 
 export function setSdkToken(token: string) {
   instance.interceptors.request.use((config) => {

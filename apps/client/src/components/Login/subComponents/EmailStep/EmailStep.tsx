@@ -1,8 +1,8 @@
 import React from 'react';
-import { sdk } from '@e-com/sdk';
 import { Step } from '../../Login';
 import { toast } from 'react-toastify';
 import { Button, Input, Text } from '@chakra-ui/react';
+import { sdk } from '../../../../utils/sdk/sdk';
 
 interface IEmailStep {
   email: string;
@@ -18,12 +18,10 @@ const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
     setIsLoading(false);
     if (err) {
       const { message } = err;
-      toast.error(message);
-      setStep('email');
+      return toast.error(message);
     }
     const { data } = res || {};
     if (data) {
-      console.log(data);
       toast.success(data.message);
       setStep('verify');
     }

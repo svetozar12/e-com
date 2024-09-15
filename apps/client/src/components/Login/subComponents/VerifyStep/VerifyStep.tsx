@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Step } from '../../Login';
-import { sdk } from '@e-com/sdk';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { Input, Button, Text, HStack } from '@chakra-ui/react';
+import { sdk } from '../../../../utils/sdk/sdk';
 
 interface IVerifyStep {
   email: string;
@@ -48,17 +48,26 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
     }
   };
 
-  async function onSubmit() {
-    console.log(values.join(''));
-    setIsLoading(true);
-    const [res, err] = await sdk
-      .auth()
-      .verify({ code: values.join(', '), email });
+  async function resendCode() {
+    const [_, err] = await sdk.auth().signUp({ email });
     setIsLoading(false);
     if (err) {
       const { message } = err;
-      toast.error(message);
-      setStep('email');
+      return toast.error(message);
+    }
+    toast.success(`We send you a new code to ${email}`);
+  }
+
+  async function onSubmit() {
+    setIsLoading(true);
+    const [res, err] = await sdk
+      .auth()
+      .verify({ code: values.join(''), email });
+
+    setIsLoading(false);
+    if (err) {
+      const { message } = err;
+      return toast.error(message);
     }
     const {
       data: { accessToken },
@@ -67,7 +76,7 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
     now.setTime(now.getTime() + 1 * 3600 * 1000);
     setCookie('accessToken', accessToken, { expires: now });
     if (accessToken) {
-      router.push('/');
+      router.push(`/?tab=Shop`);
     }
   }
   return (
@@ -95,6 +104,9 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
           />
         ))}
       </HStack>
+      <Text onClick={resendCode} cursor="pointer" align="center" mb="8px">
+        Didn&apos;t work? Send me another code.
+      </Text>
       <Button
         width="100%"
         colorScheme="orange"

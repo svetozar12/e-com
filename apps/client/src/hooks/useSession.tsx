@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ACCESS_TOKEN } from '../constants/cookies';
+import { sdk } from '../utils/sdk/sdk';
 
 type Session = {
   email: string;
@@ -17,14 +18,24 @@ export const useSession = () => {
   const [session, setSession] = useState<Session | null>(null);
   const token = getCookie(ACCESS_TOKEN);
   const router = useRouter();
+
+  function logout() {
+    deleteCookie(ACCESS_TOKEN);
+    setSession(null);
+  }
+
   useEffect(() => {
     try {
       if (!token) {
         return setSession(null);
       }
-
-      const decoded = jwtDecode(token) as Session;
-      setSession(decoded);
+      sdk
+        .auth()
+        .verifyToken(token)
+        .then(() => {
+          const decoded = jwtDecode(token) as Session;
+          setSession(decoded);
+        });
     } catch (error) {
       setSession(null);
       deleteCookie(ACCESS_TOKEN);
@@ -35,7 +46,7 @@ export const useSession = () => {
 
   return {
     session,
-    setSession,
+    logout,
   };
 };
 
