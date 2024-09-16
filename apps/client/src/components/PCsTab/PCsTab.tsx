@@ -4,24 +4,23 @@ import Image from 'next/image';
 import styles from './PCsTab.module.css';
 import ProductsTable from '../common/ProducsTable/ProducsTable';
 import { Button } from '@chakra-ui/react';
+import { sdk } from '../../utils/sdk';
 
 const PCsTab = () => {
   const [data, setData] = useState([]);
-  function fetch() {
-    const dataSource = [] as any;
-    for (let i = 10; i > 0; i--) {
-      dataSource.push({
-        image: '', // Placeholder for the image
-        price: 120, // Fixed price for each item
-        title: 'test' + i, // Placeholder title
-      });
-    }
-    console.log(dataSource);
-    setData((prev) => [...prev, ...dataSource]);
-  }
+  const [page, setPage] = useState(1);
+  const [isLoadMore, setIsLoadMore] = useState(false);
+  const fetch = async () => {
+    const [res, err] = await sdk.product().getProducts({ limit: 8, page });
+    console.log(res);
+    setData((prev) => [...(prev as any), ...(res?.data.data as any)] as any);
+    setIsLoadMore(res?.data.next.page !== 0);
+    console.log(res?.data.next.page);
+  };
+
   useEffect(() => {
     fetch();
-  }, []);
+  }, [page]);
 
   return (
     <div className={styles.container}>
@@ -40,9 +39,10 @@ const PCsTab = () => {
       <ProductsTable
         dataSource={data}
         pagination={{ page: 1, limit: 16, total: data.length }}
-        sort
       ></ProductsTable>
-      <Button onClick={fetch}>Explore more</Button>
+      <Button isDisabled={!isLoadMore} onClick={() => setPage(page + 1)}>
+        Explore more
+      </Button>
     </div>
   );
 };

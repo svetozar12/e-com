@@ -27,6 +27,7 @@ const ProductsTable = (
           <ProductCard
             title={title}
             price={price}
+            image={image}
             key={image + price + title}
           />
         ))}
