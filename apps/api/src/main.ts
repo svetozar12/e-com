@@ -11,6 +11,8 @@ import { errorMiddleware } from './middleware/error.middleware';
 import { initEnv } from './utils/env.utils';
 import { connectMongo } from './database/mongo';
 import cors from 'cors';
+import path from 'path';
+
 const app = express();
 // global instances
 export const envs = initEnv();
@@ -25,6 +27,8 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(cors());
+
+app.use('/static', express.static(path.resolve(__dirname, '..', 'uploads')));
 app.use('/api', appRouter);
 app.use(errorMiddleware);
 

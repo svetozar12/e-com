@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { auth } from './resources/auth';
 import { cart } from './resources/cart';
+import { product } from './resources/product';
 
 export const sdk = {
   auth,
   cart,
+  product,
 };
 
 export const instance = axios.create({

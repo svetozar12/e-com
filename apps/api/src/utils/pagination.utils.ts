@@ -16,7 +16,8 @@ const paginateResults = async <T extends Document>(
   model: Model<T>,
   query: any,
   page: number,
-  limit: number
+  limit: number,
+  sortBy?: string
 ): Promise<PaginationResults<T>> => {
   const skip = (page - 1) * limit;
   const results: PaginationResults<T> = {
@@ -25,16 +26,22 @@ const paginateResults = async <T extends Document>(
     data: [],
   };
 
-  const productList = await model
-    .find({
-      ...query,
-    })
-    .skip(skip)
-    .limit(limit);
+  // Initialize the query and apply sort if `sortBy` is defined
+  const findQuery = model.find({
+    ...query,
+  });
+
+  // Apply sort condition only if `sortBy` is defined
+  if (sortBy) {
+    findQuery.sort({ [sortBy]: 'asc' });
+  }
+
+  // Paginate
+  const productList = await findQuery.skip(skip).limit(limit);
 
   const count = await model.countDocuments(query).exec();
 
-  if (skip < count) {
+  if (skip + limit < count) {
     results.next = {
       page: page + 1,
       limit: limit,

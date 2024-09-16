@@ -1,20 +1,24 @@
 import { Divider, Heading } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './NewTech.module.css';
 import ProductCard from '../../../common/ProductCard/ProductCard';
+import { sdk } from '../../../../utils/sdk';
 
 const NewTech = () => {
-  // replace with BE data
-  const data = [
-    { name: 'Pc', price: 12 },
-    { name: 'Pc', price: 12 },
-    { name: 'Pc', price: 12 },
-    { name: 'Pc', price: 12 },
-    { name: 'Pc', price: 12 },
-    { name: 'Pc', price: 12 },
-    { name: 'Pc', price: 12 },
-    { name: 'Pc', price: 12 },
-  ];
+  const [data, setData] = useState([]);
+
+  const fetch = async () => {
+    const [res, err] = await sdk
+      .product()
+      .getProducts({ limit: 8, page: 1, sortBy: 'createdAt' });
+    console.log(res, err);
+    setData(res?.data.data);
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
   return (
     <div className={styles.container}>
       <Heading>NEW TECH</Heading>
@@ -27,8 +31,13 @@ const NewTech = () => {
         marginBottom={10}
       />
       <div className={styles.newTech}>
-        {data.map(({ name, price }) => (
-          <ProductCard key={name + price} price={price} title={name} />
+        {data?.map(({ name, price, image }) => (
+          <ProductCard
+            key={name + price}
+            price={price}
+            title={name}
+            image={image}
+          />
         ))}
       </div>
     </div>

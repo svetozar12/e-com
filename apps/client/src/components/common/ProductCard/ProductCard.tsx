@@ -7,9 +7,10 @@ import styles from './ProductCard.module.css';
 interface IProductCard {
   title: string;
   price: number;
+  image: string;
 }
 
-const ProductCard = ({ price, title }: IProductCard) => {
+const ProductCard = ({ price, title, image }: IProductCard) => {
   const router = useRouter();
 
   function handleOnClick(title: string) {
@@ -23,7 +24,22 @@ const ProductCard = ({ price, title }: IProductCard) => {
       cursor="pointer"
     >
       <CardBody>
-        <Image src="/images/logo.png" alt="logo" width={250} height={250} />
+        <div
+          style={{
+            width: '100%',
+            height: '250px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Image
+            src={`http://localhost:4001/static/${image}`}
+            width={200}
+            height={200}
+            alt="logo"
+          />
+        </div>
         <Text>{title}</Text>
         <Text marginBottom={0} fontWeight="bold">
           ${price}

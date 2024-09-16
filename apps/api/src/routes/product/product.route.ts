@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { idSchema, paginationSchema } from '../../common/schema';
+import { fileSchema, idSchema, paginationSchema } from '../../common/schema';
 import Product, { IProduct } from '../../database/models/Product.model';
 import { PRODUCT_DELETED, PRODUCT_NOT_FOUND } from './product.constants';
 import { StatusCodes } from 'http-status-codes';
@@ -13,33 +13,30 @@ import {
   paginateResults,
   PaginationResults,
 } from '../../utils/pagination.utils';
+import { upload } from '../../utils/multer';
 
 export const productRouter = Router();
 
-// Middleware
-productRouter.use(authMiddleware);
-
 productRouter.get('/', async (req, res) => {
   const { limit, page } = paginationSchema.parse(req.query);
-  const { categoryId } = getProductQuery.parse(req.query);
+  const { category, sortBy } = getProductQuery.parse(req.query);
 
   const results: PaginationResults<IProduct> = await paginateResults(
     Product,
-    { category: categoryId, userId: req.user._id },
+    { ...(category && { category }) },
     page,
-    limit
+    limit,
+    sortBy
   );
   return res.json(results);
 });
 
 productRouter.get('/:id', async (req, res) => {
-  const { categoryId } = getProductQuery.parse(req.query);
+  const { category } = getProductQuery.parse(req.query);
   const { id } = idSchema.parse(req.params);
-  const user = req.user;
   const product = await Product.findOne({
     _id: id,
-    userId: user.id,
-    category: categoryId,
+    category,
   }).lean();
   if (!product) {
     return res
@@ -49,14 +46,29 @@ productRouter.get('/:id', async (req, res) => {
   return res.json({ product });
 });
 
-productRouter.post('/', async (req, res) => {
-  const body = postProductBodySchema.parse(req.body);
-  const product = await Product.create(body);
+productRouter.post(
+  '/',
+  authMiddleware,
+  upload.single('file'),
+  async (req, res) => {
+    const file = req.file;
+    const validationResult = fileSchema.safeParse({
+      mimetype: file.mimetype,
+      size: file.size,
+    });
 
-  return res.json({ product });
-});
+    if (!validationResult.success) {
+      return res.status(400).json({ errors: validationResult });
+    }
 
-productRouter.put('/:id', async (req, res) => {
+    const body = postProductBodySchema.parse(req.body);
+    const product = await Product.create({ ...body, image: file.filename });
+
+    return res.json({ product });
+  }
+);
+
+productRouter.put('/:id', authMiddleware, async (req, res) => {
   const { id } = idSchema.parse(req.params);
   const body = putProductBodySchema.parse(req.body);
   const user = req.user;
@@ -73,7 +85,7 @@ productRouter.put('/:id', async (req, res) => {
   return res.json({ product });
 });
 
-productRouter.delete('/:id', async (req, res) => {
+productRouter.delete('/:id', authMiddleware, async (req, res) => {
   const { id } = idSchema.parse(req.params);
   const user = req.user;
   const product = await Product.findOneAndDelete({

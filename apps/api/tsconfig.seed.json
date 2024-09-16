@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs", // Use CommonJS for compatibility with Node.js
+    "target": "es6", // You can adjust this to match your Node.js version
+    "outDir": "./dist", // Output directory for the compiled JS files
+    "rootDir": "./src", // Directory where your TS files are located
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*.ts"], // Adjust this to point to the seed file(s)
+  "exclude": ["node_modules"]
+}

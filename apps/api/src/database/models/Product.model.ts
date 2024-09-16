@@ -1,12 +1,12 @@
 import { Schema, model, Document } from 'mongoose';
-import { ICategory } from './Category.model';
 
 export interface IProduct extends Document {
   name: string;
   description: string;
   price: number;
   quantity: number;
-  category: ICategory['_id'];
+  category: string;
+  image: string;
 }
 
 const productSchema = new Schema<IProduct>(
@@ -28,7 +28,14 @@ const productSchema = new Schema<IProduct>(
       type: Number,
       required: true,
     },
-    category: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+    category: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

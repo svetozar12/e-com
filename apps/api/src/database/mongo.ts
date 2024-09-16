@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { envs } from '../main';
-import { seedDatabase } from './seed';
 
 export async function connectMongo(): Promise<void> {
   const { DB_URL } = envs;
@@ -10,8 +9,6 @@ export async function connectMongo(): Promise<void> {
   } catch (error) {
     console.error('Failed to connect to MongoDB:', error);
     throw error;
-  } finally {
-    seedDatabase();
   }
 }
 

@@ -2,8 +2,11 @@ import React from 'react';
 import styles from './ExclusiveTech.module.css';
 import Image from 'next/image';
 import { Button, Heading } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 const ExclusiveTech = () => {
+  const router = useRouter();
+
   return (
     <div className={styles.container}>
       <div>
@@ -12,6 +15,13 @@ const ExclusiveTech = () => {
         </Heading>
         <Heading size="md">Only best offers for you</Heading>
         <Button
+          onClick={() =>
+            router.push(
+              { pathname: router.pathname, query: { tab: 'PCs' } },
+              undefined,
+              { shallow: true }
+            )
+          }
           colorScheme="orange"
           color="white"
           paddingX={5}

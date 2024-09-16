@@ -19,6 +19,21 @@
           "buildTarget": "api:build:production"
         }
       }
+    },
+    "build-seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/api",
+        "command": "tsc --project tsconfig.seed.json"
+      }
+    },
+    "seed": {
+      "dependsOn": ["build-seed"],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/api",
+        "command": "node dist/database/seed/seed.js"
+      }
     }
   }
 }

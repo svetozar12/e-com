@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ACCESS_TOKEN } from '../constants/cookies';
-import { sdk } from '../utils/sdk/sdk';
+import { sdk, setSdkToken } from '../utils/sdk/sdk';
 
 type Session = {
   email: string;
@@ -36,6 +36,7 @@ export const useSession = () => {
           const decoded = jwtDecode(token) as Session;
           setSession(decoded);
         });
+      setSdkToken(token);
     } catch (error) {
       setSession(null);
       deleteCookie(ACCESS_TOKEN);

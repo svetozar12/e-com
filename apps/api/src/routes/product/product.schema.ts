@@ -8,6 +8,9 @@ export const postProductBodySchema = z.object({
   userId: z.string().min(1),
 });
 
-export const getProductQuery = z.object({ categoryId: z.string().min(1) });
+export const getProductQuery = z.object({
+  category: z.string().min(1).optional(),
+  sortBy: z.enum(['createdAt', 'price', 'name']).optional(),
+});
 
 export const putProductBodySchema = postProductBodySchema.optional();
