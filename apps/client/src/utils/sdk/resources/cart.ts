@@ -5,6 +5,11 @@ async function getCart() {
   return instance.get('/cart');
 }
 
+async function updateCart(reqData: { products: Array<string> }) {
+  return instance.put('/cart', reqData);
+}
+
 export const cart = () => ({
-  get: asyncHandler(getCart),
+  getCart: asyncHandler(getCart),
+  updateCart: asyncHandler(updateCart),
 });

@@ -23,7 +23,15 @@ cartRouter.get('/', async (req, res) => {
 cartRouter.put('/', async (req, res) => {
   const user = req.user;
   const { products } = putCartBodySchema.parse(req.body);
-  const cart = await Cart.findOneAndUpdate({ userId: user._id, products });
+  const cart = await Cart.findOneAndUpdate(
+    { userId: user._id },
+    {
+      $addToSet: {
+        products: { $each: products }, // Ensure products are added without duplicates
+      },
+    },
+    { new: true } // Return the updated document
+  );
   if (!cart) {
     return res.json({ message: CART_NOT_FOUND }).status(StatusCodes.NOT_FOUND);
   }

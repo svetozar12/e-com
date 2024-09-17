@@ -23,7 +23,7 @@ export const useSession = () => {
     deleteCookie(ACCESS_TOKEN);
     setSession(null);
   }
-
+  // think of a way to refresh the session
   useEffect(() => {
     try {
       if (!token) {

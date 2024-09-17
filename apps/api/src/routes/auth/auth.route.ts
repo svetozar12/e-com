@@ -42,7 +42,9 @@ authRouter.post('/signUp', (req, res, next) => {
             verificationCode: code,
           });
         }
-        await Cart.create({ userId: user._id, products: [] });
+        const cart = await Cart.findOne({ userId: user._id });
+        if (!cart) await Cart.create({ userId: user._id, products: [] });
+
         return res.json({ message: SEND_CODE_SUCCESSFULLY });
       }
     );

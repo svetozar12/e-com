@@ -15,20 +15,31 @@ import { ChakraProvider } from '@chakra-ui/react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import '../utils/sdk';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 
 NProgress.configure({ showSpinner: false, minimum: 0.5 });
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
+const queryClient = new QueryClient();
+
 function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <Navbar />
-      <Component {...pageProps} />
-      <ToastContainer theme="dark" />
-      <Footer />
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider>
+        <Navbar />
+        <Component {...pageProps} />
+        <ToastContainer theme="dark" />
+        <Footer />
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 

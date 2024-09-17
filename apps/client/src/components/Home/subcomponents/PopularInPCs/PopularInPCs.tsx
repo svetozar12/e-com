@@ -31,13 +31,8 @@ const PopularInPCs = () => {
         marginBottom={10}
       />
       <div className={styles.popularInPCs}>
-        {data.map(({ name, price, image }) => (
-          <ProductCard
-            key={name + price}
-            price={price}
-            title={name}
-            image={image}
-          />
+        {data.map((product) => (
+          <ProductCard key={name + product.price} {...product} />
         ))}
       </div>
     </div>

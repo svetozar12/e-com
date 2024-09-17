@@ -40,7 +40,11 @@ const PCsTab = () => {
         dataSource={data}
         pagination={{ page: 1, limit: 16, total: data.length }}
       ></ProductsTable>
-      <Button isDisabled={!isLoadMore} onClick={() => setPage(page + 1)}>
+      <Button
+        marginTop={10}
+        isDisabled={!isLoadMore}
+        onClick={() => setPage(page + 1)}
+      >
         Explore more
       </Button>
     </div>

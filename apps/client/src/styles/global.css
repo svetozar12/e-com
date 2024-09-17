@@ -37,10 +37,11 @@
 }
 
 .hover-effect {
-  transition: opacity var(--transition) ease;
-  opacity: 1;
+  scale: 1;
+  transition: 0.1s;
 }
 
 .hover-effect:hover {
-  opacity: 0.5;
+  scale: 1.05;
+  transition: 0.1s;
 }

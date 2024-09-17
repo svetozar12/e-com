@@ -8,7 +8,7 @@ import SmarthphonesTab from '../components/SmarthphonesTab/SmarthphonesTab';
 function Index() {
   const router = useRouter();
   const tab = router.query.tab as TabType;
-
+  console.log(tab);
   switch (tab) {
     case 'Shop':
       return <Home />;
