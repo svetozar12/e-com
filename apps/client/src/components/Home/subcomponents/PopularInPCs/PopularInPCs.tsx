@@ -3,15 +3,13 @@ import React, { useEffect, useState } from 'react';
 import styles from './PopularInPCs.module.css';
 import ProductCard from '../../../common/ProductCard/ProductCard';
 import { sdk } from '../../../../utils/sdk';
+import { Data } from '../../../common/ProducsTable/ProducsTable';
 
 const PopularInPCs = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Data[]>([]);
 
   const fetch = async () => {
-    const [res, err] = await sdk
-      .product()
-      .getProducts({ limit: 4, page: 1 }, 'PCs');
-    console.log(res, err);
+    const res = await sdk.product().getProducts({ limit: 4, page: 1 }, 'PCs');
     setData(res?.data.data);
   };
 
@@ -32,7 +30,7 @@ const PopularInPCs = () => {
       />
       <div className={styles.popularInPCs}>
         {data.map((product) => (
-          <ProductCard key={name + product.price} {...product} />
+          <ProductCard key={product.name + product.price} {...product} />
         ))}
       </div>
     </div>

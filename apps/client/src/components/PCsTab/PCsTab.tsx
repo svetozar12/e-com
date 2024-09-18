@@ -11,8 +11,7 @@ const PCsTab = () => {
   const [page, setPage] = useState(1);
   const [isLoadMore, setIsLoadMore] = useState(false);
   const fetch = async () => {
-    const [res, err] = await sdk.product().getProducts({ limit: 8, page });
-    console.log(res);
+    const res = await sdk.product().getProducts({ limit: 8, page });
     setData((prev) => [...(prev as any), ...(res?.data.data as any)] as any);
     setIsLoadMore(res?.data.next.page !== 0);
     console.log(res?.data.next.page);

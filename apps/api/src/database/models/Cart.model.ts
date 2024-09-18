@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { IProduct } from './Product.model';
+import { IProduct, productSchema } from './Product.model';
 import { IUser } from './User.model';
 
 export interface ICart extends Document {
@@ -10,7 +10,7 @@ export interface ICart extends Document {
 }
 
 const cartSchema = new Schema<ICart>({
-  products: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+  products: [productSchema],
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
   createdAt: {
     type: Date,

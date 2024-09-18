@@ -28,7 +28,10 @@ app.use(
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/static', express.static(path.resolve(__dirname, '..', 'uploads')));
+app.use(
+  '/api/static',
+  express.static(path.resolve(__dirname, '..', 'uploads'))
+);
 app.use('/api', appRouter);
 app.use(errorMiddleware);
 

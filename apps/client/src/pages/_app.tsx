@@ -15,13 +15,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import '../utils/sdk';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 NProgress.configure({ showSpinner: false, minimum: 0.5 });
 Router.events.on('routeChangeStart', () => NProgress.start());

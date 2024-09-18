@@ -1,0 +1,9 @@
+.container {
+  padding: 10px 12%;
+}
+
+.cartItems {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}

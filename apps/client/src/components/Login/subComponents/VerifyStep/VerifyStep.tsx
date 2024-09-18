@@ -31,7 +31,6 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
       }
       const newValues = [...values];
       newValues[index] = value;
-      console.log(newValues.length, index);
       setValues(newValues);
     } catch (error) {
       setValues(['', '', '', '', '', '']);
@@ -49,34 +48,38 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
   };
 
   async function resendCode() {
-    const [_, err] = await sdk.auth().signUp({ email });
-    setIsLoading(false);
-    if (err) {
-      const { message } = err;
+    try {
+      toast.success(`We send you a new code to ${email}`);
+    } catch (error: any) {
+      const { message } = error;
       return toast.error(message);
+    } finally {
+      setIsLoading(false);
     }
-    toast.success(`We send you a new code to ${email}`);
+    await sdk.auth().signUp({ email });
   }
 
   async function onSubmit() {
-    setIsLoading(true);
-    const [res, err] = await sdk
-      .auth()
-      .verify({ code: values.join(''), email });
+    try {
+      setIsLoading(true);
+      const res = await sdk.auth().verify({ code: values.join(''), email });
 
-    setIsLoading(false);
-    if (err) {
-      const { message } = err;
+      setIsLoading(false);
+
+      const {
+        data: { accessToken },
+      } = res || {};
+      const now = new Date();
+      now.setTime(now.getTime() + 1 * 3600 * 1000);
+      setCookie('accessToken', accessToken, { expires: now });
+      if (accessToken) {
+        router.push(`/?tab=Shop`);
+      }
+    } catch (error: any) {
+      const { message } = error;
       return toast.error(message);
-    }
-    const {
-      data: { accessToken },
-    } = res || {};
-    const now = new Date();
-    now.setTime(now.getTime() + 1 * 3600 * 1000);
-    setCookie('accessToken', accessToken, { expires: now });
-    if (accessToken) {
-      router.push(`/?tab=Shop`);
+    } finally {
+      setIsLoading(false);
     }
   }
   return (

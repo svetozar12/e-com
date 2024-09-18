@@ -4,7 +4,7 @@ import styles from './ProductsTable.module.css';
 import ProductsTableHeader from './subcomponents/ProductsTableHeader';
 
 export type Pagination = { page: number; limit: number; total: number };
-export type Data = { image: string; name: string; price: number };
+export type Data = { image: string; name: string; price: number; _id: string };
 // ADD SORTING
 // FIX STYLE BUGS
 export interface IProductsTable {
@@ -22,12 +22,10 @@ const ProductsTable = (
     <div>
       <ProductsTableHeader pagination={pagination} dataSource={dataSource} />
       <div className={styles.container}>
-        {dataSource.map(({ image, price, name }) => (
+        {dataSource.map((product) => (
           <ProductCard
-            title={name}
-            price={price}
-            image={image}
-            key={image + price + name}
+            {...product}
+            key={product.image + product.price + product.name}
           />
         ))}
       </div>

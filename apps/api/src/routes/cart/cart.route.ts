@@ -4,6 +4,7 @@ import Cart from '../../database/models/Cart.model';
 import { StatusCodes } from 'http-status-codes';
 import { CART_NOT_FOUND } from './cart.constants';
 import { putCartBodySchema } from './cart.schema';
+import Product from '../../database/models/Product.model';
 
 export const cartRouter = Router();
 
@@ -22,15 +23,23 @@ cartRouter.get('/', async (req, res) => {
 
 cartRouter.put('/', async (req, res) => {
   const user = req.user;
-  const { products } = putCartBodySchema.parse(req.body);
+  const { products, deleteProducts } = putCartBodySchema.parse(req.body);
+
+  let updateOperation;
+  if (deleteProducts) {
+    updateOperation = {
+      $pull: { products: { _id: { $in: deleteProducts } } },
+    };
+  } else {
+    updateOperation = {
+      $addToSet: { products: { $each: products } },
+    };
+  }
+
   const cart = await Cart.findOneAndUpdate(
     { userId: user._id },
-    {
-      $addToSet: {
-        products: { $each: products }, // Ensure products are added without duplicates
-      },
-    },
-    { new: true } // Return the updated document
+    updateOperation,
+    { new: true }
   );
   if (!cart) {
     return res.json({ message: CART_NOT_FOUND }).status(StatusCodes.NOT_FOUND);

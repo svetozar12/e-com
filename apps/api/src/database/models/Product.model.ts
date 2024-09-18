@@ -9,7 +9,7 @@ export interface IProduct extends Document {
   image: string;
 }
 
-const productSchema = new Schema<IProduct>(
+export const productSchema = new Schema<IProduct>(
   {
     name: {
       type: String,

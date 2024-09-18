@@ -3,6 +3,7 @@ import { Step } from '../../Login';
 import { toast } from 'react-toastify';
 import { Button, Input, Text } from '@chakra-ui/react';
 import { sdk } from '../../../../utils/sdk/sdk';
+import { AxiosError } from 'axios';
 
 interface IEmailStep {
   email: string;
@@ -13,17 +14,19 @@ interface IEmailStep {
 
 const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
   async function onSubmit() {
-    setIsLoading(true);
-    const [res, err] = await sdk.auth().signUp({ email });
-    setIsLoading(false);
-    if (err) {
-      const { message } = err;
+    try {
+      setIsLoading(true);
+      const res = await sdk.auth().signUp({ email });
+      setIsLoading(false);
+
+      const { data } = res || {};
+      if (data) {
+        toast.success(data.message);
+        setStep('verify');
+      }
+    } catch (error: any) {
+      const { message } = error;
       return toast.error(message);
-    }
-    const { data } = res || {};
-    if (data) {
-      toast.success(data.message);
-      setStep('verify');
     }
   }
   return (

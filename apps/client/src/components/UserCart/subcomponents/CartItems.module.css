@@ -1,0 +1,25 @@
+.container {
+  box-shadow: rgba(151, 151, 151, 0.2) 0px 8px 24px;
+  height: 200px;
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+}
+
+.itemInfo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemImage {
+  width: 22%;
+  display: flex;
+  align-items: center;
+}
+
+.itemPrice {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

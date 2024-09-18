@@ -1,5 +1,4 @@
 import { instance } from '../sdk';
-import { asyncHandler } from '../utils';
 
 async function signUp(reqData: { email: string }) {
   return instance.post('/auth/signUp', reqData);
@@ -16,7 +15,7 @@ async function verifyToken(token: string) {
 }
 
 export const auth = () => ({
-  signUp: asyncHandler(signUp),
-  verify: asyncHandler(verify),
-  verifyToken: asyncHandler(verifyToken),
+  signUp: signUp,
+  verify: verify,
+  verifyToken: verifyToken,
 });

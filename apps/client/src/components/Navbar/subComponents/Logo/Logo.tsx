@@ -7,7 +7,10 @@ import { useRouter } from 'next/router';
 const Logo = () => {
   const router = useRouter();
   return (
-    <div onClick={() => router.push('/')} className={styles.container}>
+    <div
+      onClick={() => router.push({ pathname: '/', query: { tab: 'Shop' } })}
+      className={styles.container}
+    >
       <Image src="/images/logo.png" alt="logo" width={50} height={50}></Image>
       <Heading className={styles.heading}>SNAPPER</Heading>
     </div>

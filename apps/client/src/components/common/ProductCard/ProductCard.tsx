@@ -6,15 +6,11 @@ import styles from './ProductCard.module.css';
 import { FiShoppingCart } from 'react-icons/fi';
 import { sdk } from '../../../utils/sdk';
 import { useQueryClient } from '@tanstack/react-query';
+import useSession from '../../../hooks/useSession';
+import { Product } from '../../../utils/sdk/resources/product';
 
-interface IProductCard {
-  name: string;
-  price: number;
-  image: string;
-  _id: string;
-}
-
-const ProductCard = (product: IProductCard) => {
+const ProductCard = (product: Product) => {
+  const { session } = useSession();
   const { price, name, image } = product;
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -24,9 +20,11 @@ const ProductCard = (product: IProductCard) => {
 
   async function handleAddToCart(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
-    localStorage.setItem('cartItems', JSON.stringify([product]));
-    await sdk.cart().updateCart({ products: [product._id] });
-    await queryClient.refetchQueries({ queryKey: ['cartItems'] });
+    // localStorage.setItem('cartItems', JSON.stringify([product]));
+    if (session) {
+      await sdk.cart().updateCart({ products: [product] });
+      await queryClient.refetchQueries({ queryKey: ['cartItems'] });
+    }
   }
 
   return (
@@ -46,7 +44,7 @@ const ProductCard = (product: IProductCard) => {
           }}
         >
           <Image
-            src={`http://localhost:4001/static/${image}`}
+            src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/static/${image}`}
             width={200}
             height={200}
             alt="logo"

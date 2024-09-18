@@ -1,5 +1,15 @@
 import { instance } from '../sdk';
-import { asyncHandler } from '../utils';
+
+export type Product = {
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  image: string;
+};
 
 async function getProducts(
   query: { limit: number; page: number; sortBy?: string } = {
@@ -12,10 +22,10 @@ async function getProducts(
 }
 
 async function getProductById(id: string, category: string) {
-  return instance.get('/products', { params: { id, category } });
+  return await instance.get('/products', { params: { id, category } });
 }
 
 export const product = () => ({
-  getProducts: asyncHandler(getProducts),
-  getProductById: asyncHandler(getProductById),
+  getProducts: getProducts,
+  getProductById: getProductById,
 });
