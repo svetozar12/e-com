@@ -2,13 +2,13 @@ import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import styles from './ProductsTable.module.css';
 import ProductsTableHeader from './subcomponents/ProductsTableHeader';
+import { Product } from '../../../utils/sdk/resources/product';
 
 export type Pagination = { page: number; limit: number; total: number };
-export type Data = { image: string; name: string; price: number; _id: string };
 // ADD SORTING
 // FIX STYLE BUGS
 export interface IProductsTable {
-  dataSource: Array<Data>;
+  dataSource: Array<Product>;
   pagination: Pagination;
 }
 

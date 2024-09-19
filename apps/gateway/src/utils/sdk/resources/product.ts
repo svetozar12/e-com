@@ -18,7 +18,11 @@ async function getProducts(
   },
   category?: string
 ) {
-  return instance.get('/products', { params: { ...query, category } });
+  const res = (
+    await instance.get('/products', { params: { ...query, category } })
+  ).data.data;
+  console.log(res);
+  return res;
 }
 
 async function getProductById(params: { id: string; category?: string }) {

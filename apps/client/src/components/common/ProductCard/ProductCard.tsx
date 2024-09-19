@@ -11,11 +11,12 @@ import { Product } from '../../../utils/sdk/resources/product';
 
 const ProductCard = (product: Product) => {
   const { session } = useSession();
-  const { price, name, image } = product;
+  const { price, name, image, _id } = product;
   const router = useRouter();
   const queryClient = useQueryClient();
-  function handleOnClick(title: string) {
-    router.push('/' + title);
+
+  function handleOnClick() {
+    router.push('/products/' + _id);
   }
 
   async function handleAddToCart(e: React.MouseEvent<HTMLButtonElement>) {
@@ -30,7 +31,7 @@ const ProductCard = (product: Product) => {
   return (
     <Card
       className={styles.container}
-      onClick={() => handleOnClick(name)}
+      onClick={() => handleOnClick()}
       cursor="pointer"
     >
       <CardBody>

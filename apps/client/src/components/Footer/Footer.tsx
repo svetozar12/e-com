@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 
 const Footer = () => {
   const pathname = usePathname();
-  if (pathname.includes('/login')) return null;
+  if (pathname?.includes('/login')) return null;
   return (
     <Container
       centerContent

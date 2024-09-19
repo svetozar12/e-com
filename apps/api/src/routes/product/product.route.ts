@@ -32,11 +32,9 @@ productRouter.get('/', async (req, res) => {
 });
 
 productRouter.get('/:id', async (req, res) => {
-  const { category } = getProductQuery.parse(req.query);
   const { id } = idSchema.parse(req.params);
   const product = await Product.findOne({
     _id: id,
-    category,
   }).lean();
   if (!product) {
     return res

@@ -8,7 +8,7 @@ import Cart from './subcomponents/Cart/Cart';
 
 const Navbar = () => {
   const pathname = usePathname();
-  if (pathname.includes('/login')) return null;
+  if (pathname?.includes('/login')) return null;
   return (
     <div className={styles.container}>
       <Logo />

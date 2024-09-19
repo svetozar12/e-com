@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import CartItems from './subcomponents/CartItems';
 import styles from './UserCart.module.css';
 import NoCartItems from './subcomponents/NoCartItems';
+import CartInfo from './subcomponents/CartInfo';
 
 const UserCart = () => {
   const { data, error } = useQuery({
@@ -17,14 +18,23 @@ const UserCart = () => {
     toast.error(`${error.message}`);
   }
 
+  if (!data) {
+    return <NoCartItems />;
+  }
+
   return (
     <div className={styles.container}>
       <Heading>Cart for shopping</Heading>
-      <div className={styles.cartItems}>
-        {data?.products.map((product) => (
-          <CartItems key={product._id} product={product} />
-        ))}
-        {data?.products.length === 0 && <NoCartItems />}
+      <div className={styles.cartContainer}>
+        <div className={styles.cartItems}>
+          {data?.products.map((product) => (
+            <CartItems key={product._id} product={product} />
+          ))}
+          {data?.products.length === 0 && <NoCartItems />}
+        </div>
+        {data?.products.length > 0 && (
+          <CartInfo products={data?.products || []} />
+        )}
       </div>
     </div>
   );
