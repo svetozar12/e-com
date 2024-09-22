@@ -17,83 +17,103 @@ import { upload } from '../../utils/multer';
 
 export const productRouter = Router();
 
-productRouter.get('/', async (req, res) => {
-  const { limit, page } = paginationSchema.parse(req.query);
-  const { category, sortBy } = getProductQuery.parse(req.query);
+productRouter.get('/', async (req, res, next) => {
+  try {
+    const { limit, page } = paginationSchema.parse(req.query);
+    const { category, sortBy } = getProductQuery.parse(req.query);
 
-  const results: PaginationResults<IProduct> = await paginateResults(
-    Product,
-    { ...(category && { category }) },
-    page,
-    limit,
-    sortBy
-  );
-  return res.json(results);
+    const results: PaginationResults<IProduct> = await paginateResults(
+      Product,
+      { ...(category && { category }) },
+      page,
+      limit,
+      sortBy
+    );
+    return res.json(results);
+  } catch (error) {
+    return next(error);
+  }
 });
 
-productRouter.get('/:id', async (req, res) => {
-  const { id } = idSchema.parse(req.params);
-  const product = await Product.findOne({
-    _id: id,
-  }).lean();
-  if (!product) {
-    return res
-      .json({ message: PRODUCT_NOT_FOUND })
-      .status(StatusCodes.NOT_FOUND);
+productRouter.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = idSchema.parse(req.params);
+    const product = await Product.findOne({
+      _id: id,
+    }).lean();
+    if (!product) {
+      return res
+        .json({ message: PRODUCT_NOT_FOUND })
+        .status(StatusCodes.NOT_FOUND);
+    }
+    return res.json({ product });
+  } catch (error) {
+    next(error);
   }
-  return res.json({ product });
 });
 
 productRouter.post(
   '/',
-  authMiddleware,
+  // authMiddleware,
   upload.single('file'),
-  async (req, res) => {
-    const file = req.file;
-    const validationResult = fileSchema.safeParse({
-      mimetype: file.mimetype,
-      size: file.size,
-    });
+  async (req, res, next) => {
+    try {
+      const file = req.file;
+      const validationResult = fileSchema.safeParse({
+        mimetype: file.mimetype,
+        size: file.size,
+      });
 
-    if (!validationResult.success) {
-      return res.status(400).json({ errors: validationResult });
+      if (!validationResult.success) {
+        return res.status(400).json({ errors: validationResult });
+      }
+
+      const body = postProductBodySchema.parse(req.body);
+      const product = await Product.create({ ...body, image: file.filename });
+
+      return res.json({ product });
+    } catch (error) {
+      next(error);
     }
-
-    const body = postProductBodySchema.parse(req.body);
-    const product = await Product.create({ ...body, image: file.filename });
-
-    return res.json({ product });
   }
 );
 
-productRouter.put('/:id', authMiddleware, async (req, res) => {
-  const { id } = idSchema.parse(req.params);
-  const body = putProductBodySchema.parse(req.body);
-  const user = req.user;
-  const product = await Product.findOneAndUpdate({
-    _id: id,
-    user: user.id,
-    ...body,
-  });
-  if (!product) {
-    return res
-      .json({ message: PRODUCT_NOT_FOUND })
-      .status(StatusCodes.NOT_FOUND);
+productRouter.put('/:id', authMiddleware, async (req, res, next) => {
+  try {
+    const { id } = idSchema.parse(req.params);
+    const body = putProductBodySchema.parse(req.body);
+    const user = req.user;
+    const product = await Product.findOneAndUpdate({
+      _id: id,
+      user: user.id,
+      ...body,
+    });
+    if (!product) {
+      return res
+        .json({ message: PRODUCT_NOT_FOUND })
+        .status(StatusCodes.NOT_FOUND);
+    }
+    return res.json({ product });
+  } catch (error) {
+    next(error);
   }
-  return res.json({ product });
 });
 
-productRouter.delete('/:id', authMiddleware, async (req, res) => {
-  const { id } = idSchema.parse(req.params);
-  const user = req.user;
-  const product = await Product.findOneAndDelete({
-    _id: id,
-    userId: user.id,
-  }).lean();
-  if (!product) {
-    return res
-      .json({ message: PRODUCT_NOT_FOUND })
-      .status(StatusCodes.NOT_FOUND);
+productRouter.delete('/:id', authMiddleware, async (req, res, next) => {
+  try {
+    const { id } = idSchema.parse(req.params);
+    const user = req.user;
+    const product = await Product.findOneAndDelete({
+      _id: id,
+      userId: user.id,
+    }).lean();
+    if (!product) {
+      return res
+        .json({ message: PRODUCT_NOT_FOUND })
+        .status(StatusCodes.NOT_FOUND);
+    }
+    return res.json({ message: PRODUCT_DELETED });
+  } catch (error) {
+    next(error);
   }
-  return res.json({ message: PRODUCT_DELETED });
 });

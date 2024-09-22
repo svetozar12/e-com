@@ -4,6 +4,7 @@ export const resolvers = {
   Query: {
     ...productsResolver.Query,
   },
+  Mutation: {
+    ...productsResolver.Mutation,
+  },
 };
-
-console.log(resolvers);

@@ -7,6 +7,7 @@ declare global {
   namespace Express {
     export interface Request {
       user?: IUser;
+      csrfToken?: () => string;
     }
     export interface Response {
       paginatedResults?: PaginatedResults;

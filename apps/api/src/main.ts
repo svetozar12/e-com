@@ -17,7 +17,6 @@ const app = express();
 // global instances
 export const envs = initEnv();
 export const gmailTransporter = new GmailTransporter();
-
 connectMongo();
 
 app.use(
@@ -32,6 +31,7 @@ app.use(
   '/api/static',
   express.static(path.resolve(__dirname, '..', 'uploads'))
 );
+
 app.use('/api', appRouter);
 app.use(errorMiddleware);
 

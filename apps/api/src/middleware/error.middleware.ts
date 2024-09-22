@@ -3,29 +3,22 @@ import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import { ZodError } from 'zod';
 
 const makeErrorsReadable = (errors) => {
-  const readableErrors = {};
+  let readableErrors = '';
   errors.forEach((error) => {
     const path = error.path.join('.');
-    readableErrors[path] = error.message;
+    readableErrors += path + ' ' + error.message + ', ';
   });
   return readableErrors;
 };
 
-export function errorMiddleware(
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export function errorMiddleware(err: Error, req: Request, res: Response) {
   if (err instanceof ZodError) {
     return res.status(StatusCodes.BAD_REQUEST).json({
-      message: 'Validation error',
-      errors: makeErrorsReadable(err.errors),
+      message: makeErrorsReadable(err.errors),
     });
   } else {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR),
-      err,
+      message: err.message,
     });
   }
 }

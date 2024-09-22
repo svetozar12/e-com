@@ -4,7 +4,6 @@ import Cart from '../../database/models/Cart.model';
 import { StatusCodes } from 'http-status-codes';
 import { CART_NOT_FOUND } from './cart.constants';
 import { putCartBodySchema } from './cart.schema';
-import Product from '../../database/models/Product.model';
 
 export const cartRouter = Router();
 
