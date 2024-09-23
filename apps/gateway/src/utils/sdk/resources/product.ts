@@ -33,7 +33,6 @@ async function getProductById(params: { id: string; category?: string }) {
 
 // Create a new product
 async function createProduct(body: FormData) {
-  console.log(body);
   return (
     await instance.post('/products', body, {
       headers: {
