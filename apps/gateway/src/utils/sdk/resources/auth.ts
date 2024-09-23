@@ -1,17 +1,19 @@
 import { instance } from '../sdk';
 
 async function signUp(reqData: { email: string }) {
-  return instance.post('/auth/signUp', reqData);
+  return (await instance.post('/auth/signUp', reqData)).data;
 }
 
 async function verify(reqData: { email: string; code: string }) {
-  return instance.post('/auth/verify', reqData);
+  return (await instance.post('/auth/verify', reqData)).data;
 }
 
 async function verifyToken(token: string) {
-  return instance.get('/auth/verifyToken', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  return (
+    await instance.get('/auth/verifyToken', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
 }
 
 export const auth = () => ({
