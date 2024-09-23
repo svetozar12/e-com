@@ -15,4 +15,4 @@ COPY dist/apps/gateway .
 
 EXPOSE 4000
 
-CMD ["node", "src/main.js"]
+CMD ["node", "main.js"]

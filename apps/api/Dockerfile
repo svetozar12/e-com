@@ -13,6 +13,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY dist/apps/api .
 
-EXPOSE 4000
+EXPOSE 4001
 
 CMD ["node", "main.js"]

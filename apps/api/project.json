@@ -6,30 +6,16 @@
   "tags": [],
   "targets": {
     "build": {
-      "dependsOn": ["generate-types"],
-      "executor": "@nx/js:tsc",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
-
       "options": {
-        "outputPath": "dist/api",
-        "generatePackageJson": true,
-        "main": "api/src/main.ts",
-        "tsConfig": "api/tsconfig.app.json",
-        "assets": ["api/src/assets"]
-      },
-      "configurations": {
-        "production": {
-          "sourceMap": false,
-          "fileReplacements": [
-            {
-              "replace": "api/src/environments/environment.ts",
-              "with": "api/src/environments/environment.prod.ts"
-            }
-          ]
-        },
-        "development": {
-          "sourceMap": true
-        }
+        "isolatedConfig": false,
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/api",
+        "main": "apps/api/src/main.ts",
+        "tsConfig": "apps/api/tsconfig.json",
+        "generatePackageJson": true
       }
     },
     "serve": {

@@ -11,7 +11,12 @@ const makeErrorsReadable = (errors) => {
   return readableErrors;
 };
 
-export function errorMiddleware(err: Error, req: Request, res: Response) {
+export function errorMiddleware(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   if (err instanceof ZodError) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       message: makeErrorsReadable(err.errors),

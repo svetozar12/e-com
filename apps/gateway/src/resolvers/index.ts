@@ -12,7 +12,14 @@ import { searchUser } from './Query/searchUser';
 import { verifyToken } from './Query/verifyToken';
 
 export const resolvers = {
-  Query: { products, productById, verifyToken, cart },
+  Query: {
+    products,
+    productById,
+    verifyToken,
+    cart,
+    searchProduct,
+    searchUser,
+  },
   Mutation: {
     createProduct,
     deleteProduct,
@@ -20,7 +27,5 @@ export const resolvers = {
     verify,
     signUp,
     updateCart,
-    searchProduct,
-    searchUser,
   },
 };

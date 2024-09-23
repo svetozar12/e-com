@@ -2,7 +2,7 @@ import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
 
-const uploadDir = path.join(__dirname, '..', 'uploads');
+const uploadDir = path.join(__dirname, '/', 'uploads');
 
 // Ensure the upload directory exists
 if (!fs.existsSync(uploadDir)) {
@@ -11,7 +11,7 @@ if (!fs.existsSync(uploadDir)) {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '..', 'uploads'));
+    cb(null, path.join(__dirname, '/', 'uploads'));
   },
   filename: function (req, file, cb) {
     const extArray = file.mimetype.split('/');

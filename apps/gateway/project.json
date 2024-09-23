@@ -21,14 +21,16 @@
       }
     },
     "build": {
-      "dependsOn": ["generate-types"],
-      "executor": "@nx/js:tsc",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "generatePackageJson": true,
+        "isolatedConfig": false,
+        "target": "node",
+        "compiler": "tsc",
         "outputPath": "dist/apps/gateway",
         "main": "apps/gateway/src/main.ts",
-        "tsConfig": "apps/gateway/tsconfig.app.json"
+        "tsConfig": "apps/gateway/tsconfig.json",
+        "generatePackageJson": true
       }
     },
     "docker-build": {
