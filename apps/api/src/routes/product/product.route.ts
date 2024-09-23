@@ -54,7 +54,7 @@ productRouter.get('/:id', async (req, res, next) => {
 
 productRouter.post(
   '/',
-  // authMiddleware,
+  authMiddleware,
   upload.single('file'),
   async (req, res, next) => {
     try {

@@ -1,17 +1,6 @@
+import { Product } from '../../../codegen/types.generated';
 import { instance } from '../sdk';
 import FormData from 'form-data';
-
-// Define the Product Type
-export type Product = {
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  _id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  image: string;
-};
 
 // Fetch products with pagination, category filter, and sorting
 async function getProducts(

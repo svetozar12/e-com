@@ -1,8 +1,9 @@
 import { createSchema } from 'graphql-yoga';
 import { resolvers } from './resolvers';
-import { productSchema } from './schema/product';
-
 export const rootSchema = /* GraphQL */ `
+  scalar DateTime
+  scalar Upload
+
   # Product
 
   input PostProductInput {
@@ -48,11 +49,25 @@ export const rootSchema = /* GraphQL */ `
 
   # Cart
 
+  type Cart {
+    products: [String]!
+    userId: String!
+    createdAt: DateTime!
+    updateAt: DateTime
+  }
+
+  input CartProductInput {
+    name: String!
+    description: String!
+    price: Float!
+    quantity: Int!
+    image: String!
+    _id: String!
+  }
+
   # Search
 
   # User
-
-  scalar Upload
 
   type Previous {
     limit: Int
@@ -70,16 +85,15 @@ export const rootSchema = /* GraphQL */ `
     sortBy: String
   }
 
-  ${productSchema}
+  type MessageResponse {
+    message: String
+  }
 
   type Query {
     products(pagination: PaginationArgs): ProductResponse
     productById(id: String!, category: String): Product
     verifyToken(token: String!): MessageResponse
-  }
-
-  type MessageResponse {
-    message: String
+    cart: Cart
   }
 
   type Mutation {
@@ -88,10 +102,11 @@ export const rootSchema = /* GraphQL */ `
     deleteProduct(id: String): MessageResponse
     signUp(email: String!): MessageResponse
     verify(email: String!, code: String!): VerifyResponse
+    cartUpdate(products: [CartProductInput!], deleteProducts: [String!]!): Cart
   }
 `;
 
 export const schema = createSchema({
   typeDefs: rootSchema,
-  resolvers: resolvers,
+  resolvers: { ...resolvers },
 });

@@ -12,7 +12,6 @@ cartRouter.use(authMiddleware);
 
 cartRouter.get('/', async (req, res) => {
   const user = req.user;
-  console.log(user);
   const cart = await Cart.findOne({ userId: user._id });
   if (!cart) {
     return res.json({ message: CART_NOT_FOUND }).status(StatusCodes.NOT_FOUND);
