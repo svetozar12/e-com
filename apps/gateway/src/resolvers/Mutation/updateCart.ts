@@ -1,7 +1,7 @@
 import { formatError } from '../../utils/error';
 import { sdk } from '../../utils/sdk';
-import type { MutationResolvers } from './../../codegen/types.generated';
-export const cartUpdate: NonNullable<MutationResolvers['cartUpdate']> = async (
+import type { MutationResolvers } from '../../codegen/types.generated';
+export const updateCart: NonNullable<MutationResolvers['updateCart']> = async (
   _parent,
   { products, deleteProducts }
 ) => {

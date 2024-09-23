@@ -16,7 +16,6 @@ const userSchema = new Schema<IUser>(
       trim: true,
       lowercase: true,
     },
-    products: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
     verificationCode: {
       type: Number,
       required: true,

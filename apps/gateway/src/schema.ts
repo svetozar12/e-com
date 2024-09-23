@@ -65,9 +65,13 @@ export const rootSchema = /* GraphQL */ `
     _id: String!
   }
 
-  # Search
-
   # User
+
+  type User {
+    email: String!
+  }
+
+  # Common
 
   type Previous {
     limit: Int
@@ -90,19 +94,28 @@ export const rootSchema = /* GraphQL */ `
   }
 
   type Query {
+    # product
     products(pagination: PaginationArgs): ProductResponse
     productById(id: String!, category: String): Product
+    # auth
     verifyToken(token: String!): MessageResponse
+    # cart
     cart: Cart
+    # search
+    searchProduct(searchText: String): [Product]
+    searchUser(searchText: String): [User]
   }
 
   type Mutation {
+    # proudct
     createProduct(file: Upload!, product: PostProductInput): Product
     updateProduct(id: String, product: PutProductInput): Product
     deleteProduct(id: String): MessageResponse
+    # auth
     signUp(email: String!): MessageResponse
     verify(email: String!, code: String!): VerifyResponse
-    cartUpdate(products: [CartProductInput!], deleteProducts: [String!]!): Cart
+    # cart
+    updateCart(products: [CartProductInput!], deleteProducts: [String!]!): Cart
   }
 `;
 
