@@ -5,6 +5,33 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "dependsOn": ["generate-types"],
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+
+      "options": {
+        "outputPath": "dist/api",
+        "generatePackageJson": true,
+        "main": "api/src/main.ts",
+        "tsConfig": "api/tsconfig.app.json",
+        "assets": ["api/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "sourceMap": false,
+          "fileReplacements": [
+            {
+              "replace": "api/src/environments/environment.ts",
+              "with": "api/src/environments/environment.prod.ts"
+            }
+          ]
+        },
+        "development": {
+          "sourceMap": true
+        }
+      }
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
@@ -33,6 +60,21 @@
       "options": {
         "cwd": "apps/api",
         "command": "node dist/database/seed/seed.js"
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build -t sgospodinov02/ecom:api -f apps/api/Dockerfile ."
+      }
+    },
+    "deploy": {
+      "dependsOn": ["docker-build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker push sgospodinov02/ecom:api",
+        "cwd": "."
       }
     }
   }

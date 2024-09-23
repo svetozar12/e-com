@@ -20,6 +20,32 @@
         }
       }
     },
+    "build": {
+      "dependsOn": ["generate-types"],
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "generatePackageJson": true,
+        "outputPath": "dist/apps/gateway",
+        "main": "apps/gateway/src/main.ts",
+        "tsConfig": "apps/gateway/tsconfig.app.json"
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build -t sgospodinov02/ecom:gateway -f apps/gateway/Dockerfile ."
+      }
+    },
+    "deploy": {
+      "dependsOn": ["docker-build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker push sgospodinov02/ecom:gateway",
+        "cwd": "."
+      }
+    },
     "generate-types": {
       "executor": "nx:run-commands",
       "options": {
