@@ -1,24 +1,16 @@
 import React from 'react';
 import { toast } from 'react-toastify';
-import { sdk } from '../../utils/sdk';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
+import { Product, QueryProductByIdArgs } from '../../graphql/generated';
+import { useQuery } from '@apollo/client';
+import { productByIdQuery } from '../../graphql/queries/products';
 
 const ProductDetails = () => {
-  const router = useRouter();
-  const { data, error } = useQuery({
-    queryKey: ['product', router.query.id],
-    queryFn: () =>
-      sdk.product().getProductById({ id: String(router.query.id) }),
+  const { data } = useQuery<Product, QueryProductByIdArgs>(productByIdQuery, {
+    onError(error) {
+      toast.error(`${error.message}`);
+    },
   });
 
-  if (error) {
-    toast.error(`${error.message}`);
-  }
-
-  if (!data) {
-    return <>no data</>;
-  }
   return <div>{JSON.stringify(data)}</div>;
 };
 

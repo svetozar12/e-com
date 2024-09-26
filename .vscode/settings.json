@@ -1,0 +1,6 @@
+{
+  "yaml.schemas": {
+    "file:///c%3A/Users/sgospodinov/.vscode/extensions/atlassian.atlascode-3.0.2/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml",
+    "https://unpkg.com/graphql-config/config-schema.json": "file:///d%3A/coding-adventures/e-com/.graphqlrc.yml"
+  }
+}

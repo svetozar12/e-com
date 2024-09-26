@@ -1,31 +1,24 @@
 import React from 'react';
-import { Product } from '../../../utils/sdk/resources/product';
 import Image from 'next/image';
 import styles from './CartItems.module.css';
 import { Heading, Link, Text } from '@chakra-ui/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { sdk } from '../../../utils/sdk';
 import Spinner from '../../common/Spinner/Spinner';
+import { CardProduct, Cart } from '../../../graphql/generated';
+import { useMutation } from '@apollo/client';
+import { updateCartMutation } from '../../../graphql/mutations/cart';
+import { cartQuery } from '../../../graphql/queries/cart';
 interface ICartItems {
-  product: Product;
+  product: CardProduct;
 }
 
 const CartItems = ({ product }: ICartItems) => {
   const { image, name, description, price } = product;
-  const queryClient = useQueryClient();
-  const { data: cartData, refetch } = useQuery({
-    queryKey: ['cartItems'],
-    queryFn: sdk.cart().getCart,
+  const [mutate, { loading }] = useMutation<Cart>(updateCartMutation, {
+    refetchQueries: [{ query: cartQuery }],
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: sdk.cart().updateCart,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
-    },
-  });
   return (
-    <Spinner loading={isPending}>
+    <Spinner loading={loading}>
       <div className={styles.container}>
         <div className={styles.itemImage}>
           <Image
@@ -47,7 +40,7 @@ const CartItems = ({ product }: ICartItems) => {
             <Link
               onClick={() => {
                 mutate({
-                  deleteProducts: [product._id],
+                  variables: { deleteProducts: [product._id] },
                 });
               }}
               color="red"

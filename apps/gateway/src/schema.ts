@@ -26,19 +26,19 @@ export const rootSchema = /* GraphQL */ `
   type Product {
     _id: ID!
     name: String!
-    description: String
+    description: String!
     price: Float!
     quantity: Int!
-    category: String
-    image: String
-    createdAt: String
-    updatedAt: String
+    category: String!
+    image: String!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type ProductResponse {
-    next: Next
-    previous: Previous
-    data: [Product]
+    next: Next!
+    previous: Previous!
+    data: [Product!]!
   }
 
   # Auth
@@ -50,10 +50,19 @@ export const rootSchema = /* GraphQL */ `
   # Cart
 
   type Cart {
-    products: [String]!
+    products: [CardProduct]!
     userId: String!
     createdAt: DateTime!
     updateAt: DateTime
+  }
+
+  type CardProduct {
+    name: String!
+    description: String!
+    price: Float!
+    quantity: Int!
+    image: String!
+    _id: String!
   }
 
   input CartProductInput {
@@ -74,13 +83,13 @@ export const rootSchema = /* GraphQL */ `
   # Common
 
   type Previous {
-    limit: Int
-    page: Int
+    limit: Int!
+    page: Int!
   }
 
   type Next {
-    limit: Int
-    page: Int
+    limit: Int!
+    page: Int!
   }
 
   input PaginationArgs {
@@ -95,27 +104,27 @@ export const rootSchema = /* GraphQL */ `
 
   type Query {
     # product
-    products(pagination: PaginationArgs): ProductResponse
-    productById(id: String!, category: String): Product
+    products(pagination: PaginationArgs): ProductResponse!
+    productById(id: String!, category: String): Product!
     # auth
-    verifyToken(token: String!): MessageResponse
+    verifyToken(token: String!): MessageResponse!
     # cart
     cart: Cart
     # search
-    searchProduct(searchText: String): [Product]
-    searchUser(searchText: String): [User]
+    searchProduct(searchText: String): [Product!]!
+    searchUser(searchText: String): [User!]!
   }
 
   type Mutation {
     # proudct
-    createProduct(file: Upload!, product: PostProductInput): Product
-    updateProduct(id: String, product: PutProductInput): Product
+    createProduct(file: Upload!, product: PostProductInput): Product!
+    updateProduct(id: String, product: PutProductInput): Product!
     deleteProduct(id: String): MessageResponse
     # auth
     signUp(email: String!): MessageResponse
-    verify(email: String!, code: String!): VerifyResponse
+    verify(email: String!, code: String!): VerifyResponse!
     # cart
-    updateCart(products: [CartProductInput!], deleteProducts: [String!]!): Cart
+    updateCart(products: [CartProductInput!], deleteProducts: [String!]): Cart!
   }
 `;
 

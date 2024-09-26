@@ -2,8 +2,12 @@ import React from 'react';
 import { Step } from '../../Login';
 import { toast } from 'react-toastify';
 import { Button, Input, Text } from '@chakra-ui/react';
-import { sdk } from '../../../../utils/sdk/sdk';
-import { AxiosError } from 'axios';
+import { useMutation } from '@apollo/client';
+import { signUpMutation } from '../../../../graphql/mutations/auth';
+import {
+  MessageResponse,
+  MutationSignUpArgs,
+} from '../../../../graphql/generated';
 
 interface IEmailStep {
   email: string;
@@ -13,22 +17,21 @@ interface IEmailStep {
 }
 
 const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
-  async function onSubmit() {
-    try {
-      setIsLoading(true);
-      const res = await sdk.auth().signUp({ email });
-      setIsLoading(false);
-
-      const { data } = res || {};
-      if (data) {
+  const [signUp] = useMutation<MessageResponse, MutationSignUpArgs>(
+    signUpMutation,
+    {
+      variables: { email },
+      onCompleted(data) {
         toast.success(data.message);
         setStep('verify');
-      }
-    } catch (error: any) {
-      const { message } = error;
-      return toast.error(message);
+      },
+      onError(error) {
+        const { message } = error;
+        return toast.error(message);
+      },
     }
-  }
+  );
+
   return (
     <>
       <div>
@@ -48,7 +51,7 @@ const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
         width="100%"
         colorScheme="orange"
         type="submit"
-        onClick={onSubmit}
+        onClick={() => signUp()}
       >
         LOGIN
       </Button>

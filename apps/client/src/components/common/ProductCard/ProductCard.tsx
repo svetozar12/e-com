@@ -4,17 +4,26 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import styles from './ProductCard.module.css';
 import { FiShoppingCart } from 'react-icons/fi';
-import { sdk } from '../../../utils/sdk';
-import { useQueryClient } from '@tanstack/react-query';
 import useSession from '../../../hooks/useSession';
-import { Product } from '../../../utils/sdk/resources/product';
+import {
+  Cart,
+  MutationUpdateCartArgs,
+  Product,
+} from '../../../graphql/generated';
+import { useMutation } from '@apollo/client';
+import { updateCartMutation } from '../../../graphql/mutations/cart';
+import { cartQuery } from '../../../graphql/queries/cart';
 
 const ProductCard = (product: Product) => {
   const { session } = useSession();
   const { price, name, image, _id } = product;
   const router = useRouter();
-  const queryClient = useQueryClient();
-
+  const [updateCart] = useMutation<Cart, MutationUpdateCartArgs>(
+    updateCartMutation,
+    {
+      refetchQueries: [{ query: cartQuery }],
+    }
+  );
   function handleOnClick() {
     router.push('/products/' + _id);
   }
@@ -23,8 +32,7 @@ const ProductCard = (product: Product) => {
     e.stopPropagation();
     // localStorage.setItem('cartItems', JSON.stringify([product]));
     if (session) {
-      await sdk.cart().updateCart({ products: [product] });
-      await queryClient.refetchQueries({ queryKey: ['cartItems'] });
+      await updateCart({ variables: { products: [product] } });
     }
   }
 

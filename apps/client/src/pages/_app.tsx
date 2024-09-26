@@ -14,26 +14,28 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
-import '../utils/sdk';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 NProgress.configure({ showSpinner: false, minimum: 0.5 });
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-const queryClient = new QueryClient();
+export const client = new ApolloClient({
+  uri: process.env.NEXT_PUBLIC_API_BASE_URL,
+  cache: new InMemoryCache(),
+});
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={client}>
       <ChakraProvider>
         <Navbar />
         <Component {...pageProps} />
         <ToastContainer theme="dark" />
         <Footer />
       </ChakraProvider>
-    </QueryClientProvider>
+    </ApolloProvider>
   );
 }
 

@@ -1,25 +1,21 @@
 import { Container } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
-import { sdk } from '../../../../utils/sdk';
 import styles from './Cart.module.css';
 import { toast } from 'react-toastify';
+import { cartQuery } from '../../../../graphql/queries/cart';
+import { Cart as CartType } from '../../../../graphql/generated';
+import { useQuery } from '@apollo/client';
 
 const Cart = () => {
   const router = useRouter();
 
-  const { data, error } = useQuery({
-    queryKey: ['cartItems'],
-    queryFn: sdk.cart().getCart,
+  const { data } = useQuery<CartType>(cartQuery, {
+    onError(error) {
+      toast.error(`${error.message}`);
+    },
   });
-
-  console.log(data);
-
-  if (error) {
-    toast.error(`${error.message}`);
-  }
 
   const cartLength = data?.products?.length || 0;
 

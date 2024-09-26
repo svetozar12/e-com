@@ -4,23 +4,29 @@ import Image from 'next/image';
 import styles from './PCsTab.module.css';
 import ProductsTable from '../common/ProducsTable/ProducsTable';
 import { Button } from '@chakra-ui/react';
-import { sdk } from '../../utils/sdk';
+import { useQuery } from '@apollo/client';
+import { productsQuery } from '../../graphql/queries/products';
+import { ProductResponse, QueryProductsArgs } from '../../graphql/generated';
 
 const PCsTab = () => {
-  const [data, setData] = useState([]);
+  const {
+    data: res,
+    error,
+    refetch,
+  } = useQuery<ProductResponse, QueryProductsArgs>(productsQuery, {
+    onCompleted({ next }) {
+      setIsLoadMore(next.page !== 0);
+    },
+  });
   const [page, setPage] = useState(1);
   const [isLoadMore, setIsLoadMore] = useState(false);
-  const fetch = async () => {
-    const res = await sdk.product().getProducts({ limit: 8, page });
-    setData((prev) => [...(prev as any), ...(res?.data.data as any)] as any);
-    setIsLoadMore(res?.data.next.page !== 0);
-    console.log(res?.data.next.page);
-  };
 
   useEffect(() => {
-    fetch();
+    refetch({ pagination: { limit: 8, page } });
   }, [page]);
+  if (error || !res) return;
 
+  const { data } = res;
   return (
     <div className={styles.container}>
       <DiscountBanner

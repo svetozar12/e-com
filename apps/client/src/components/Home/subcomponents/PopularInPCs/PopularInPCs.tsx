@@ -1,21 +1,22 @@
 import { Divider, Heading } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './PopularInPCs.module.css';
 import ProductCard from '../../../common/ProductCard/ProductCard';
-import { sdk } from '../../../../utils/sdk';
-import { Data } from '../../../common/ProducsTable/ProducsTable';
+import {
+  ProductResponse,
+  QueryProductsArgs,
+} from '../../../../graphql/generated';
+import { useQuery } from '@apollo/client';
+import { productsQuery } from '../../../../graphql/queries/products';
 
 const PopularInPCs = () => {
-  const [data, setData] = useState<Data[]>([]);
+  const { data } = useQuery<ProductResponse, QueryProductsArgs>(productsQuery, {
+    variables: { pagination: { limit: 10, page: 1, sortBy: 'name' } },
+  });
 
-  const fetch = async () => {
-    const res = await sdk.product().getProducts({ limit: 4, page: 1 }, 'PCs');
-    setData(res?.data.data);
-  };
-
-  useEffect(() => {
-    fetch();
-  }, []);
+  // TODO MAKE COMPONENT FOR NO DATA STATE
+  if (!data) return <>no data</>;
+  const { data: products } = data;
 
   return (
     <div className={styles.container}>
@@ -29,7 +30,7 @@ const PopularInPCs = () => {
         marginBottom={10}
       />
       <div className={styles.popularInPCs}>
-        {data.map((product) => (
+        {products.map((product) => (
           <ProductCard key={product.name + product.price} {...product} />
         ))}
       </div>

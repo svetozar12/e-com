@@ -4,7 +4,14 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { Input, Button, Text, HStack } from '@chakra-ui/react';
-import { sdk } from '../../../../utils/sdk/sdk';
+import { useMutation } from '@apollo/client';
+import {
+  MessageResponse,
+  MutationSignUpArgs,
+  MutationVerifyArgs,
+  VerifyResponse,
+} from '../../../../graphql/generated';
+import { signUpMutation } from '../../../../graphql/mutations/auth';
 
 interface IVerifyStep {
   email: string;
@@ -17,10 +24,33 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
 
   const router = useRouter();
   const inputRefs = useRef<Array<HTMLInputElement>>([]);
+  const [signUp] = useMutation<MessageResponse, MutationSignUpArgs>(
+    signUpMutation,
+    {
+      variables: { email },
+    }
+  );
+  const [verify, { data }] = useMutation<VerifyResponse, MutationVerifyArgs>(
+    signUpMutation,
+    {
+      onError(error) {
+        const { message } = error;
+        toast.error(message);
+      },
+      onCompleted({ accessToken }) {
+        const now = new Date();
+        now.setTime(now.getTime() + 1 * 3600 * 1000);
+        setCookie('accessToken', accessToken, { expires: now });
+        if (accessToken) {
+          router.push(`/?tab=Shop`);
+        }
+      },
+    }
+  );
 
   useEffect(() => {
     if (values[values.length - 1]) {
-      onSubmit();
+      verify({ variables: { code: values.join(''), email } });
     }
   }, [values]);
 
@@ -56,32 +86,9 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
     } finally {
       setIsLoading(false);
     }
-    await sdk.auth().signUp({ email });
+    await signUp();
   }
 
-  async function onSubmit() {
-    try {
-      setIsLoading(true);
-      const res = await sdk.auth().verify({ code: values.join(''), email });
-
-      setIsLoading(false);
-
-      const {
-        data: { accessToken },
-      } = res || {};
-      const now = new Date();
-      now.setTime(now.getTime() + 1 * 3600 * 1000);
-      setCookie('accessToken', accessToken, { expires: now });
-      if (accessToken) {
-        router.push(`/?tab=Shop`);
-      }
-    } catch (error: any) {
-      const { message } = error;
-      return toast.error(message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
   return (
     <>
       <Text align="center" mb="8px" fontWeight="bold">
@@ -114,7 +121,9 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
         width="100%"
         colorScheme="orange"
         type="submit"
-        onClick={onSubmit}
+        onClick={async () =>
+          await verify({ variables: { code: values.join(''), email } })
+        }
       >
         VERIFY
       </Button>
