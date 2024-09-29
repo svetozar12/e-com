@@ -19,12 +19,11 @@ export const useSession = () => {
   const token = getCookie(ACCESS_TOKEN) || '';
   const router = useRouter();
   const { refetch } = useVerifyTokenQuery({
-    onCompleted(data) {
+    onCompleted() {
       const decoded = jwtDecode(token) as Session;
       setSession(decoded);
-      // setSdkToken(token);
     },
-    onError(error) {
+    onError() {
       setSession(null);
       deleteCookie(ACCESS_TOKEN);
       toast.error('Invalid token', { toastId: 'useSession' });

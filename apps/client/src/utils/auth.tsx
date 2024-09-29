@@ -4,8 +4,7 @@ import { NextPageContext } from 'next';
 import cookie from 'cookie';
 import { ACCESS_TOKEN } from '../constants/cookies';
 import { client } from '../pages/_app';
-import { verifyTokenQuery } from '../graphql/queries/auth';
-import { MessageResponse } from '../graphql/generated';
+import { verifyTokenQuery } from '../graphql/queries/queries/auth/verifyToken';
 const withAuthentication = <P extends object>(
   WrappedComponent: ComponentType<P>
 ) => {
@@ -23,7 +22,7 @@ withAuthentication.isAuth = async (ctx: NextPageContext): Promise<boolean> => {
   const parsedCookies = cookies ? cookie.parse(cookies) : {};
   const token = parsedCookies[ACCESS_TOKEN] || '';
   try {
-    const { error } = await client.query<MessageResponse>({
+    const { error } = await client.query({
       query: verifyTokenQuery,
       variables: { token },
     });

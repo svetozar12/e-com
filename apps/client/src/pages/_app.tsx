@@ -57,6 +57,15 @@ export const client = new ApolloClient({
   link,
 });
 
+/* 
+- Create empty state reusable component
+- think of a way to not send emails when in development environment
+- add script to build codegen on frontend
+- finish migration to gql on frontend
+- think of a way to serve static images through the gateway or some other way
+- make frontend better looking if possible (wink wink ;/)
+*/
+
 function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
