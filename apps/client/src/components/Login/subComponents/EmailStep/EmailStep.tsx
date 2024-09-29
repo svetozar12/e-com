@@ -2,12 +2,7 @@ import React from 'react';
 import { Step } from '../../Login';
 import { toast } from 'react-toastify';
 import { Button, Input, Text } from '@chakra-ui/react';
-import { useMutation } from '@apollo/client';
-import { signUpMutation } from '../../../../graphql/mutations/auth';
-import {
-  MessageResponse,
-  MutationSignUpArgs,
-} from '../../../../graphql/generated';
+import { useSignUpMutation } from '../../../../graphql/generated';
 
 interface IEmailStep {
   email: string;
@@ -17,20 +12,17 @@ interface IEmailStep {
 }
 
 const EmailStep = ({ setStep, email, setEmail, setIsLoading }: IEmailStep) => {
-  const [signUp] = useMutation<MessageResponse, MutationSignUpArgs>(
-    signUpMutation,
-    {
-      variables: { email },
-      onCompleted(data) {
-        toast.success(data.message);
-        setStep('verify');
-      },
-      onError(error) {
-        const { message } = error;
-        return toast.error(message);
-      },
-    }
-  );
+  const [signUp] = useSignUpMutation({
+    variables: { email },
+    onCompleted({ signUp: { message } }) {
+      toast.success(message);
+      setStep('verify');
+    },
+    onError(error) {
+      const { message } = error;
+      return toast.error(message);
+    },
+  });
 
   return (
     <>

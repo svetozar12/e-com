@@ -1,8 +1,7 @@
-import { gql, useQuery } from '@apollo/client';
-import { Product, QueryProductByIdArgs } from '../../generated';
+import { gql } from '@apollo/client';
 
 export const productByIdQuery = gql`
-  query MyQuery($id: String = "", $category: String = "") {
+  query productById($id: String = "", $category: String = "") {
     productById(id: $id, category: $category) {
       _id
       category

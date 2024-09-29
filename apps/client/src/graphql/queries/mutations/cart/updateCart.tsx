@@ -1,8 +1,7 @@
-import { gql, useMutation } from '@apollo/client';
-import { Cart, MutationUpdateCartArgs } from '../../generated';
+import { gql } from '@apollo/client';
 
 export const updateCartMutation = gql`
-  mutation MyMutation(
+  mutation updateCart(
     $deleteProducts: [String!] = ""
     $products: [CartProductInput!] = {
       name: ""
@@ -15,7 +14,14 @@ export const updateCartMutation = gql`
   ) {
     updateCart(deleteProducts: $deleteProducts, products: $products) {
       createdAt
-      products
+      products {
+        name
+        description
+        price
+        quantity
+        image
+        _id
+      }
       updateAt
       userId
     }

@@ -119,9 +119,9 @@ export const rootSchema = /* GraphQL */ `
     # proudct
     createProduct(file: Upload!, product: PostProductInput): Product!
     updateProduct(id: String, product: PutProductInput): Product!
-    deleteProduct(id: String): MessageResponse
+    deleteProduct(id: String): MessageResponse!
     # auth
-    signUp(email: String!): MessageResponse
+    signUp(email: String!): MessageResponse!
     verify(email: String!, code: String!): VerifyResponse!
     # cart
     updateCart(products: [CartProductInput!], deleteProducts: [String!]): Cart!

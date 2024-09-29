@@ -16,6 +16,7 @@ const config: CodegenConfig = {
       },
     },
   },
+  documents: 'src/graphql/queries/**/*.tsx',
 };
 
 export default config;

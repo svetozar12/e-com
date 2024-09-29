@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const cartQuery = gql`
-  query MyQuery {
+  query cart {
     cart {
       createdAt
       products {

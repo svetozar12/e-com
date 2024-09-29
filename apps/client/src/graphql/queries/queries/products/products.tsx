@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const productsQuery = gql`
-  query MyQuery(
+  query products(
     $pagination: PaginationArgs = { page: 1, limit: 10, sortBy: "name" }
   ) {
     products(pagination: $pagination) {
