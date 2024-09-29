@@ -1,20 +1,28 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import css from './Login.module.css';
 
 import EmailStep from './subComponents/EmailStep/EmailStep';
 import VerifyStep from './subComponents/VerifyStep/VerifyStep';
 import Spinner from '../common/Spinner/Spinner';
-import Image from 'next/image';
 import Logo from '../Navbar/subcomponents/Logo/Logo';
 import { Heading } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 export type Step = 'email' | 'verify';
 
 const Login = () => {
+  const router = useRouter();
+  const [loading, setIsLoading] = useState<boolean>(true);
   const [step, setStep] = useState<Step>('email');
+
+  useEffect(() => {
+    setStep(router.query.step as Step);
+    setIsLoading(false);
+  }, [router.query.step]);
+
   const [email, setEmail] = useState<string>('');
-  const [loading, setIsLoading] = useState<boolean>(false);
+  if (loading) return null;
   function renderStep() {
     switch (step) {
       case 'email':
@@ -27,13 +35,7 @@ const Login = () => {
           />
         );
       case 'verify':
-        return (
-          <VerifyStep
-            email={email}
-            setStep={setStep}
-            setIsLoading={setIsLoading}
-          />
-        );
+        return <VerifyStep email={email} setIsLoading={setIsLoading} />;
       default:
         return (
           <EmailStep

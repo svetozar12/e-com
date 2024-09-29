@@ -14,11 +14,10 @@ import { ACCESS_TOKEN } from '../../../../constants/cookies';
 
 interface IVerifyStep {
   email: string;
-  setStep: React.Dispatch<React.SetStateAction<Step>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
+const VerifyStep = ({ setIsLoading, email }: IVerifyStep) => {
   const [code, setCode] = useState('');
 
   const router = useRouter();
@@ -63,9 +62,8 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
         Please enter your verification code
       </Text>
       <ReactCodeInput
-        name="veriyf"
+        name="verify"
         inputMode="numeric"
-        type="number"
         fields={6}
         onChange={setCode}
       />

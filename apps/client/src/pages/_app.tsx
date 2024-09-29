@@ -72,7 +72,7 @@ function App({ Component, pageProps }: AppProps) {
       <ChakraProvider>
         <Navbar />
         <Component {...pageProps} />
-        <ToastContainer theme="dark" />
+        <ToastContainer />
         <Footer />
       </ChakraProvider>
     </ApolloProvider>
