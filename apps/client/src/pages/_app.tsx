@@ -14,16 +14,47 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  ApolloLink,
+  HttpLink,
+} from '@apollo/client';
+import { getCookie } from 'cookies-next';
+import { ACCESS_TOKEN } from '../constants/cookies';
 
 NProgress.configure({ showSpinner: false, minimum: 0.5 });
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
+const authLink = new ApolloLink((operation, forward) => {
+  // Get the authentication token from local storage (or from any secure storage)
+  const token = getCookie(ACCESS_TOKEN) || '';
+
+  // Add the authorization to the headers
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  }));
+
+  // Call the next link in the chain
+  return forward(operation);
+});
+
+const httpLink = new HttpLink({
+  uri: process.env.NEXT_PUBLIC_API_BASE_URL, // replace with your GraphQL endpoint
+});
+
+const link = ApolloLink.from([httpLink, authLink]);
+
 export const client = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_API_BASE_URL,
   cache: new InMemoryCache(),
+  link,
 });
 
 function App({ Component, pageProps }: AppProps) {

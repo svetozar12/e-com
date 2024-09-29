@@ -1,23 +1,17 @@
 import { Divider, Heading } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './NewTech.module.css';
 import ProductCard from '../../../common/ProductCard/ProductCard';
-import { useQuery } from '@apollo/client';
-import { productsQuery } from '../../../../graphql/queries/products';
-import {
-  ProductResponse,
-  QueryProductsArgs,
-} from '../../../../graphql/generated';
+import { useProductsQuery } from '../../../../graphql/generated';
 
 const NewTech = () => {
-  const { data: res } = useQuery<ProductResponse, QueryProductsArgs>(
-    productsQuery,
-    {
-      variables: { pagination: { limit: 8, page: 1, sortBy: 'createdAt' } },
-    }
-  );
+  const { data: res } = useProductsQuery({
+    variables: { pagination: { limit: 8, page: 1, sortBy: 'createdAt' } },
+  });
   if (!res) return;
-  const { data } = res;
+  const {
+    products: { data },
+  } = res;
   return (
     <div className={styles.container}>
       <Heading>NEW TECH</Heading>

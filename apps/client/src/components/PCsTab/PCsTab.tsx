@@ -5,16 +5,19 @@ import styles from './PCsTab.module.css';
 import ProductsTable from '../common/ProducsTable/ProducsTable';
 import { Button } from '@chakra-ui/react';
 import { useQuery } from '@apollo/client';
-import { productsQuery } from '../../graphql/queries/products';
-import { ProductResponse, QueryProductsArgs } from '../../graphql/generated';
+import {
+  ProductResponse,
+  QueryProductsArgs,
+  useProductsQuery,
+} from '../../graphql/generated';
 
 const PCsTab = () => {
   const {
     data: res,
     error,
     refetch,
-  } = useQuery<ProductResponse, QueryProductsArgs>(productsQuery, {
-    onCompleted({ next }) {
+  } = useProductsQuery({
+    onCompleted({ products: { next } }) {
       setIsLoadMore(next.page !== 0);
     },
   });
@@ -26,7 +29,9 @@ const PCsTab = () => {
   }, [page]);
   if (error || !res) return;
 
-  const { data } = res;
+  const {
+    products: { data },
+  } = res;
   return (
     <div className={styles.container}>
       <DiscountBanner

@@ -53,7 +53,7 @@ export const rootSchema = /* GraphQL */ `
     products: [CardProduct]!
     userId: String!
     createdAt: DateTime!
-    updateAt: DateTime
+    updateAt: DateTime!
   }
 
   type CardProduct {
@@ -109,7 +109,7 @@ export const rootSchema = /* GraphQL */ `
     # auth
     verifyToken(token: String!): MessageResponse!
     # cart
-    cart: Cart
+    cart: Cart!
     # search
     searchProduct(searchText: String): [Product!]!
     searchUser(searchText: String): [User!]!

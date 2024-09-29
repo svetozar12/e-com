@@ -10,6 +10,7 @@ import {
 } from '../../../../graphql/generated';
 
 import ReactCodeInput from 'react-code-input';
+import { ACCESS_TOKEN } from '../../../../constants/cookies';
 
 interface IVerifyStep {
   email: string;
@@ -23,20 +24,25 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
   const router = useRouter();
   const [signUp] = useSignUpMutation({
     variables: { email },
+    onError(error) {
+      const { message } = error;
+      return toast.error(message);
+    },
   });
 
   const [verify] = useVerifyMutation({
     onError(error) {
       const { message } = error;
       toast.error(message);
+      setIsLoading(false);
     },
     onCompleted({ verify: { accessToken } }) {
-      console.log(accessToken);
-      const now = new Date();
-      now.setTime(now.getTime() + 1 * 3600 * 1000);
-      setCookie('accessToken', accessToken, { expires: now });
       if (accessToken) {
+        const now = new Date();
+        now.setTime(now.getTime() + 1 * 3600 * 1000);
+        setCookie(ACCESS_TOKEN, accessToken, { expires: now });
         router.push(`/?tab=Shop`);
+        setIsLoading(false);
       }
     },
   });
@@ -48,14 +54,6 @@ const VerifyStep = ({ setStep, setIsLoading, email }: IVerifyStep) => {
   }, [code]);
 
   async function resendCode() {
-    try {
-      toast.success(`We send you a new code to ${email}`);
-    } catch (error: any) {
-      const { message } = error;
-      return toast.error(message);
-    } finally {
-      setIsLoading(false);
-    }
     await signUp();
   }
 

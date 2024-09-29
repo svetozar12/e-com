@@ -5,25 +5,16 @@ import React from 'react';
 import styles from './ProductCard.module.css';
 import { FiShoppingCart } from 'react-icons/fi';
 import useSession from '../../../hooks/useSession';
-import {
-  Cart,
-  MutationUpdateCartArgs,
-  Product,
-} from '../../../graphql/generated';
-import { useMutation } from '@apollo/client';
-import { updateCartMutation } from '../../../graphql/mutations/cart';
-import { cartQuery } from '../../../graphql/queries/cart';
+import { Product, useUpdateCartMutation } from '../../../graphql/generated';
+import { cartQuery } from '../../../graphql/queries/queries/cart/cart';
 
 const ProductCard = (product: Product) => {
   const { session } = useSession();
   const { price, name, image, _id } = product;
   const router = useRouter();
-  const [updateCart] = useMutation<Cart, MutationUpdateCartArgs>(
-    updateCartMutation,
-    {
-      refetchQueries: [{ query: cartQuery }],
-    }
-  );
+  const [updateCart] = useUpdateCartMutation({
+    refetchQueries: [{ query: cartQuery }],
+  });
   function handleOnClick() {
     router.push('/products/' + _id);
   }

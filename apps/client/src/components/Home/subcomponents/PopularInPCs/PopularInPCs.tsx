@@ -5,18 +5,20 @@ import ProductCard from '../../../common/ProductCard/ProductCard';
 import {
   ProductResponse,
   QueryProductsArgs,
+  useProductsQuery,
 } from '../../../../graphql/generated';
 import { useQuery } from '@apollo/client';
-import { productsQuery } from '../../../../graphql/queries/products';
 
 const PopularInPCs = () => {
-  const { data } = useQuery<ProductResponse, QueryProductsArgs>(productsQuery, {
+  const { data: res } = useProductsQuery({
     variables: { pagination: { limit: 10, page: 1, sortBy: 'name' } },
   });
 
   // TODO MAKE COMPONENT FOR NO DATA STATE
-  if (!data) return <>no data</>;
-  const { data: products } = data;
+  if (!res) return null;
+  const {
+    products: { data },
+  } = res;
 
   return (
     <div className={styles.container}>
@@ -30,7 +32,7 @@ const PopularInPCs = () => {
         marginBottom={10}
       />
       <div className={styles.popularInPCs}>
-        {products.map((product) => (
+        {data.map((product) => (
           <ProductCard key={product.name + product.price} {...product} />
         ))}
       </div>
