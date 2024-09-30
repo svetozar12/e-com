@@ -58,9 +58,8 @@ export const client = new ApolloClient({
 });
 
 /* 
-- Create empty state reusable component
-- finish migration to gql on frontend
 - think of a way to serve static images through the gateway or some other way
+- finish migration to gql on frontend
 - make frontend better looking if possible (wink wink ;/)
 - add to BE and FE logic to subscribe to email newsletter
 */
