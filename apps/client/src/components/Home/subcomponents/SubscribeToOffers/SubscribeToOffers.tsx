@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './SubscribeToOffers.module.css';
-import Image from 'next/image';
 import {
   Text,
   Heading,

@@ -59,10 +59,10 @@ export const client = new ApolloClient({
 
 /* 
 - Create empty state reusable component
-- add script to build codegen on frontend
 - finish migration to gql on frontend
 - think of a way to serve static images through the gateway or some other way
 - make frontend better looking if possible (wink wink ;/)
+- add to BE and FE logic to subscribe to email newsletter
 */
 
 function App({ Component, pageProps }: AppProps) {

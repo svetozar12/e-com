@@ -5,7 +5,15 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "generate-types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx graphql-codegen",
+        "cwd": "apps/client"
+      }
+    },
     "build": {
+      "dependsOn": ["generate-types"],
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -13,7 +21,6 @@
         "root": "fe-apps/client",
         "outputPath": "dist/fe-apps/client"
       },
-      "dependsOn": [],
       "configurations": {
         "development": {
           "outputPath": "fe-apps/client"
@@ -22,6 +29,7 @@
       }
     },
     "serve": {
+      "dependsOn": ["generate-types"],
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {

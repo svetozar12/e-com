@@ -3,12 +3,13 @@ import React from 'react';
 import styles from './NewTech.module.css';
 import ProductCard from '../../../common/ProductCard/ProductCard';
 import { useProductsQuery } from '../../../../graphql/generated';
+import EmptyState from '../../../common/EmptyState';
 
 const NewTech = () => {
   const { data: res } = useProductsQuery({
     variables: { pagination: { limit: 8, page: 1, sortBy: 'createdAt' } },
   });
-  if (!res) return;
+  if (!res) return <EmptyState />;
   const {
     products: { data },
   } = res;

@@ -2,20 +2,15 @@ import { Divider, Heading } from '@chakra-ui/react';
 import React from 'react';
 import styles from './PopularInPCs.module.css';
 import ProductCard from '../../../common/ProductCard/ProductCard';
-import {
-  ProductResponse,
-  QueryProductsArgs,
-  useProductsQuery,
-} from '../../../../graphql/generated';
-import { useQuery } from '@apollo/client';
+import { useProductsQuery } from '../../../../graphql/generated';
+import EmptyState from '../../../common/EmptyState';
 
 const PopularInPCs = () => {
   const { data: res } = useProductsQuery({
     variables: { pagination: { limit: 10, page: 1, sortBy: 'name' } },
   });
 
-  // TODO MAKE COMPONENT FOR NO DATA STATE
-  if (!res) return null;
+  if (!res) return <EmptyState />;
   const {
     products: { data },
   } = res;

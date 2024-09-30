@@ -25,8 +25,7 @@ authRouter.post('/signUp', (req, res, next) => {
       email,
       EMAIL_SUBJECT,
       EMAIL_CONTENT(code.toString()),
-      async (error, info) => {
-        console.log(error, info);
+      async (error) => {
         if (error)
           return res
             .json({ message: SEND_CODE_UNSUCCESSFULLY })
