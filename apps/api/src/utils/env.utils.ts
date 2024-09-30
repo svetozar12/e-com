@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { emailSchema } from '../common/schema';
 import dotenv from 'dotenv';
 
+const NodeEnv = z.enum(['development', 'test', 'production']);
+
 export function initEnv() {
   dotenv.config();
   const schema = z.object({
@@ -10,6 +12,7 @@ export function initEnv() {
     GMAIL_EMAIL: emailSchema,
     GMAIL_PASSWORD: z.string().min(1),
     JWT_SECRET: z.string().min(1),
+    NODE_ENV: NodeEnv.default('development'),
   });
   // Validate environment variables against the schema
   return schema.parse(process.env);

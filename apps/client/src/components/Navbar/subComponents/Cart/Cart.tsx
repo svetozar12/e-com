@@ -4,8 +4,7 @@ import React from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 import styles from './Cart.module.css';
 import { toast } from 'react-toastify';
-import { Cart as CartType, useCartQuery } from '../../../../graphql/generated';
-import { useQuery } from '@apollo/client';
+import { useCartQuery } from '../../../../graphql/generated';
 
 const Cart = () => {
   const router = useRouter();
@@ -16,13 +15,7 @@ const Cart = () => {
     },
   });
 
-  if (!data) return;
-
-  const {
-    cart: { products },
-  } = data;
-
-  const cartLength = products?.length || 0;
+  const cartLength = data?.cart?.products?.length || 0;
 
   return (
     <Container
