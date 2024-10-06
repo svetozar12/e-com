@@ -13,7 +13,7 @@ const nextConfig = {
     svgr: false,
   },
   images: {
-    domains: ['localhost'], // Allow loading images from 'localhost'
+    domains: ['localhost', 'gospodinovs.com'], // Allow loading images from 'localhost'
   },
 };
 

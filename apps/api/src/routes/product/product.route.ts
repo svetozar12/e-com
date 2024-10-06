@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Router } from 'express';
 import { fileSchema, idSchema, paginationSchema } from '../../common/schema';
 import Product, { IProduct } from '../../database/models/Product.model';
@@ -13,7 +14,7 @@ import {
   paginateResults,
   PaginationResults,
 } from '../../utils/pagination.utils';
-import { upload } from '../../utils/multer';
+import { upload, uploadFile } from '../../utils/upload.utils';
 
 export const productRouter = Router();
 
@@ -67,9 +68,16 @@ productRouter.post(
       if (!validationResult.success) {
         return res.status(400).json({ errors: validationResult });
       }
-
+      console.log(req.file);
+      const uploadedFile = await uploadFile(file).catch((err) =>
+        console.log('UPLOAD ERROR', err)
+      );
       const body = postProductBodySchema.parse(req.body);
-      const product = await Product.create({ ...body, image: file.filename });
+      const product = await Product.create({
+        ...body,
+        // @ts-ignore
+        image: uploadedFile.data.name,
+      });
 
       return res.json({ product });
     } catch (error) {

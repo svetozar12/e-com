@@ -1,0 +1,37 @@
+services:
+  ecom-api:
+    image: sgospodinov02/ecom:api
+    container_name: ecom-api
+    ports:
+      - '4001:4001'
+    env_file:
+      - ./.env
+    depends_on:
+      - mongo
+    restart: always
+  ecom-gateway:
+    image: sgospodinov02/ecom:gateway
+    container_name: ecom-gateway
+    ports:
+      - '4000:4000'
+    env_file:
+      - ./.env
+    depends_on:
+      - ecom-api
+    restart: always
+  nginx-dev:
+    image: sgospodinov02/ecom:nginx-dev
+    container_name: nginx-dev
+    ports:
+      - '8080:8080'
+    restart: always
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

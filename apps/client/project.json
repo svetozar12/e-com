@@ -29,7 +29,6 @@
       }
     },
     "serve": {
-      "dependsOn": ["generate-types"],
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {

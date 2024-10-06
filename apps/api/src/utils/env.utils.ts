@@ -13,7 +13,8 @@ export function initEnv() {
     GMAIL_PASSWORD: z.string().min(1),
     JWT_SECRET: z.string().min(1),
     NODE_ENV: NodeEnv.default('development'),
+    UPLOAD_SERVICE_URL: z.string(),
   });
-  // Validate environment variables against the schema
+
   return schema.parse(process.env);
 }

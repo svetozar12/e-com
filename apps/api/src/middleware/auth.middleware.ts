@@ -16,6 +16,7 @@ export function authMiddleware(
     return res.status(401).json({ message: 'You are unauthorized.' });
   jwt.verify(token, JWT_SECRET, (err, data) => {
     if (err) {
+      console.log(err);
       req.user = null;
       return res.status(403).json({ message: 'You are forbidden.' });
     }

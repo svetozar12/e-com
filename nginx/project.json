@@ -1,0 +1,38 @@
+{
+  "name": "nginx",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "nginx",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "docker-build": {
+      "dependsOn": [],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build -t sgospodinov02/ecom:nginx -f nginx/Dockerfile ."
+      }
+    },
+    "deploy": {
+      "dependsOn": ["docker-build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker push sgospodinov02/ecom:nginx",
+        "cwd": "."
+      }
+    },
+    "docker-build-dev": {
+      "dependsOn": [],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build --no-cache -t sgospodinov02/ecom:nginx-dev -f nginx/Dockerfile.development ."
+      }
+    },
+    "docker-run-dev": {
+      "dependsOn": ["docker-build-dev"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker rm -f nginx-dev && docker run -d --name nginx-dev -p 8080:8080 sgospodinov02/ecom:nginx-dev"
+      }
+    }
+  }
+}

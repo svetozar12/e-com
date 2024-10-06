@@ -7,8 +7,9 @@ interface Payload {
 }
 
 // Generate a JWT token
-export const generateToken = (payload: Payload, expiresIn = '1h'): string => {
+export const generateToken = (payload: Payload, expiresIn = 3600): string => {
   const { JWT_SECRET } = envs;
+  console.log(expiresIn, 'EXPIRES IN');
   return jwt.sign(payload, JWT_SECRET, { expiresIn });
 };
 

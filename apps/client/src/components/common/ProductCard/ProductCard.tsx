@@ -43,8 +43,9 @@ const ProductCard = (product: Product) => {
             alignItems: 'center',
           }}
         >
+          {`${process.env.NEXT_PUBLIC_STATIC_IMAGES_BASE_URL}/${image}`}
           <Image
-            src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/static/${image}`}
+            src={`${process.env.NEXT_PUBLIC_STATIC_IMAGES_BASE_URL}/${image}`}
             width={200}
             height={200}
             alt="logo"
