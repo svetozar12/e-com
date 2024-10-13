@@ -11,7 +11,7 @@ FROM alpine:3.17.0 AS runtime
 
 RUN apk --no-cache add nodejs tini
 
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 
 WORKDIR /app
 

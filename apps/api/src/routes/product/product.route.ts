@@ -68,10 +68,8 @@ productRouter.post(
       if (!validationResult.success) {
         return res.status(400).json({ errors: validationResult });
       }
-      console.log(req.file);
-      const uploadedFile = await uploadFile(file).catch((err) =>
-        console.log('UPLOAD ERROR', err)
-      );
+      const uploadedFile = await uploadFile(file);
+      console.log(uploadedFile);
       const body = postProductBodySchema.parse(req.body);
       const product = await Product.create({
         ...body,

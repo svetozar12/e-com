@@ -55,12 +55,18 @@
         "command": "docker build -t sgospodinov02/ecom:api -f apps/api/Dockerfile ."
       }
     },
+    "docker-build-local": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build -t sgospodinov02/ecom:api -f apps/api/Dockerfile.local ."
+      }
+    },
     "deploy": {
       "dependsOn": ["docker-build"],
       "executor": "nx:run-commands",
       "options": {
-        "command": "docker push sgospodinov02/ecom:api",
-        "cwd": "."
+        "command": "docker push sgospodinov02/ecom:api"
       }
     }
   }

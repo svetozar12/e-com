@@ -4,7 +4,7 @@ import { ZodError } from 'zod';
 
 const makeErrorsReadable = (errors) => {
   let readableErrors = '';
-  errors.forEach((error) => {
+  errors?.forEach((error) => {
     const path = error.path.join('.');
     readableErrors += path + ' ' + error.message + ', ';
   });
@@ -18,12 +18,10 @@ export function errorMiddleware(
   next: NextFunction
 ) {
   if (err instanceof ZodError) {
-    console.error(makeErrorsReadable(err.errors));
     return res.status(StatusCodes.BAD_REQUEST).json({
       message: makeErrorsReadable(err.errors),
     });
   } else {
-    console.error(makeErrorsReadable(err.message));
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: err.message,
     });

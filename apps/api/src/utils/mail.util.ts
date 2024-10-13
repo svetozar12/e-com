@@ -28,14 +28,8 @@ class GmailTransporter {
       subject,
       text,
     };
+    console.log(envs.NODE_ENV);
     if (envs.NODE_ENV !== 'production') {
-      // console.log(
-      //   'EMAIL INTERCEPTED MESSAGE !!!(ONLY IN DEV AND TEST ENVIRONMENT)!!! \n',
-      //   `from: ${this.transporter.options.auth.user} \n`,
-      //   `TO: ${to} \n`,
-      //   `SUBJECT: ${subject} \n`,
-      //   `TEXT: ${text} \n`
-      // );
       console.log(
         kleur
           .red()

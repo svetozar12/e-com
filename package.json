@@ -2,7 +2,12 @@
   "name": "@e-com/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build-all": "yarn nx run-many --target=build --all",
+    "docker-build-all": "yarn nx run-many --target=docker-build --all",
+    "docker-build-local-all": "yarn nx run-many --target=docker-build-local --all",
+    "deploy-all": "yarn nx run-many --target=deploy --all"
+  },
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.11.8",

@@ -18,7 +18,10 @@ async function verify(reqData: {
 async function verifyToken(token: string): Promise<MessageResponse> {
   return (
     await instance.get('/auth/verifyToken', {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Cache-Control': 'no-cache',
+      },
     })
   ).data;
 }

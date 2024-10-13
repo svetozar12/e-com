@@ -53,7 +53,6 @@ authRouter.post('/signUp', (req, res, next) => {
 });
 
 authRouter.post('/verify', async (req, res, next) => {
-  console.log('VERIFY');
   try {
     const { code, email } = verifyBodySchema.parse(req.body);
     const { verificationCode } = (await User.findOne({ email }).lean()) || {};
@@ -68,10 +67,8 @@ authRouter.post('/verify', async (req, res, next) => {
       { verificationCode: null }
     ).lean();
     const accessToken = generateToken({ email, _id: user._id }, 3600);
-    console.log(accessToken, 'test');
     return res.json({ accessToken });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
