@@ -107,7 +107,7 @@ export const rootSchema = /* GraphQL */ `
     products(pagination: PaginationArgs): ProductResponse!
     productById(id: String!, category: String): Product!
     # auth
-    verifyToken(token: String!): MessageResponse!
+    verifyToken: MessageResponse!
     # cart
     cart: Cart!
     # search

@@ -21,24 +21,37 @@ async function getProductById(params: { id: string; category?: string }) {
 }
 
 // Create a new product
-async function createProduct(body: FormData) {
+async function createProduct(body: FormData, token: string) {
   return (
     await instance.post('/products', body, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       },
     })
   ).data.product;
 }
 
 // Update an existing product by ID
-async function updateProduct(id: string, body: Partial<Product>) {
-  return (await instance.put(`/products/${id}`, body)).data;
+async function updateProduct(
+  id: string,
+  body: Partial<Product>,
+  token: string
+) {
+  return (
+    await instance.put(`/products/${id}`, body, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
 }
 
 // Delete a product by ID
-async function deleteProduct(id: string) {
-  return (await instance.delete(`/products/${id}`)).data;
+async function deleteProduct(id: string, token: string) {
+  return (
+    await instance.delete(`/products/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
 }
 
 // Export all product-related SDK methods

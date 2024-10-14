@@ -17,11 +17,3 @@ export const instance = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-export function setSdkToken(token: string) {
-  instance.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${token}`;
-
-    return config;
-  });
-}

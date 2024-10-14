@@ -2,7 +2,9 @@ import { formatError } from '../../utils/error';
 import { sdk } from '../../utils/sdk';
 import type { MutationResolvers } from './../../codegen/types.generated';
 import FormData from 'form-data';
-export const createProduct: NonNullable<MutationResolvers['createProduct']> = async (_parent, { file, product }) => {
+export const createProduct: NonNullable<
+  MutationResolvers['createProduct']
+> = async (_parent, { file, product }, { token }) => {
   const formData = new FormData();
   const fileBuffer = Buffer.concat(file.blobParts);
 
@@ -15,5 +17,5 @@ export const createProduct: NonNullable<MutationResolvers['createProduct']> = as
     formData.append(key, product[key]);
   });
 
-  return sdk.product().createProduct(formData).catch(formatError);
+  return sdk.product().createProduct(formData, token).catch(formatError);
 };

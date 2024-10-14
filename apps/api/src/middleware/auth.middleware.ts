@@ -11,7 +11,7 @@ export function authMiddleware(
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   const { JWT_SECRET } = envs;
-  console.log(authHeader, token, JWT_SECRET);
+  console.log(authHeader, token, JWT_SECRET, new Date());
   if (token == null)
     return res.status(401).json({ message: 'You are unauthorized.' });
   jwt.verify(token, JWT_SECRET, (err, data) => {
